@@ -1,42 +1,30 @@
 <template>
   <div class="home">
-    <Music></Music>
-    <!-- <mu-container class="demo-container is-stripe">
-  <mu-row>
-    <mu-col span="12"><div class="grid-cell"></div></mu-col>
-  </mu-row>
-  <mu-row>
-    <mu-col span="6"><div class="grid-cell"></div></mu-col>
-    <mu-col span="6"><div class="grid-cell"></div></mu-col>
-  </mu-row>
-  <mu-row>
-    <mu-col span="4"><div class="grid-cell"></div></mu-col>
-    <mu-col span="4"><div class="grid-cell"></div></mu-col>
-    <mu-col span="4"><div class="grid-cell"></div></mu-col>
-  </mu-row>
-  <mu-row>
-    <mu-col span="3"><div class="grid-cell"></div></mu-col>
-    <mu-col span="3"><div class="grid-cell"></div></mu-col>
-    <mu-col span="3"><div class="grid-cell"></div></mu-col>
-    <mu-col span="3"><div class="grid-cell"></div></mu-col>
-  </mu-row>
-  <mu-row>
-    <mu-col span="2"><div class="grid-cell"></div></mu-col>
-    <mu-col span="2"><div class="grid-cell"></div></mu-col>
-    <mu-col span="2"><div class="grid-cell"></div></mu-col>
-    <mu-col span="2"><div class="grid-cell"></div></mu-col>
-    <mu-col span="2"><div class="grid-cell"></div></mu-col>
-    <mu-col span="2"><div class="grid-cell"></div></mu-col>
-  </mu-row>
-</mu-container> -->
+    <!-- <Music></Music> -->
+    <mu-row class="home-header">
+      <mu-col span="10" class="home-header-item"></mu-col>
+      <mu-col span="2" class="home-header-item header-avatar">
+        <mu-avatar color="indigo">
+          <mu-icon value="account_circle"></mu-icon>
+        </mu-avatar>
+      </mu-col>
+    </mu-row>
+    <mu-row class="home-body">
+      <mu-col span="6">
+        <div class="grid-cell"></div>
+      </mu-col>
+      <mu-col span="6">
+        <div class="grid-cell"></div>
+      </mu-col>
+    </mu-row>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import { Component, Prop, Vue } from 'vue-property-decorator';
-import HelloWorld from '@/components/HelloWorld.vue'
-import Music from '@/components/Music.vue'
+import { Component, Prop, Vue } from "vue-property-decorator";
+import HelloWorld from "@/components/HelloWorld.vue";
+import Music from "@/components/Music.vue";
 
 @Component({
   components: {
@@ -44,25 +32,29 @@ import Music from '@/components/Music.vue'
     Music
   }
 })
-export default class Home extends Vue{
- 
-}
+export default class Home extends Vue {}
 </script>
 <style lang="scss">
-.demo-container {
-  .row {
-    margin-bottom: 20px;
-    &:last-child {
-      margin-bottom: 0;
+.home {
+  width: 100%;
+  height: 100%;
+
+  .home-header {
+    width: 100%;
+    height: 56px;
+    line-height: 56px;
+    background: rgb(102, 91, 202);
+    box-shadow: 0 3px 6px 3px rgb(177, 174, 174);
+
+    .home-header-item {
+      height: 100%;
+    }
+    .header-avatar {
+      text-align: center;
     }
   }
-  .grid-cell {
-    border-radius: 4px;
-    height: 36px;
-    background: rgba(255, 255, 255, 0.8);
+  .home-body {
+    height: calc(100vh - 56px);
   }
-}
-.demo-container.is-stripe .col:nth-child(2n) .grid-cell{
-  background: rgba(0, 0, 0, 0.54);
 }
 </style>
