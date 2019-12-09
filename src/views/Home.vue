@@ -1,6 +1,7 @@
 <template>
   <div class="home">
-    <mu-container class="demo-container is-stripe">
+    <Music></Music>
+    <!-- <mu-container class="demo-container is-stripe">
   <mu-row>
     <mu-col span="12"><div class="grid-cell"></div></mu-col>
   </mu-row>
@@ -27,7 +28,7 @@
     <mu-col span="2"><div class="grid-cell"></div></mu-col>
     <mu-col span="2"><div class="grid-cell"></div></mu-col>
   </mu-row>
-</mu-container>
+</mu-container> -->
   </div>
 </template>
 
@@ -35,10 +36,12 @@
 // @ is an alias to /src
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import HelloWorld from '@/components/HelloWorld.vue'
+import Music from '@/components/Music.vue'
 
 @Component({
   components: {
-    HelloWorld
+    HelloWorld,
+    Music
   }
 })
 export default class Home extends Vue{
