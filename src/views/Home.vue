@@ -4,8 +4,8 @@
     <mu-row class="home-header">
       <mu-col span="10" class="home-header-item"></mu-col>
       <mu-col span="2" class="home-header-item header-avatar">
-        <mu-avatar>
-          <img src="../static/avatar.png">
+        <mu-avatar class="header-item-avatar">
+          <img src="../static/avatar.png" />
         </mu-avatar>
       </mu-col>
     </mu-row>
@@ -50,6 +50,21 @@ export default class Home extends Vue {}
 
     .home-header-item {
       height: 100%;
+      position: relative;
+      .header-item-avatar {
+        /* 垂直居中avatar */
+        margin: auto;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-top: -20px; /* 高度的一半 */
+        margin-left: -20px; /* 宽度的一半 */
+
+        // left: 0;
+        // right: 0;
+        // top: 0;
+        // bottom: 0;
+      }
     }
     .header-avatar {
       text-align: center;
