@@ -10,10 +10,10 @@
       </mu-col>
     </mu-row>
     <mu-row class="home-body" gutter>
-      <mu-col span="6" class="home-body-item">
-        <div class="grid-cell"></div>
+      <mu-col span="4" class="home-body-item home-body-todo">
+        <todo-list></todo-list>
       </mu-col>
-      <mu-col span="6" class="home-body-item">
+      <mu-col span="8" class="home-body-item">
         <div class="grid-cell"></div>
       </mu-col>
     </mu-row>
@@ -76,6 +76,11 @@ export default class Home extends Vue {}
     .home-body-item {
       border: 1px solid red;
       height: 100%;
+    }
+
+    .home-body-todo {
+      padding: 10px 20px;
+      text-align: center;
     }
   }
 }
