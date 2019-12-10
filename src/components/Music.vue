@@ -434,7 +434,7 @@ export default class Music extends Vue {
         background: inherit;
         width: 100%;
         height: 100%;
-        box-shadow: 0px 10px 40px 0px rgba(76, 70, 124, 0.5);
+        box-shadow: 0px 10px 40px 0px rgba(44, 40, 75, 0.5);
         display: block;
         z-index: 1;
         position: absolute;

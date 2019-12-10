@@ -4,16 +4,16 @@
     <mu-row class="home-header">
       <mu-col span="10" class="home-header-item"></mu-col>
       <mu-col span="2" class="home-header-item header-avatar">
-        <mu-avatar color="indigo">
-          <mu-icon value="account_circle"></mu-icon>
+        <mu-avatar>
+          <img src="../static/avatar.png">
         </mu-avatar>
       </mu-col>
     </mu-row>
-    <mu-row class="home-body">
-      <mu-col span="6">
+    <mu-row class="home-body" gutter>
+      <mu-col span="6" class="home-body-item">
         <div class="grid-cell"></div>
       </mu-col>
-      <mu-col span="6">
+      <mu-col span="6" class="home-body-item">
         <div class="grid-cell"></div>
       </mu-col>
     </mu-row>
@@ -25,11 +25,13 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import HelloWorld from "@/components/HelloWorld.vue";
 import Music from "@/components/Music.vue";
+import TodoList from "@/components/TodoList.vue";
 
 @Component({
   components: {
     HelloWorld,
-    Music
+    Music,
+    TodoList
   }
 })
 export default class Home extends Vue {}
@@ -55,6 +57,11 @@ export default class Home extends Vue {}
   }
   .home-body {
     height: calc(100vh - 56px);
+
+    .home-body-item {
+      border: 1px solid red;
+      height: 100%;
+    }
   }
 }
 </style>
