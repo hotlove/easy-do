@@ -10,10 +10,10 @@
             </mu-col>
         </mu-row>
         <mu-row class="home-body" gutter>
-            <mu-col span="4" class="home-body-item home-body-todo">
+            <mu-col span="5" class="home-body-item home-body-todo">
                 <todo-list></todo-list>
             </mu-col>
-            <mu-col span="8" class="home-body-item">
+            <mu-col span="7" class="home-body-item">
                 <div class="grid-cell"></div>
             </mu-col>
         </mu-row>
@@ -42,6 +42,7 @@
         width: 100%;
         height: 100%;
 
+        /*home-header---------------*/
         .home-header {
             width: 100%;
             height: 56px;
@@ -74,17 +75,20 @@
             }
         }
 
+        /*home-body---------------*/
         .home-body {
             height: calc(100vh - 56px);
+            overflow: hidden;
 
             .home-body-item {
-                border: 1px solid red;
                 height: 100%;
             }
 
             .home-body-todo {
                 padding: 10px 20px;
                 text-align: center;
+                height: 100%;
+                overflow: hidden;
             }
         }
     }

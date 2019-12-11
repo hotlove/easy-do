@@ -1,3 +1,4 @@
+@import "scrollbar.css";
 html {
     font-size: 62.5%;
     height: 100%;
@@ -13,4 +14,5 @@ body {
     overflow: hidden;
     position: relative;
     box-sizing: border-box;
+    /*background: #3d3d3d;*/
 }
