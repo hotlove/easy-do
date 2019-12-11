@@ -5,11 +5,5 @@
 </template>
 
 <style lang="scss">
-@import url('./assets/css/main.css');
-
-#app {
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-}
+  @import url('./assets/css/main.css');
 </style>
