@@ -118,8 +118,8 @@
             color: #007c1e;
             text-align: left;
             font-size: 16px;
-            word-wrap:break-word;
-            white-space:normal;
+            /*word-wrap:break-word;*/
+            /*white-space:normal;*/
         }
     }
 </style>
