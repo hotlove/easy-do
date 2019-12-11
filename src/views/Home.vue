@@ -85,7 +85,7 @@
             }
 
             .home-body-todo {
-                padding: 10px 20px;
+                padding: 20px 20px;
                 text-align: center;
                 height: 100%;
                 overflow: hidden;

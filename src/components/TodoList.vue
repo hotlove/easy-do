@@ -4,12 +4,13 @@
             <mu-text-field v-model="todoItem"
                            full-width
                            multi-line
-                           :rows="2"
-                           placeholder="请输入todo内容..."></mu-text-field>
+                           :rows="3"
+                           placeholder="请输入todo内容..."
+                           @keyup.enter.native="addTodoItem"></mu-text-field>
         </mu-row>
         <mu-row class="todo-body">
             <ul>
-                <li v-for="(item, index) in todoList" :key="index">
+                <li v-for="(item, index) in todoList" :key="index" @click="completeTodo(item, index)">
                     <mu-row>
                         <mu-col span="2">
                             <mu-checkbox v-model="item.completed"></mu-checkbox>
@@ -28,89 +29,59 @@
 <script lang="ts">
     import {Component, Vue} from "vue-property-decorator";
 
+    interface TodoItemObject {
+      id: number;
+      content: string;
+      completed: boolean;
+    }
+
     @Component
     export default class TodoList extends Vue {
         todoItem: string = "";
         checked: boolean = false;
-        todoList: any[] = [
-            {
-                id: 1,
-                completed: true,
-                content: '测试得测试得测试得测试得测试得测试得测试得测试得bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'
-            },{
-                id: 1,
-                completed: false,
-                content: '测试得测试得测试得测试得测试得测试得测试得测试得'
-            },{
-                id: 1,
-                completed: false,
-                content: '测试得测试得测试得测试得测试得测试得测试得测试得'
-            },{
-                id: 1,
-                completed: false,
-                content: '测试得测试得测试得测试得测试得测试得测试得测试得'
-            },{
-                id: 1,
-                completed: false,
-                content: '测试得测试得测试得测试得测试得测试得测试得测试得'
-            },{
-                id: 1,
-                completed: false,
-                content: '测试得测试得测试得测试得测试得测试得测试得测试得'
-            },{
-                id: 1,
-                completed: false,
-                content: '测试得测试得测试得测试得测试得测试得测试得测试得'
-            },{
-                id: 1,
-                completed: false,
-                content: '测试得测试得测试得测试得测试得测试得测试得测试得'
-            },{
-                id: 1,
-                completed: false,
-                content: '测试得测试得测试得测试得测试得测试得测试得测试得'
-            },{
-                id: 1,
-                completed: false,
-                content: '测试得测试得测试得测试得测试得测试得测试得测试得'
-            },{
-                id: 1,
-                completed: false,
-                content: '测试得测试得测试得测试得测试得测试得测试得测试得'
-            },{
-                id: 1,
-                completed: false,
-                content: '测试得测试得测试得测试得测试得测试得测试得测试得'
-            },{
-                id: 1,
-                completed: false,
-                content: '测试得测试得测试得测试得测试得测试得测试得测试得'
-            }
-        ];
+        todoList: TodoItemObject[] = [];
+
+        addTodoItem() {
+          let todoItem: TodoItemObject = {
+            id: 1,
+            content: this.todoItem,
+            completed: false
+          }
+
+          this.todoList.push(todoItem);
+          this.todoItem = "";
+        }
+
+        completeTodo(todoItem: TodoItemObject, index: number) {
+            todoItem.completed = !todoItem.completed;
+        }
+        
     }
 </script>
 <style lang="scss">
     .todo-header {
-        height: 64px;
+        height: 72px;
     }
     .todo-body {
         /*background: #3d3d3d;*/
-        height: calc(100vh - 120px);
+        height: calc(100vh - 138px);
         overflow: hidden;
         overflow-y: scroll;
+        margin-top: 25px;
 
         ul {
             list-style:none;
             padding-left: 0px;
-
+            width: 100%;
             li {
+                display: block;
                 margin-bottom: 10px;
             }
         }
 
         li:hover {
-            cursor: default;
-            background: #dfdfdf;
+            cursor: pointer;
+            // background: #dfdfdf;
         }
 
 
