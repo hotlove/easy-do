@@ -5,7 +5,7 @@
                            full-width
                            multi-line
                            :rows="3"
-                           placeholder="请输入todo内容..."
+                           placeholder="请输入todo内容回车输入..."
                            @keyup.enter.native="addTodoItem"></mu-text-field>
         </mu-row>
         <mu-row class="todo-body">
