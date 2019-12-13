@@ -14,7 +14,7 @@
                 <todo-list></todo-list>
             </mu-col>
             <mu-col span="7" class="home-body-item">
-                <div class="grid-cell"></div>
+                <home-menu></home-menu>
             </mu-col>
         </mu-row>
     </div>
@@ -26,12 +26,14 @@
     import HelloWorld from "@/components/HelloWorld.vue";
     import Music from "@/components/Music.vue";
     import TodoList from "@/components/TodoList.vue";
+    import HomeMenu from "@/components/HomeMenu";
 
     @Component({
         components: {
             HelloWorld,
             Music,
-            TodoList
+            TodoList,
+            HomeMenu
         }
     })
     export default class Home extends Vue {

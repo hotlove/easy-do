@@ -28,37 +28,37 @@ const router = new VueRouter({
 });
 
 // 登陆页面路由 name
-const LOGIN_PAGE_NAME = 'login';
-
-router.beforeEach((to, from, next) => {
-    const token = /*getToken() || */"";
-    if (!token && to.name !== LOGIN_PAGE_NAME) {
-        // 未登录且要跳转的页面不是登录页
-        next({
-            name: LOGIN_PAGE_NAME // 跳转到登录页
-        })
-    } else if (!token && to.name === LOGIN_PAGE_NAME) {
-        // 未登陆且要跳转的页面是登录页
-        next() // 跳转
-    } else if (token && to.name === LOGIN_PAGE_NAME) {
-        // 已登录且要跳转的页面是登录页
-        next({
-            name: 'index' // 跳转到 index 页
-        })
-    } else {
-        if (token) {
-            next() // 跳转
-        } else {
-            next({
-                name: LOGIN_PAGE_NAME
-            })
-        }
-    }
-});
-
-// 跳转之后
-router.afterEach(to => {
-    //
-})
+// const LOGIN_PAGE_NAME = 'login';
+//
+// router.beforeEach((to, from, next) => {
+//     const token = /*getToken() || */"";
+//     if (!token && to.name !== LOGIN_PAGE_NAME) {
+//         // 未登录且要跳转的页面不是登录页
+//         next({
+//             name: LOGIN_PAGE_NAME // 跳转到登录页
+//         })
+//     } else if (!token && to.name === LOGIN_PAGE_NAME) {
+//         // 未登陆且要跳转的页面是登录页
+//         next() // 跳转
+//     } else if (token && to.name === LOGIN_PAGE_NAME) {
+//         // 已登录且要跳转的页面是登录页
+//         next({
+//             name: 'index' // 跳转到 index 页
+//         })
+//     } else {
+//         if (token) {
+//             next() // 跳转
+//         } else {
+//             next({
+//                 name: LOGIN_PAGE_NAME
+//             })
+//         }
+//     }
+// });
+//
+// // 跳转之后
+// router.afterEach(to => {
+//     //
+// })
 
 export default router
