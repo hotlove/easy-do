@@ -28,12 +28,7 @@
 </template>
 <script lang="ts">
     import {Component, Vue} from "vue-property-decorator";
-
-    interface TodoItemObject {
-      id: number;
-      content: string;
-      completed: boolean;
-    }
+    import {TodoItemObject} from "@/types/index";
 
     @Component
     export default class TodoList extends Vue {
@@ -55,7 +50,7 @@
         completeTodo(todoItem: TodoItemObject, index: number) {
             todoItem.completed = !todoItem.completed;
         }
-        
+
     }
 </script>
 <style lang="scss">
