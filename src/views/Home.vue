@@ -79,13 +79,14 @@
         .home-body {
             height: calc(100vh - 56px);
             overflow: hidden;
+            padding: 20px 0px;
 
             .home-body-item {
                 height: 100%;
             }
 
             .home-body-todo {
-                padding: 10px 20px;
+                padding: 0px 20px 0px 20px;
                 text-align: center;
                 height: 100%;
                 overflow: hidden;
