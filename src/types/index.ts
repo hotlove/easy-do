@@ -3,7 +3,6 @@ interface TodoItemObject {
     content: string;
     completed: boolean;
 }
-
 export {
     TodoItemObject
 }
