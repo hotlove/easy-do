@@ -1,7 +1,7 @@
 import qs from "qs";
 import axios, {AxiosRequestConfig, AxiosResponse} from "axios";
 
-let http:any = axios.create({
+let requestConfig:any = axios.create({
     // baseURL: store.state.apiHost,
     timeout: 20000,
     responseType: 'json',
@@ -43,4 +43,4 @@ axios.interceptors.response.use(function (response: AxiosResponse) {
     return Promise.reject(error);
 });
 
-export default http;
+export default requestConfig;

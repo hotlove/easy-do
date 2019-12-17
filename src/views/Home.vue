@@ -20,13 +20,15 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
     // @ is an alias to /src
     import {Component, Prop, Vue} from "vue-property-decorator";
     import HelloWorld from "@/components/HelloWorld.vue";
     import Music from "@/components/Music.vue";
     import TodoList from "@/components/TodoList.vue";
-    import HomeMenu from "@/components/HomeMenu";
+    import HomeMenu from "@/components/HomeMenu.vue";
+    import {RequestParams} from "@/types";
+    import {AxiosResponse} from "axios";
 
     @Component({
         components: {
@@ -37,6 +39,14 @@
         }
     })
     export default class Home extends Vue {
+        private test() {
+            let param: RequestParams = {
+                'test': 1
+            };
+            this.$http.post("/test", param).then((response: AxiosResponse) => {
+                response.data
+            })
+        }
     }
 </script>
 <style lang="scss">
