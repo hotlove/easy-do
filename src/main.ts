@@ -4,7 +4,8 @@ import router from './router'
 import store from './store'
 import MuseUI from 'muse-ui'
 import 'muse-ui/dist/muse-ui.css'
-Vue.use(MuseUI)
+import '@/helper/index'
+Vue.use(MuseUI);
 
 Vue.config.productionTip = false
 

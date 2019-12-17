@@ -11,12 +11,12 @@ let http:any = axios.create({
     },
     // 只能用在 'PUT', 'POST' 和 'PATCH' 这几个请求方法
     transformRequest: [
-        function (data: any) {
+        function (data: AxiosRequestConfig) {
             return qs.stringify(data);
         }
     ],
     // `transformResponse` 在传递给 then/catch 前，允许修改响应数据
-    transformResponse: [function (data: any) {
+    transformResponse: [function (data: AxiosRequestConfig) {
         // 这里提前处理返回的数据
         return data;
     }],

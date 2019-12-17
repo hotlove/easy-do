@@ -1,14 +1,19 @@
 import http from './http'
 import qs from 'qs';
 import {AxiosResponse} from "axios";
+import {RequestParams} from "@/types";
+
 class HttpRequest {
-    get = (url: string, params: any): AxiosResponse => {
-        url = `${url}?${qs.stringify(params)}`;
-        return http.get(url);
+
+    // 基础配置中已经配置好url 这里配置uri资源路径
+    get(uri: string, params: RequestParams): AxiosResponse {
+        uri = `${uri}?${qs.stringify(params)}`;
+        return http.get(uri);
     };
 
-    post = (url: string, params: any): AxiosResponse => {
-        return http.post(url, JSON.stringify(params));
+    // 基础配置中已经配置好url 这里配置uri资源路径
+    post(uri: string, params: RequestParams): AxiosResponse {
+        return http.post(uri, JSON.stringify(params));
     }
 }
 

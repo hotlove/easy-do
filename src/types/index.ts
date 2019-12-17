@@ -1,8 +1,9 @@
-interface TodoItemObject {
+export interface TodoItemObject {
     id: number;
     content: string;
     completed: boolean;
 }
-export {
-    TodoItemObject
+
+export interface RequestParams {
+    [propName: string]: any
 }
