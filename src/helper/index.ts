@@ -5,7 +5,8 @@ import moment from "moment";
 Vue.use(v => {
     v.prototype.$http = request;
 });
-// Vue.prototype.moment = moment;
+
 Vue.use(v => {
-    v.prototype.$moment = moment.fn;
+    // 这里配合vue.d.ts使用
+    v.prototype.$moment = moment;
 });
