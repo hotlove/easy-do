@@ -29,6 +29,7 @@
     import HomeMenu from "@/components/HomeMenu.vue";
     import {RequestParams} from "@/types";
     import {AxiosResponse} from "axios";
+    import {Getter, Action} from "vuex-class";
 
     @Component({
         components: {
@@ -39,7 +40,14 @@
         }
     })
     export default class Home extends Vue {
+
+        // @Getter @Action 在vuex-class 包内
+        // 这里使用 ！ 是说明 属性不会为undefined 否则需要进行初始化操作
+        @Getter("getToken") getToken !: string;
+        @Action("setToken") setToken !: Function;
+
         private test() {
+            this.setToken("test");
             let param: RequestParams = {
                 'test': 1
             };
