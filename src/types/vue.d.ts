@@ -29,3 +29,12 @@ declare module 'vue/types/vue' {
         $moment(inp?: moment.MomentInput, format?: moment.MomentFormatSpecification, language?: string, strict?: boolean): moment.Moment;
     }
 }
+
+// lodash
+import lodash from "lodash";
+declare module 'vue/types/vue' {
+    interface Vue {
+        // 这里声明作为全局使用
+        $_: typeof lodash
+    }
+}
