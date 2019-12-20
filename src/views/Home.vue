@@ -5,7 +5,7 @@
             <mu-col span="10" class="home-header-item"></mu-col>
             <mu-col span="2" class="home-header-item header-avatar">
                 <mu-avatar class="header-item-avatar">
-                    <img src="../static/avatar.png"/>
+                    <img src="../../static/avatar.png"/>
                 </mu-avatar>
             </mu-col>
         </mu-row>
