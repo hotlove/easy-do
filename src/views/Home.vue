@@ -43,17 +43,26 @@
 
         // @Getter @Action 在vuex-class 包内
         // 这里使用 ！ 是说明 属性不会为undefined 否则需要进行初始化操作
-        @Getter("getToken") getToken !: string;
+        @Getter getToken !: string;
         @Action("setToken") setToken !: Function;
 
-        private test() {
-            this.setToken("test");
-            let param: RequestParams = {
-                'test': 1
-            };
-            this.$http.post("/test", param).then((response: AxiosResponse) => {
-                response.data
-            })
+        // 声明钩子
+        mounted() {
+            this.storeToken();
+        }
+
+        // 声明狗子
+        created() {
+
+        }
+
+        // 计算属性
+        get computedMsg() {
+            return "test";
+        }
+
+        private storeToken(): void {
+            this.setToken("testtoken123");
         }
     }
 </script>

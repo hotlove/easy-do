@@ -1,7 +1,8 @@
-import State from "@/store/type";
+import { State } from "@/types";
+import * as types from "@/store/mutation-types"
 
 const getters = {
-    getToken: (state: State): string => {
+    [types.GET_TOKEN]: (state: State): string => {
         return state.token;
     }
 };

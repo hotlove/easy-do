@@ -1,4 +1,4 @@
-import State from "@/store/type";
+import { State } from "@/types";
 import * as types from "./mutation-types";
 
 // mutations 服务于 actions action提交的是mutations
