@@ -17,3 +17,11 @@ export interface State {
     token: string,
     profileInfo: Profile;
 }
+
+export interface NavigationInter {
+    route: string;
+    default: boolean;
+    hoverName: string;
+    className: string;
+    tipText: string;
+}

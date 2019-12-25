@@ -3,16 +3,20 @@
         <!-- <Music></Music> -->
         <div class="home-nav">
             <span class="home-nav-item">
-                <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" :size="35" shape="square"></el-avatar>
+                <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" :size="35"
+                           shape="square"></el-avatar>
             </span>
             <!-- 17h 20w -->
             <span class="home-nav-item" @click.prevent.stop="clickItem(item.route, index)"
                   v-for="(item, index) in navigations" :key="index">
-                <span class="iconfont item-icon" :class="item.hoverName + ' ' +item.className + ' ' +(item.default ? 'item-icon-focus': 'item-icon-default')"></span>
+                <el-tooltip :content="item.tipText" placement="right" effect="light" :open-delay="800" popper-class="item-poptip">
+                    <span class="iconfont item-icon"
+                          :class="item.hoverName + ' ' +item.className + ' ' +(item.default ? 'item-icon-focus': 'item-icon-default')"></span>
+                    </el-tooltip>
             </span>
         </div>
         <div class="home-body">
-
+            <router-view></router-view>
         </div>
     </div>
 </template>
@@ -24,16 +28,10 @@
     import Music from "@/components/Music.vue";
     import TodoList from "@/components/TodoList.vue";
     import HomeMenu from "@/components/HomeMenu.vue";
-    import {RequestParams} from "@/types";
+    import {NavigationInter, RequestParams} from "@/types";
     import {AxiosResponse} from "axios";
     import {Getter, Action} from "vuex-class";
 
-    interface NavigationInter {
-        route: string;
-        default: boolean;
-        hoverName: string;
-        className: string;
-    }
     @Component({
         components: {
             HelloWorld,
@@ -50,37 +48,42 @@
         @Action("setToken") setToken !: Function;
 
         navigations: NavigationInter[] = [
-                {
-                    route: "",
-                    default: false,
-                    hoverName: 'item-icon-hover',
-                    className: "icon-todo",
-                },
-                {
-                    route: "",
-                    default: false,
-                    hoverName: 'item-icon-hover',
-                    className: "icon-task",
-                },
-                {
-                    route: "",
-                    default: false,
-                    hoverName: 'item-icon-hover',
-                    className: "icon-project",
-                },
-                {
-                    route: "",
-                    default: false,
-                    hoverName: 'item-icon-hover',
-                    className: "icon-message",
-                },
-                {
-                    route: "",
-                    default: false,
-                    hoverName: 'item-icon-hover',
-                    className: "icon-user",
-                }
-            ];
+            {
+                route: "",
+                default: false,
+                hoverName: 'item-icon-hover',
+                className: "icon-todo",
+                tipText: 'Todo列表'
+            },
+            {
+                route: "",
+                default: false,
+                hoverName: 'item-icon-hover',
+                className: "icon-task",
+                tipText: '任务列表'
+            },
+            {
+                route: "",
+                default: false,
+                hoverName: 'item-icon-hover',
+                className: "icon-project",
+                tipText: '项目列表'
+            },
+            {
+                route: "",
+                default: false,
+                hoverName: 'item-icon-hover',
+                className: "icon-message",
+                tipText: '消息列表'
+            },
+            {
+                route: "",
+                default: false,
+                hoverName: 'item-icon-hover',
+                className: "icon-user",
+                tipText: '好友列表'
+            }
+        ];
 
         // 声明钩子
         mounted() {
@@ -140,9 +143,11 @@
                     font-size: 26px;
                     color: #8C8B8C;
                 }
+
                 .item-icon-default {
                     color: #8C8B8C;
                 }
+
                 .item-icon-focus {
                     color: #09BB07;
                 }
@@ -163,6 +168,21 @@
             height: 100vh;
             width: calc(100vw - 60px);
             border: 1px solid red;
+        }
+    }
+
+    /*修改tip样式*/
+    .item-poptip {
+        height: 20px;
+        text-align: center;
+        line-height: 20px;
+        padding: 3px !important;
+        border-radius: 0 !important;
+        transform-origin: 0;
+        margin-left: 7px !important;
+
+        .popper__arrow {
+            display: none !important;
         }
     }
 </style>
