@@ -4,8 +4,14 @@ import moment from "moment";
 import MuseUI from 'muse-ui';
 import lodash from "lodash";
 import 'muse-ui/dist/muse-ui.css'
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
 
+// muse-ui
 Vue.use(MuseUI);
+
+// element-ui
+Vue.use(ElementUI);
 
 // http
 Vue.use(v => {
