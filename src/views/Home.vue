@@ -16,6 +16,7 @@
             </span>
         </div>
         <div class="home-body">
+            <close-navigation></close-navigation>
             <router-view></router-view>
         </div>
     </div>
@@ -23,21 +24,18 @@
 
 <script lang="ts">
     // @ is an alias to /src
-    import {Component, Prop, Vue} from "vue-property-decorator";
-    import HelloWorld from "@/components/HelloWorld.vue";
+    import {Component, Vue} from "vue-property-decorator";
+    import {NavigationInter} from "@/types";
+    import {Getter, Action} from "vuex-class";
     import Music from "@/components/Music.vue";
     import TodoList from "@/components/TodoList.vue";
-    import HomeMenu from "@/components/HomeMenu.vue";
-    import {NavigationInter, RequestParams} from "@/types";
-    import {AxiosResponse} from "axios";
-    import {Getter, Action} from "vuex-class";
+    import CloseNavigation from "@/components/CloseNavigation.vue";
 
     @Component({
         components: {
-            HelloWorld,
             Music,
             TodoList,
-            HomeMenu
+            CloseNavigation
         }
     })
     export default class Home extends Vue {
@@ -49,7 +47,7 @@
 
         navigations: NavigationInter[] = [
             {
-                route: "",
+                route: "todo",
                 default: false,
                 hoverName: 'item-icon-hover',
                 className: "icon-todo",
@@ -116,6 +114,8 @@
             let nav: NavigationInter = this.navigations[index];
             nav.default = true;
             nav.hoverName = "";
+
+            this.$router.push(nav.route);
         }
     }
 </script>
@@ -124,6 +124,7 @@
         width: 100%;
         height: 100%;
 
+        /*主页面导航栏修饰*/
         .home-nav {
             float: left;
             display: inline-block;
@@ -162,12 +163,13 @@
             }
         }
 
+        /*主页面主题修饰*/
         .home-body {
+            padding: 25px 0 0 0;
             float: left;
             display: inline-block;
             height: 100vh;
             width: calc(100vw - 60px);
-            border: 1px solid red;
         }
     }
 
