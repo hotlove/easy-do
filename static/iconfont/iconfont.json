@@ -1,0 +1,44 @@
+{
+  "id": "1581708",
+  "name": "easy-do",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "448351",
+      "name": "项目",
+      "font_class": "project",
+      "unicode": "e60c",
+      "unicode_decimal": 58892
+    },
+    {
+      "icon_id": "1995617",
+      "name": "好友",
+      "font_class": "user",
+      "unicode": "e606",
+      "unicode_decimal": 58886
+    },
+    {
+      "icon_id": "2589945",
+      "name": "todo-task",
+      "font_class": "todo",
+      "unicode": "e625",
+      "unicode_decimal": 58917
+    },
+    {
+      "icon_id": "3378483",
+      "name": "任务",
+      "font_class": "task",
+      "unicode": "eadc",
+      "unicode_decimal": 60124
+    },
+    {
+      "icon_id": "5213510",
+      "name": "消息",
+      "font_class": "message",
+      "unicode": "e603",
+      "unicode_decimal": 58883
+    }
+  ]
+}

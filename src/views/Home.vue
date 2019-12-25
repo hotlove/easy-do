@@ -1,22 +1,19 @@
 <template>
     <div class="home">
         <!-- <Music></Music> -->
-        <mu-row class="home-header">
-            <mu-col span="10" class="home-header-item"></mu-col>
-            <mu-col span="2" class="home-header-item header-avatar">
-                <mu-avatar class="header-item-avatar">
-                    <img src="../../static/avatar.png"/>
-                </mu-avatar>
-            </mu-col>
-        </mu-row>
-        <mu-row class="home-body" gutter>
-            <mu-col span="5" class="home-body-item home-body-todo">
-                <todo-list></todo-list>
-            </mu-col>
-            <mu-col span="7" class="home-body-item">
-                <home-menu></home-menu>
-            </mu-col>
-        </mu-row>
+        <div class="home-nav">
+            <span class="home-nav-item">
+                <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" :size="35" shape="square"></el-avatar>
+            </span>
+            <!-- 17h 20w -->
+            <span class="home-nav-item" @click.prevent.stop="clickItem(item.route, index)"
+                  v-for="(item, index) in navigations" :key="index">
+                <span class="iconfont item-icon" :class="item.hoverName + ' ' +item.className + ' ' +(item.default ? 'item-icon-focus': 'item-icon-default')"></span>
+            </span>
+        </div>
+        <div class="home-body">
+
+        </div>
     </div>
 </template>
 
@@ -31,6 +28,12 @@
     import {AxiosResponse} from "axios";
     import {Getter, Action} from "vuex-class";
 
+    interface NavigationInter {
+        route: string;
+        default: boolean;
+        hoverName: string;
+        className: string;
+    }
     @Component({
         components: {
             HelloWorld,
@@ -45,6 +48,39 @@
         // 这里使用 ！ 是说明 属性不会为undefined 否则需要进行初始化操作
         @Getter getToken !: string;
         @Action("setToken") setToken !: Function;
+
+        navigations: NavigationInter[] = [
+                {
+                    route: "",
+                    default: false,
+                    hoverName: 'item-icon-hover',
+                    className: "icon-todo",
+                },
+                {
+                    route: "",
+                    default: false,
+                    hoverName: 'item-icon-hover',
+                    className: "icon-task",
+                },
+                {
+                    route: "",
+                    default: false,
+                    hoverName: 'item-icon-hover',
+                    className: "icon-project",
+                },
+                {
+                    route: "",
+                    default: false,
+                    hoverName: 'item-icon-hover',
+                    className: "icon-message",
+                },
+                {
+                    route: "",
+                    default: false,
+                    hoverName: 'item-icon-hover',
+                    className: "icon-user",
+                }
+            ];
 
         // 声明钩子
         mounted() {
@@ -64,6 +100,20 @@
         private storeToken(): void {
             this.setToken("testtoken123");
         }
+
+        // 点击导航事件
+        private clickItem(route: string, index: number): void {
+            // 首先修改其他nav 为未选中状态并可以 hover
+            this.navigations.forEach(e => {
+                e.default = false;
+                e.hoverName = "item-icon-hover";
+            });
+
+            // 将目标nav修改为选中 不可hover状态
+            let nav: NavigationInter = this.navigations[index];
+            nav.default = true;
+            nav.hoverName = "";
+        }
     }
 </script>
 <style lang="scss">
@@ -71,55 +121,48 @@
         width: 100%;
         height: 100%;
 
-        /*home-header---------------*/
-        .home-header {
-            width: 100%;
-            height: 56px;
-            line-height: 56px;
-            background: rgb(102, 91, 202);
-            box-shadow: 0 3px 6px 3px rgb(177, 174, 174);
+        .home-nav {
+            float: left;
+            display: inline-block;
+            width: 60px;
+            height: 100vh;
+            background: #26292E;
 
-            .home-header-item {
-                height: 100%;
-                position: relative;
+            .home-nav-item {
+                text-align: center;
+                display: inline-block;
+                width: 100%;
+                height: 35px;
+                line-height: 35px;
+                margin-top: 20px;
 
-                .header-item-avatar {
-                    /* 垂直居中avatar */
-                    margin: auto;
-                    position: absolute;
-                    top: 50%;
-                    left: 50%;
-                    margin-top: -20px; /* 高度的一半 */
-                    margin-left: -20px; /* 宽度的一半 */
-
-                    // left: 0;
-                    // right: 0;
-                    // top: 0;
-                    // bottom: 0;
+                .item-icon {
+                    font-size: 26px;
+                    color: #8C8B8C;
+                }
+                .item-icon-default {
+                    color: #8C8B8C;
+                }
+                .item-icon-focus {
+                    color: #09BB07;
                 }
             }
 
-            .header-avatar {
-                text-align: center;
+            .home-nav-item:hover {
+                cursor: pointer;
+            }
+
+            .home-nav-item:hover .item-icon-hover {
+                color: #e4e3e4;
             }
         }
 
-        /*home-body---------------*/
         .home-body {
-            height: calc(100vh - 56px);
-            overflow: hidden;
-            padding: 20px 0px;
-
-            .home-body-item {
-                height: 100%;
-            }
-
-            .home-body-todo {
-                padding: 0px 20px 0px 20px;
-                text-align: center;
-                height: 100%;
-                overflow: hidden;
-            }
+            float: left;
+            display: inline-block;
+            height: 100vh;
+            width: calc(100vw - 60px);
+            border: 1px solid red;
         }
     }
 </style>
