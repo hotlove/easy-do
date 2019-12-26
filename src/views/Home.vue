@@ -2,7 +2,9 @@
     <div class="home">
         <!-- <Music></Music> -->
         <div class="home-nav">
-            <close-navigation></close-navigation>
+            <div style="position: relative; width: 100%;">
+                <close-navigation></close-navigation>
+            </div>
             <span class="home-nav-item">
                 <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" :size="35"
                            shape="square"></el-avatar>
@@ -17,7 +19,7 @@
             </span>
         </div>
         <div class="home-body">
-            <close-navigation :height="25"></close-navigation>
+            <close-navigation :height="25" :show-close="true"></close-navigation>
             <router-view></router-view>
         </div>
     </div>

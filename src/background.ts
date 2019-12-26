@@ -93,3 +93,32 @@ if (isDevelopment) {
         })
     }
 }
+
+// 进程通信
+import { ipcMain } from 'electron';
+import {APP_CLOSE_EVENT, APP_MIN_EVENT, APP_MAX_EVENT} from "@/common/EventType";
+
+// app 关闭时间
+ipcMain.on(APP_CLOSE_EVENT, event => {
+    if (win != null) {
+        win.close();
+    }
+});
+
+// 最小化
+ipcMain.on(APP_MIN_EVENT, event => {
+    if (win != null) {
+        win.minimize();
+    }
+});
+
+// 最大化
+ipcMain.on(APP_MAX_EVENT, event => {
+    if (win != null) {
+        if (win.isMaximized()) {
+            win.restore();
+        } else {
+            win.maximize();
+        }
+    }
+});

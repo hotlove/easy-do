@@ -13,6 +13,13 @@
       "unicode_decimal": 58892
     },
     {
+      "icon_id": "675257",
+      "name": "最大化",
+      "font_class": "maxmum",
+      "unicode": "e662",
+      "unicode_decimal": 58978
+    },
+    {
       "icon_id": "1995617",
       "name": "好友",
       "font_class": "user",
@@ -39,6 +46,20 @@
       "font_class": "message",
       "unicode": "e603",
       "unicode_decimal": 58883
+    },
+    {
+      "icon_id": "6654487",
+      "name": "关 闭",
+      "font_class": "close",
+      "unicode": "e767",
+      "unicode_decimal": 59239
+    },
+    {
+      "icon_id": "8140959",
+      "name": "最小化",
+      "font_class": "minimum",
+      "unicode": "e600",
+      "unicode_decimal": 58880
     }
   ]
 }
