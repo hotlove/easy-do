@@ -57,7 +57,7 @@
                 tipText: 'Todo列表'
             },
             {
-                route: "",
+                route: "setting",
                 default: false,
                 hoverName: 'item-icon-hover',
                 className: "icon-task",

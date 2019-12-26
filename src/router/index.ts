@@ -14,7 +14,12 @@ const routes = [
                 path: '/todo',
                 name: 'todo',
                 component: () => import('@/views/Todo.vue')
-            }
+            },
+            {
+                path: '/setting',
+                name: 'setting',
+                component: () => import('@/views/Setting.vue')
+            },
         ]
     },
     {

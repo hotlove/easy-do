@@ -96,7 +96,7 @@ if (isDevelopment) {
 
 // 进程通信
 import { ipcMain } from 'electron';
-import {APP_CLOSE_EVENT, APP_MIN_EVENT, APP_MAX_EVENT} from "@/common/EventType";
+import {APP_CLOSE_EVENT, APP_MIN_EVENT, APP_MAX_EVENT, APP_SET_OPACITY } from "@/common/EventType";
 
 // app 关闭时间
 ipcMain.on(APP_CLOSE_EVENT, event => {
@@ -120,5 +120,11 @@ ipcMain.on(APP_MAX_EVENT, event => {
         } else {
             win.maximize();
         }
+    }
+});
+
+ipcMain.on(APP_SET_OPACITY, (event, opacity) => {
+    if (win != null) {
+        win.setOpacity(opacity);
     }
 });
