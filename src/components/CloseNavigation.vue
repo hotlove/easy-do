@@ -56,6 +56,7 @@
         position: absolute;
         text-align: right;
         top: 0;
+        background: transparent;
 
         .dragger-close {
             -webkit-app-region: no-drag;

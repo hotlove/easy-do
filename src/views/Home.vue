@@ -19,7 +19,6 @@
             </span>
         </div>
         <div class="home-body">
-            <close-navigation :height="25" :show-close="true"></close-navigation>
             <router-view></router-view>
         </div>
     </div>
@@ -168,7 +167,7 @@
 
         /*主页面主题修饰*/
         .home-body {
-            padding: 25px 0 0 0;
+            /*padding: 25px 0 0 0;*/
             float: left;
             display: inline-block;
             height: 100vh;

@@ -1,15 +1,30 @@
 <template>
-    <div class="todo-home">
-        todo
+    <div style="float: left">
+        <div class="todo-home">
+            <div class="todo-home-nav">
+                    <close-navigation :height="25"></close-navigation>
+
+
+            </div>
+            <div class="todo-home-body">
+                    <close-navigation :height="25" :show-close="true"></close-navigation>
+
+            </div>
+        </div>
+
     </div>
 </template>
 
 <script lang="ts">
-    // @ is an alias to /src
     import {Component, Vue} from "vue-property-decorator";
     import {Getter, Action} from "vuex-class";
+    import CloseNavigation from "@/components/CloseNavigation.vue";
 
-    @Component
+    @Component({
+        components:{
+            CloseNavigation
+        }
+    })
     export default class Home extends Vue {
 
         // @Getter @Action 在vuex-class 包内
@@ -18,29 +33,28 @@
         @Action("setToken") setToken !: Function;
 
 
-        // 声明钩子
-        mounted() {
-            this.storeToken();
-        }
-
-        // 声明狗子
-        created() {
-
-        }
-
-        // 计算属性
-        get computedMsg() {
-            return "test";
-        }
-
-        private storeToken(): void {
-            this.setToken("testtoken123");
-        }
     }
 </script>
 <style lang="scss">
     .todo-home {
-        height: 100%;
+        height: 100vh;
         width: 100%;
+
+        .todo-home-nav {
+            width: 250px;
+            height: 100%;
+            float: left;
+            background: #E6E5E5;
+            padding: 25px 0 0 0;
+        }
+
+        .todo-home-body {
+            width: calc(100% - 250px);
+            height: 100%;
+            border: 1px solid red;
+            float: right;
+            background: #F5F5F5;
+            padding: 25px 0 0 0;
+        }
     }
 </style>
