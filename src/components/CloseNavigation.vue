@@ -63,7 +63,6 @@
             height: 100%;
             text-align: center;
             float: right;
-            margin-right: 60px;
 
             .dragger-close-item {
                 height: 100%;

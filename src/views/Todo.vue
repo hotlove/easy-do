@@ -2,12 +2,27 @@
     <div style="float: left">
         <div class="todo-home">
             <div class="todo-home-nav">
-                    <close-navigation :height="25"></close-navigation>
+                <close-navigation :height="25"></close-navigation>
+                <div class="todo-home-nav-content">
+                    <el-input
+                            placeholder="搜索"
+                            size="mini"
+                            prefix-icon="el-icon-search"
+                            v-model="todoItemSearch">
+                    </el-input>
 
+                    <div style="margin-top: 10px">
+<!--                        <v-date-picker-->
+<!--                                v-model="picker"-->
+<!--                                :first-day-of-week="0"-->
+<!--                                locale="zh-cn"-->
+<!--                        ></v-date-picker>-->
+                    </div>
+                </div>
 
             </div>
             <div class="todo-home-body">
-                    <close-navigation :height="25" :show-close="true"></close-navigation>
+                <close-navigation :height="25" :show-close="true"></close-navigation>
 
             </div>
         </div>
@@ -32,6 +47,9 @@
         @Getter getToken !: string;
         @Action("setToken") setToken !: Function;
 
+        todoItemSearch: string = "";
+        date: any = undefined;
+
 
     }
 </script>
@@ -41,15 +59,27 @@
         width: 100%;
 
         .todo-home-nav {
+            position: relative;
             width: 250px;
             height: 100%;
             float: left;
             background: #E6E5E5;
-            padding: 25px 0 0 0;
+            /*background: #fffdff;*/
+            padding: 25px 10px 0 10px;
+
+            .todo-home-nav-content {
+                height: calc(100vh - 25px);
+
+                .el-input__inner {
+                    /*border-radius: 0;*/
+                    /*color: #24292e;*/
+                }
+            }
         }
 
         .todo-home-body {
-            width: calc(100% - 250px);
+            position: relative;
+            width: calc(100vw - 310px);
             height: 100%;
             border: 1px solid red;
             float: right;

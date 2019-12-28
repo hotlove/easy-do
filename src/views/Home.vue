@@ -133,6 +133,7 @@
             width: 60px;
             height: 100vh;
             background: #26292E;
+            /*background: #409EFF;*/
 
             .home-nav-item {
                 text-align: center;
@@ -145,10 +146,12 @@
                 .item-icon {
                     font-size: 26px;
                     color: #8C8B8C;
+                    /*color: #e6e4e6;*/
                 }
 
                 .item-icon-default {
                     color: #8C8B8C;
+                    /*color: #e6e4e6;*/
                 }
 
                 .item-icon-focus {
