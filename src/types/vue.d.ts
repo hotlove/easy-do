@@ -17,7 +17,7 @@ declare module 'vue/types/vue' {
     }
 }
 
-import  moment from "moment";
+import moment from "moment";
 declare module 'vue/types/vue' {
     interface Vue {
         // 这里声明作为全局使用

@@ -4,20 +4,24 @@
             <div class="todo-home-nav">
                 <close-navigation :height="25"></close-navigation>
                 <div class="todo-home-nav-content">
-                    <el-input
-                            placeholder="搜索"
-                            size="mini"
-                            prefix-icon="el-icon-search"
-                            v-model="todoItemSearch">
+                    <el-input v-model="todoItemSearch" placeholder="搜索" size="mini" prefix-icon="el-icon-search"
+                              @focus="showRecentSearch">
+                        <i v-if="!showDatePicker" slot="suffix" class="el-icon-circle-close el-input__icon" style="cursor: pointer" @click="clearSearch">
+                        </i>
                     </el-input>
 
-                    <div style="margin-top: 10px">
-<!--                        <v-date-picker-->
-<!--                                v-model="picker"-->
-<!--                                :first-day-of-week="0"-->
-<!--                                locale="zh-cn"-->
-<!--                        ></v-date-picker>-->
-                    </div>
+                    <transition enter-active-class="animated fadeInUp" leave-active-class="animated fadeOutDown">
+                        <div style="margin-top: 10px" v-if="showDatePicker">
+                            <mu-date-picker class="todo-nav-picker" :date.sync="date"></mu-date-picker>
+                        </div>
+                    </transition>
+
+                    <transition enter-active-class="animated fadeInUp" leave-active-class="animated fadeOutDown">
+                        <div v-if="!showDatePicker" style="margin-top: 10px">
+                            <span>ceshide</span>
+                        </div>
+                    </transition>
+
                 </div>
 
             </div>
@@ -48,8 +52,18 @@
         @Action("setToken") setToken !: Function;
 
         todoItemSearch: string = "";
-        date: any = undefined;
+        date: any = new Date();
+        showDatePicker: boolean = true; // 展示日历
 
+        // 展示最近修改东西
+        private showRecentSearch(): void {
+            // 1.停止展示日历切换最近修改面板
+            this.showDatePicker = false;
+        }
+
+        private clearSearch(): void {
+            this.showDatePicker = true;
+        }
 
     }
 </script>
@@ -69,10 +83,21 @@
 
             .todo-home-nav-content {
                 height: calc(100vh - 25px);
+            }
 
-                .el-input__inner {
-                    /*border-radius: 0;*/
-                    /*color: #24292e;*/
+            .todo-nav-picker {
+                width: 230px;
+
+                .mu-day-button-bg {
+                    top: 0;
+                    left: 0;
+                    width: 24px;
+                    height: 24px;
+                    margin: 4px 3px;
+                }
+
+                .mu-datepicker-year-container {
+                    width: 230px;
                 }
             }
         }

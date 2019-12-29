@@ -2,9 +2,9 @@ import Vue from "vue";
 import request from "@/http/index";
 import moment from "moment";
 import MuseUI from 'muse-ui';
+import ElementUI from 'element-ui';
 import lodash from "lodash";
 import 'muse-ui/dist/muse-ui.css'
-import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 
 // muse-ui

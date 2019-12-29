@@ -1,4 +1,6 @@
 @import "scrollbar.css";
+@import "animate.css";
+
 html {
     font-size: 62.5%;
     height: 100%;
