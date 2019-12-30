@@ -11,7 +11,7 @@
                     </el-input>
 
                     <div v-if="!showDatePicker" style="margin-top: 10px">
-                        <span>ceshide</span>
+                        <span class="recent-search">ceshide</span>
                     </div>
 
                     <div style="margin-top: 10px">
@@ -78,6 +78,7 @@
 
             .todo-home-nav-content {
                 height: calc(100vh - 25px);
+                
             }
 
             .todo-nav-picker {
