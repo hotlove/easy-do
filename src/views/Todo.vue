@@ -10,18 +10,13 @@
                         </i>
                     </el-input>
 
-                    <transition enter-active-class="animated fadeInUp" leave-active-class="animated fadeOutDown">
-                        <div style="margin-top: 10px" v-if="showDatePicker">
-                            <mu-date-picker class="todo-nav-picker" :date.sync="date"></mu-date-picker>
-                        </div>
-                    </transition>
+                    <div v-if="!showDatePicker" style="margin-top: 10px">
+                        <span>ceshide</span>
+                    </div>
 
-                    <transition enter-active-class="animated fadeInUp" leave-active-class="animated fadeOutDown">
-                        <div v-if="!showDatePicker" style="margin-top: 10px">
-                            <span>ceshide</span>
-                        </div>
-                    </transition>
-
+                    <div style="margin-top: 10px">
+                        <mu-date-picker class="todo-nav-picker" :date.sync="date"></mu-date-picker>
+                    </div>
                 </div>
 
             </div>

@@ -1,5 +1,8 @@
 <template>
     <div class="dragger-element" :style="heigthValue">
+        <div class="dragger-text" :style="textFontSize">
+            {{ text }}
+        </div>
         <div v-if="showClose" class="dragger-close">
             <span class="dragger-close-item" @click="closeHandle('min')">
                 <i class="iconfont icon-minimum"></i>
@@ -28,11 +31,23 @@
         @Prop( {default: false})
         showClose !: boolean;
 
+        @Prop({default: ""})
+        text !: string;
+
+        @Prop({default: 16})
+        textSize !: number;
+
         // 计算属性
         get heigthValue() {
             return {
                 'height': this.height + 'px',
                 'line-height': this.height + 'px'
+            }
+        }
+
+        get textFontSize() {
+            return {
+                'font-size': this.textSize + 'px'
             }
         }
 
@@ -58,6 +73,12 @@
         top: 0;
         background: transparent;
 
+        .dragger-text {
+            height: 100%;
+            display: inline-block;
+            float: left;
+            margin-left: 10px;
+        }
         .dragger-close {
             -webkit-app-region: no-drag;
             height: 100%;
