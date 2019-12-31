@@ -22,6 +22,12 @@
             </div>
             <div class="todo-home-body">
                 <close-navigation :height="25" :show-close="true"></close-navigation>
+                <div class="todo-home-body-content">
+                    <div class="todo-body-content-input">
+
+                    </div>
+                    <div class="todo-body-content-list"></div>
+                </div>
 
             </div>
         </div>
@@ -78,7 +84,7 @@
 
             .todo-home-nav-content {
                 height: calc(100vh - 25px);
-                
+
             }
 
             .todo-nav-picker {
@@ -102,10 +108,23 @@
             position: relative;
             width: calc(100vw - 310px);
             height: 100%;
-            border: 1px solid red;
             float: right;
             background: #F5F5F5;
-            padding: 25px 0 0 0;
+            padding: 60px 0 0 0;
+
+            .todo-home-body-content {
+                border: 1px solid red;
+                height: calc(100vh - 60px);
+                padding: 10px 20px;
+
+                .todo-body-content-input {
+
+                }
+
+                .todo-body-content-list {
+
+                }
+            }
         }
     }
 </style>
