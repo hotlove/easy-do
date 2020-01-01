@@ -128,3 +128,5 @@ ipcMain.on(APP_SET_OPACITY, (event, opacity) => {
         win.setOpacity(opacity);
     }
 });
+
+// 45 * 45   15 * 15
