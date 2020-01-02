@@ -6,5 +6,5 @@
 
 <style lang="scss">
   @import url('./assets/css/main.css');
-  @import "../static/iconfont/iconfont.css";
+  @import "assets/iconfont/iconfont.css";
 </style>

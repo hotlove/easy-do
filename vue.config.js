@@ -9,7 +9,7 @@ module.exports = {
                     "output":"./dist"//输出文件路径
                 },
                 "win":{//win相关配置
-                    "icon":"./static/icon/e-do256.ico",//图标，当前图标在根目录下，注意这里有两个坑
+                    "icon":"./src/assets/icon/e-do256.ico",//图标，当前图标在根目录下，注意这里有两个坑
                     "target": [
                         {
                             "target": "nsis",//利用nsis制作安装程序
