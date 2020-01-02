@@ -25,6 +25,10 @@
       "dom.iterable",
       "scripthost"
     ]
+//    "lib": [
+//      "es6",
+//      "dom"
+//    ]
   },
   "include": [
     "src/**/*.ts",

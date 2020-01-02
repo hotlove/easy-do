@@ -117,7 +117,7 @@
             nav.default = true;
             nav.hoverName = "";
 
-            this.$router.push(nav.route);
+            this.$router.push(nav.route).catch((err: Error) => err);
         }
     }
 </script>
