@@ -1,6 +1,12 @@
 module.exports = {
+    pages: {
+
+    },
     pluginOptions: {
         electronBuilder: {
+            mainProcessFile:  'src/main/main.js',
+            mainProcessWatch: ['src/main'],
+            mainProcessArgs: [],
             builderOptions: {
                 "appId": "com.guo.app",
                 "productName": "e-do",//项目名，也是生成的安装文件名，即aDemo.exe
@@ -9,8 +15,12 @@ module.exports = {
                     "output": "./dist"//输出文件路径
                 },
                 "files": [
-                    "./**/*"
+                    {
+                        'filter': ['**/*']
+                    }
                 ],
+                "extraFiles": ['./extensions/'],
+                "asar":  false,
                 "win": {//win相关配置
                     "icon": "./src/assets/icon/e-do256.ico",//图标，当前图标在根目录下，注意这里有两个坑
                     "target": [
