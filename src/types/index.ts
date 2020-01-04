@@ -1,9 +1,3 @@
-export interface TodoItemObject {
-    id: number;
-    content: string;
-    completed: boolean;
-}
-
 export interface RequestParams {
     [propName: string]: any
 }
@@ -24,4 +18,11 @@ export interface NavigationInter {
     hoverName: string;
     className: string;
     tipText: string;
+}
+
+export interface TodoItem {
+    content: string // todo内容
+    completed: boolean // 是否完成
+    createdDate: Date // 创建日期
+    completedDate: Date // 完成日期
 }

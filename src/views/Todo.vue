@@ -30,25 +30,28 @@
                     <!--内容标题 用于条件控制-->
                     <div class="todo-body-title">
                         <el-radio-group v-model="completedControl" size="mini">
-                            <el-radio-button :label="false">未完成</el-radio-button>
-                            <el-radio-button :label="true">已完成</el-radio-button>
+                            <el-radio-button :label="false">Todo</el-radio-button>
+                            <el-radio-button :label="true">Done</el-radio-button>
                         </el-radio-group>
                     </div>
                     <div class="todo-body-content-list">
                         <div class="todo-uncompleted todo-container" v-if="!completedControl">
-                            <div class="todo-uncompleted-input">
-                                <el-input type="textarea"
-                                          ref="todoInput"
-                                          @input.native="heightMonitor"
-                                          autosize
-                                          placeholder="请输入内容"
-                                          v-model="todoItem"/>
-                            </div>
-                            <div class="todo-uncompleted-list" :style="uncompletedStyle">
+                            <todo-list></todo-list>
+<!--                            <div class="todo-uncompleted-input">-->
+<!--                                <el-input type="textarea"-->
+<!--                                          ref="todoInput"-->
+<!--                                          @input.native="heightMonitor"-->
+<!--                                          autosize-->
+<!--                                          placeholder="请输入内容"-->
+<!--                                          v-model="todoItem"/>-->
+<!--                            </div>-->
+<!--                            <div class="todo-uncompleted-list" :style="uncompletedStyle">-->
 
-                            </div>
+<!--                            </div>-->
                         </div>
-                        <div class="todo-completed todo-container" v-if="completedControl"></div>
+                        <div class="todo-completed todo-container" v-if="completedControl">
+
+                        </div>
                     </div>
                 </div>
             </div>
@@ -58,13 +61,15 @@
 </template>
 
 <script lang="ts">
-    import {Component, Vue, Watch} from "vue-property-decorator";
+    import {Component, Vue} from "vue-property-decorator";
     import {Getter, Action} from "vuex-class";
     import CloseNavigation from "@/components/CloseNavigation.vue";
+    import TodoList from "@/components/TodoList.vue";
 
     @Component({
         components: {
-            CloseNavigation
+            CloseNavigation,
+            TodoList
         }
     })
     export default class Home extends Vue {
@@ -74,21 +79,10 @@
         @Getter getToken !: string;
         @Action("setToken") setToken !: Function;
 
-        todoItemSearch: string = "";
-        date: any = new Date();
+        todoItemSearch: string = ""; // todoitem搜索关键字
+        date: any = new Date(); // 导航日期变量
         showDatePicker: boolean = true; // 展示日历
         completedControl: boolean = false; // 控制是否完成
-        todoItem: string = ""; // 填写得内容
-        uncompletedStyle: any = { // 未完成todo列表样式 用于自动控制高度
-            height: 'calc(100vh - 115px)'
-        };
-
-        @Watch('uncompletedStyle')
-        uncompletedMethod() {
-            return {
-                height: 'calc(100vh - 115px)'
-            }
-        }
 
         // 展示最近修改东西
         public showRecentSearch(): void {
@@ -96,16 +90,11 @@
             this.showDatePicker = false;
         }
 
+        // 清除搜索值
         public clearSearch(): void {
             this.showDatePicker = true;
         }
 
-        // 监控输入框高度变化
-        public heightMonitor(event: any): void {
-            let heigthDiff: number = event.target.clientHeight + 65 + 19;
-            // 获取图片
-            this.uncompletedStyle.height = 'calc(100vh - ' + heigthDiff + 'px)';
-        }
     }
 </script>
 <style lang="scss">
@@ -149,7 +138,8 @@
             width: calc(100vw - 310px);
             height: 100%;
             float: right;
-            background: #F5F5F5;
+            /*background: #F5F5F5;*/
+            background: #f8f8f8;
             padding: 25px 0 0 0;
 
             .todo-home-body-content {
@@ -164,30 +154,6 @@
                     margin-top: 15px;
                     .todo-container {
                         height: calc(100vh - 65px);
-                    }
-
-                    .todo-uncompleted {
-
-
-                        .todo-uncompleted-input {
-                            font-size: 12px;
-
-                            .el-textarea__inner {
-                                border: none !important;
-                                border-bottom: 1px solid #DCDFE6 !important;
-                                border-radius: 0;
-                                background-color: transparent;
-                            }
-                        }
-
-                        .todo-uncompleted-list {
-                            border: 1px solid red;
-                            margin-top: 15px;
-                        }
-                    }
-
-                    .todo-completed {
-
                     }
                 }
             }
