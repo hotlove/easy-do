@@ -37,17 +37,6 @@
                     <div class="todo-body-content-list">
                         <div class="todo-uncompleted todo-container" v-if="!completedControl">
                             <todo-list></todo-list>
-<!--                            <div class="todo-uncompleted-input">-->
-<!--                                <el-input type="textarea"-->
-<!--                                          ref="todoInput"-->
-<!--                                          @input.native="heightMonitor"-->
-<!--                                          autosize-->
-<!--                                          placeholder="请输入内容"-->
-<!--                                          v-model="todoItem"/>-->
-<!--                            </div>-->
-<!--                            <div class="todo-uncompleted-list" :style="uncompletedStyle">-->
-
-<!--                            </div>-->
                         </div>
                         <div class="todo-completed todo-container" v-if="completedControl">
 

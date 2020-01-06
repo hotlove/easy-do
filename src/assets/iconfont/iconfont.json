@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "351761",
+      "name": "减号",
+      "font_class": "delete",
+      "unicode": "e615",
+      "unicode_decimal": 58901
+    },
+    {
       "icon_id": "448351",
       "name": "项目",
       "font_class": "project",
@@ -18,6 +25,13 @@
       "font_class": "maxmum",
       "unicode": "e662",
       "unicode_decimal": 58978
+    },
+    {
+      "icon_id": "1917124",
+      "name": "编辑",
+      "font_class": "edit",
+      "unicode": "e7fd",
+      "unicode_decimal": 59389
     },
     {
       "icon_id": "1995617",

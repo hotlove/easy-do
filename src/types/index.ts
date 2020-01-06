@@ -26,3 +26,7 @@ export interface TodoItem {
     createdDate: Date // 创建日期
     completedDate: Date // 完成日期
 }
+
+export interface TodoItemEdiable extends TodoItem{
+    edit: boolean
+}

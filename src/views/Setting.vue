@@ -5,7 +5,6 @@
 </template>
 
 <script lang="ts">
-    // @ is an alias to /src
     import {Component, Vue} from "vue-property-decorator";
     import { ipcRenderer } from 'electron';
     import {APP_MIN_EVENT, APP_SET_OPACITY} from "@/common/EventType";
