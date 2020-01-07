@@ -21,6 +21,8 @@ export interface NavigationInter {
 }
 
 export interface TodoItem {
+    id: number // id
+    code: string // code
     content: string // todo内容
     completed: boolean // 是否完成
     createdDate: Date // 创建日期

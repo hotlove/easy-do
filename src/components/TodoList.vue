@@ -1,3 +1,4 @@
+import {ipcRenderer} from "electron";
 <template>
     <div class="todo-list">
         <div class="todo-uncompleted-input">
@@ -38,7 +39,11 @@
 </template>
 <script lang="ts">
     import {Component, Vue, Watch} from "vue-property-decorator";
-    import {TodoItem, TodoItemEdiable} from "@/types";
+    import {TodoItemEdiable} from "@/types";
+    import {todoItemMapper} from "@/dbutil";
+    import CommonUtil from "@/common/CommonUtil";
+    import {APP_MAX_EVENT, PUT_DATA_STORE} from "@/common/EventType";
+    import { ipcRenderer } from 'electron';
 
     @Component
     export default class TodoList extends Vue {
@@ -58,6 +63,12 @@
             }
         }
 
+        // 声明钩子函数
+        mounted() {
+            // let todoItemList = todoItemMapper.select("", {});
+            // console.log(todoItemList)
+        }
+
         // 监控输入框高度变化
         public heightMonitor(event: any): void {
             let heigthDiff: number = event.target.clientHeight + 65 + 19;
@@ -69,6 +80,8 @@
             // ts 好像判断 != "" 有问题
             if (this.todoItem.trim().length > 0) {
                 let todoItem: TodoItemEdiable = {
+                    id: 0,
+                    code: CommonUtil.getUUID(),
                     content: this.todoItem,
                     completed: false,
                     createdDate: new Date(),
@@ -77,6 +90,16 @@
                 };
                 // 最新的排在最上面
                 this.todoItemList.unshift(todoItem);
+
+                ipcRenderer.send(PUT_DATA_STORE, todoItem);
+                console.log(todoItem)
+                // 保存到本地数据库
+                // console.log(this.todoItemMapper);
+                // todoItemMapper.add('test', todoItem);
+
+                let list = todoItemMapper.select("test", {limit: 100});
+                console.log(list)
+
                 this.todoItem = "";
             }
         }
