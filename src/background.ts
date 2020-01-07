@@ -130,18 +130,4 @@ ipcMain.on(APP_SET_OPACITY, (event, opacity) => {
 });
 
 // 45 * 45   15 * 15
-var levelup = require('levelup')
-var leveldown = require('leveldown')
-
-// 1) Create our store
-var db = levelup(leveldown('./edo-db'))
-
-// 2) Put a key & value
-
-
-ipcMain.on(PUT_DATA_STORE, (event, value) => {
-    db.put(value.code, value, (err: Error) => {
-        if (err) return console.log('Ooops!', err) // some kind of I/O error
-    })
-});
 

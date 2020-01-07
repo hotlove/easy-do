@@ -42,8 +42,6 @@ import {ipcRenderer} from "electron";
     import {TodoItemEdiable} from "@/types";
     import {todoItemMapper} from "@/dbutil";
     import CommonUtil from "@/common/CommonUtil";
-    import {APP_MAX_EVENT, PUT_DATA_STORE} from "@/common/EventType";
-    import { ipcRenderer } from 'electron';
 
     @Component
     export default class TodoList extends Vue {
@@ -90,15 +88,12 @@ import {ipcRenderer} from "electron";
                 };
                 // 最新的排在最上面
                 this.todoItemList.unshift(todoItem);
+                // ipcRenderer.send(PUT_DATA_STORE, todoItem);
 
-                ipcRenderer.send(PUT_DATA_STORE, todoItem);
-                console.log(todoItem)
                 // 保存到本地数据库
-                // console.log(this.todoItemMapper);
-                // todoItemMapper.add('test', todoItem);
+                todoItemMapper.insert(todoItem);
 
-                let list = todoItemMapper.select("test", {limit: 100});
-                console.log(list)
+                todoItemMapper.find({});
 
                 this.todoItem = "";
             }
