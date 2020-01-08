@@ -16,9 +16,9 @@
                         <span class="recent-search">ceshide</span>
                     </div>
 
-                    <div style="margin-top: 10px">
-                        <mu-date-picker class="todo-nav-picker" :date.sync="date"></mu-date-picker>
-                    </div>
+<!--                    <div style="margin-top: 10px">-->
+<!--                        <mu-date-picker class="to-do-nav-picker" :date.sync="date"></mu-date-picker>-->
+<!--                    </div>-->
                 </div>
 
             </div>
@@ -105,21 +105,21 @@
 
             }
 
-            .todo-nav-picker {
-                width: 230px;
+            /*.to-do-nav-picker {*/
+            /*    width: 230px;*/
 
-                .mu-day-button-bg {
-                    top: 0;
-                    left: 0;
-                    width: 24px;
-                    height: 24px;
-                    margin: 4px 3px;
-                }
+            /*    .mu-day-button-bg {*/
+            /*        top: 0;*/
+            /*        left: 0;*/
+            /*        width: 24px;*/
+            /*        height: 24px;*/
+            /*        margin: 4px 3px;*/
+            /*    }*/
 
-                .mu-datepicker-year-container {
-                    width: 230px;
-                }
-            }
+            /*    .mu-datepicker-year-container {*/
+            /*        width: 230px;*/
+            /*    }*/
+            /*}*/
         }
 
         .todo-home-body {

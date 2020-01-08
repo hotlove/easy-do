@@ -10,11 +10,11 @@
                            shape="square"></el-avatar>
             </span>
             <!-- 17h 20w -->
-            <span class="home-nav-item" @click.prevent.stop="clickItem(item.route, index)"
+            <span class="home-nav-item" :class="item.default ? 'item-icon-focus' : ''" @click.prevent.stop="clickItem(item.route, index)"
                   v-for="(item, index) in navigations" :key="index">
                 <el-tooltip :content="item.tipText" placement="right" effect="light" :open-delay="800" popper-class="item-poptip">
                     <span class="iconfont item-icon"
-                          :class="item.hoverName + ' ' +item.className + ' ' +(item.default ? 'item-icon-focus': 'item-icon-default')"></span>
+                          :class="item.hoverName + ' ' +item.className"></span>
                     </el-tooltip>
             </span>
         </div>
@@ -132,35 +132,30 @@
             display: inline-block;
             width: 60px;
             height: 100vh;
-            background: #26292E;
-            /*background: #409EFF;*/
+            /*background: #26292E;*/
+            background: #2196F3;
 
+            .item-icon-focus {
+                background: #1a82d2;
+            }
             .home-nav-item {
                 text-align: center;
                 display: inline-block;
                 width: 100%;
-                height: 35px;
-                line-height: 35px;
-                margin-top: 20px;
+                height: 45px;
+                line-height: 45px;
+                margin-top: 10px;
 
                 .item-icon {
                     font-size: 26px;
-                    color: #8C8B8C;
-                    /*color: #e6e4e6;*/
-                }
-
-                .item-icon-default {
-                    color: #8C8B8C;
-                    /*color: #e6e4e6;*/
-                }
-
-                .item-icon-focus {
-                    color: #09BB07;
+                    /*color: #8C8B8C;*/
+                    color: #f9f9f9;
                 }
             }
 
             .home-nav-item:hover {
                 cursor: pointer;
+                background: #1a82d2;
             }
 
             .home-nav-item:hover .item-icon-hover {
