@@ -20,7 +20,6 @@
 <!--                        <mu-date-picker class="to-do-nav-picker" :date.sync="date"></mu-date-picker>-->
 <!--                    </div>-->
                 </div>
-
             </div>
 
             <!-- todo内容列表 -->
@@ -36,10 +35,11 @@
                     </div>
                     <div class="todo-body-content-list">
                         <div class="todo-uncompleted todo-container" v-if="!completedControl">
+                            <!-- to-do未完成列表页 -->
                             <todo-list></todo-list>
                         </div>
                         <div class="todo-completed todo-container" v-if="completedControl">
-
+                            <!-- 已完成列表页 -->
                         </div>
                     </div>
                 </div>
