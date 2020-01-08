@@ -1,23 +1,20 @@
 import DaoMapper from "@/dbutil/DaoMapper";
 import {TodoItem} from "@/types";
 
-let daoMapper = new DaoMapper();
+class TotoItemMapper extends DaoMapper<TodoItem>{
 
-class TotoItemMapper {
-    public insert(doc: TodoItem) {
-        daoMapper.insert(doc, (err, newDoc) => {
-            console.log(err)
-            console.log(newDoc)
-        });
+    insert(value: TodoItem): Promise<TodoItem> {
+        return this.dataStroe.insert(value);
     }
 
-    public find(options: any): any {
-        daoMapper.find(options, (err: Error, docs: TodoItem) => {
-            console.log(err);
-            console.log(docs);
-            return docs;
-        })
+    update(query: any, updateQuery: any, options: any): Promise<Number> {
+        return this.dataStroe.update(query, updateQuery, options);
     }
+
+    delete(query: any, options: any): Promise<Number> {
+        return this.dataStroe.remove(query, options);
+    }
+
 }
 
 export default new TotoItemMapper();

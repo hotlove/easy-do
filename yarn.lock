@@ -5258,6 +5258,12 @@ nanomatch@^1.2.9:
     snapdragon "^0.8.1"
     to-regex "^3.0.1"
 
+nedb-promises@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.npm.taobao.org/nedb-promises/download/nedb-promises-4.0.1.tgz#4d0bd1553d045acca5d6713ad76eb97aa830b390"
+  dependencies:
+    nedb "^1.8.0"
+
 nedb@^1.8.0:
   version "1.8.0"
   resolved "https://registry.npm.taobao.org/nedb/download/nedb-1.8.0.tgz#0e3502cd82c004d5355a43c9e55577bd7bd91d88"

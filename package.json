@@ -22,6 +22,7 @@
     "moment": "^2.24.0",
     "muse-ui": "^3.0.2",
     "nedb": "^1.8.0",
+    "nedb-promises": "^4.0.1",
     "qs": "^6.9.1",
     "vue": "^2.6.10",
     "vue-class-component": "^7.0.2",
