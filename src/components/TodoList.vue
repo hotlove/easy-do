@@ -42,7 +42,7 @@ import {ipcRenderer} from "electron";
     import {TodoItemEdiable} from "@/types";
     import {todoItemMapper} from "@/dbutil";
     import CommonUtil from "@/common/CommonUtil";
-    import NeDBExample from "@/dbutil/NeDBExample";
+    import NeDBExample from "@/dbutil/nedbutil/NeDBExample";
 
     @Component
     export default class TodoList extends Vue {
@@ -64,14 +64,14 @@ import {ipcRenderer} from "electron";
 
         // 声明钩子函数
         mounted() {
-            // let todoItemList = todoItemMapper.select("", {});
-            // console.log(todoItemList)
+            this.getTodoItemList();
         }
 
-        // 监控输入框高度变化
-        public heightMonitor(event: any): void {
-            let heigthDiff: number = event.target.clientHeight + 65 + 19;
-            this.uncompletedStyle.height = 'calc(100vh - ' + heigthDiff + 'px)';
+        // 获取todoitemList
+        public getTodoItemList() {
+            todoItemMapper.find().then((todoItemList: any) => {
+                this.todoItemList = todoItemList;
+            })
         }
 
         // 新增todo
@@ -99,7 +99,15 @@ import {ipcRenderer} from "electron";
 
         // 删除todo
         public deleteTodoItem(index: number): void {
-            this.todoItemList.splice(index, 1);
+            let todoItemEdiable = this.todoItemList[index];
+            let neDBExample = new NeDBExample();
+            neDBExample.createCrteria().eq("code", todoItemEdiable.code);
+
+            todoItemMapper.delete(neDBExample).then((number) => {
+                if (number > 0) {
+                    this.getTodoItemList();
+                }
+            })
         }
 
         // 编辑tudo
@@ -133,6 +141,12 @@ import {ipcRenderer} from "electron";
             } else {
                 todoItem.completedDate = new Date(0);
             }
+        }
+
+        // 监控输入框高度变化
+        public heightMonitor(event: any): void {
+            let heigthDiff: number = event.target.clientHeight + 65 + 19;
+            this.uncompletedStyle.height = 'calc(100vh - ' + heigthDiff + 'px)';
         }
 
         // 禁用textarea回车换行
