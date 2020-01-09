@@ -89,18 +89,9 @@ import {ipcRenderer} from "electron";
                 };
                 // 最新的排在最上面
                 this.todoItemList.unshift(todoItem);
-                // ipcRenderer.send(PUT_DATA_STORE, todoItem);
 
                 // 保存到本地数据库
-                todoItemMapper.insert(todoItem).then((number) => {
-                    console.log(number)
-                });
-
-                let neDBExample = new NeDBExample();
-
-                todoItemMapper.find().then((value: any) => {
-                    console.log(value);
-                })
+                todoItemMapper.insert(todoItem).then((value) => {}, (err) => err);
 
                 this.todoItem = "";
             }
