@@ -1,18 +1,41 @@
 import DaoMapper from "@/dbutil/DaoMapper";
 import {TodoItem} from "@/types";
+import NeDBExample from "@/dbutil/NeDBExample";
+import Nedb from "nedb";
 
 class TotoItemMapper extends DaoMapper<TodoItem>{
 
-    insert(value: TodoItem): Promise<TodoItem> {
+    public insert(value: TodoItem): Promise<TodoItem> {
         return this.dataStroe.insert(value);
     }
 
-    update(query: any, updateQuery: any, options: any): Promise<Number> {
-        return this.dataStroe.update(query, updateQuery, options);
+    public update(example: NeDBExample, updateQuery: any): Promise<Number> {
+        let criteria = example.getCriteria();
+        let options: any = {
+            muti: true
+        };
+        return this.dataStroe.update(criteria, updateQuery, options);
     }
 
-    delete(query: any, options: any): Promise<Number> {
-        return this.dataStroe.remove(query, options);
+    public delete(example: NeDBExample): Promise<Number> {
+        let criteria = example.getCriteria();
+        let options: any = {
+            muti: true
+        };
+        return this.dataStroe.remove(criteria, options);
+    }
+
+    public find(example: NeDBExample = new NeDBExample(), page: number = 1, pagesize: number = 0): any {
+        let criteria = example.getCriteria();
+        if (pagesize == 0) {
+            return this.dataStroe.find(criteria);
+        } else {
+            return this.dataStroe.find(criteria).skip((page-1) * pagesize).limit(pagesize);
+        }
+    }
+
+    protected getDBName(): string {
+        return "todoItem";
     }
 
 }

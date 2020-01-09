@@ -42,6 +42,7 @@ import {ipcRenderer} from "electron";
     import {TodoItemEdiable} from "@/types";
     import {todoItemMapper} from "@/dbutil";
     import CommonUtil from "@/common/CommonUtil";
+    import NeDBExample from "@/dbutil/NeDBExample";
 
     @Component
     export default class TodoList extends Vue {
@@ -91,9 +92,15 @@ import {ipcRenderer} from "electron";
                 // ipcRenderer.send(PUT_DATA_STORE, todoItem);
 
                 // 保存到本地数据库
-                todoItemMapper.insert(todoItem);
+                todoItemMapper.insert(todoItem).then((number) => {
+                    console.log(number)
+                });
 
-                todoItemMapper.find({});
+                let neDBExample = new NeDBExample();
+
+                todoItemMapper.find().then((value: any) => {
+                    console.log(value);
+                })
 
                 this.todoItem = "";
             }
