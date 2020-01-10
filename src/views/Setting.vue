@@ -1,3 +1,4 @@
+import {remote} from "electron";
 <template>
     <div>
         <el-slider v-model="capcityValue" :min="0" :max="1" :step="0.1" @change="chanageOpacity"></el-slider>
@@ -9,6 +10,7 @@
     import { ipcRenderer } from 'electron';
     import {APP_MIN_EVENT, APP_SET_OPACITY} from "@/common/EventType";
     import {Getter, Action} from "vuex-class";
+    import {remote} from 'electron'
 
     @Component
     export default class Home extends Vue {
@@ -19,6 +21,9 @@
         @Getter getToken !: string;
         @Action("setToken") setToken !: Function;
 
+        mounted() {
+            this.capcityValue = remote.getCurrentWindow().getOpacity();
+        }
         chanageOpacity(opacity: number):void {
             ipcRenderer.send(APP_SET_OPACITY, opacity);
         }
