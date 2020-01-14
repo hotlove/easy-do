@@ -1,5 +1,5 @@
 import Vue from "vue";
-import request from "@/http/index";
+import { request } from "@/http";
 import moment from "moment";
 import MuseUI from 'muse-ui';
 import ElementUI from 'element-ui';

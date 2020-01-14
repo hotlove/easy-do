@@ -1,2 +1,5 @@
-import HttpRequest from "@/http/HttpRequest";
-export default (new HttpRequest()) as any
+import {HttpRequest} from "@/http/HttpRequest";
+let request = new HttpRequest();
+export {
+    request
+}
