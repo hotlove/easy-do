@@ -1,82 +1,6 @@
-interface CriteriaType {
-    [propName: string]: any
-}
+import { Criteria, CriteriaType } from './Criteria';
 
-class Criteria {
-
-    private andCriteriaList: CriteriaType[] = [];
-
-    get criterias(): CriteriaType[] {
-        return this.andCriteriaList;
-    }
-
-    eq(field: string, value: any): Criteria {
-        let criteriaParam: CriteriaType = {
-            [field]: value
-        };
-
-        this.andCriteriaList.push(criteriaParam);
-        return this;
-    };
-
-    ne(field: string, value: any): Criteria {
-        let criteriaParam: CriteriaType =  {
-            [field]: {$ne: value}
-        };
-        this.andCriteriaList.push(criteriaParam);
-        return this;
-    }
-
-    lt(field: string, value: any): Criteria {
-        let criteriaParam: CriteriaType = {
-            [field]: {$lt: value}
-        };
-        this.andCriteriaList.push(criteriaParam);
-        return this;
-    };
-
-    lte(field: string, value: any): Criteria {
-        let criteriaParam: CriteriaType = {
-            [field]: {$lte: value}
-        };
-        this.andCriteriaList.push(criteriaParam);
-        return this;
-    };
-
-    gt(field: string, value: any): Criteria {
-        let criteriaParam: CriteriaType = {
-            [field]: {$gt: value}
-        };
-        this.andCriteriaList.push(criteriaParam);
-        return this;
-    };
-
-    gte(field: string, value: any): Criteria {
-        let criteriaParam: CriteriaType = {
-            [field]: {$gte: value}
-        };
-        this.andCriteriaList.push(criteriaParam);
-        return this;
-    };
-
-    in(field: string, values: any[]): Criteria {
-        let criteriaParam: CriteriaType = {
-            [field]: {$in: values}
-        };
-        this.andCriteriaList.push(criteriaParam);
-        return this;
-    };
-
-    nin(field: string, values: any[]): Criteria {
-        let criteriaParam: CriteriaType = {
-            [field]: {$nin: values}
-        };
-        this.andCriteriaList.push(criteriaParam);
-        return this;
-    }
-}
-
-export default class NeDBExample {
+class NeDBExample {
 
     private allCriteriaList: Criteria[] = [];
 
@@ -124,3 +48,4 @@ export default class NeDBExample {
         return param;
     }
 }
+export {NeDBExample};

@@ -2,9 +2,9 @@
 import path from 'path'
 import {remote} from 'electron'
 import Datastore from "nedb-promises"
-import NeDBExample from "@/dbutil/nedbutil/NeDBExample";
+import { NeDBExample } from "@/dbutil/nedbutil/NeDBExample";
 
-export default abstract class DaoMapper<T> {
+abstract class DaoMapper<T> {
 
     protected dataStroe: Datastore;
 
@@ -16,8 +16,6 @@ export default abstract class DaoMapper<T> {
             filename: path.join(remote.app.getPath('userData'), '/' + dbName + '.db')
         });
     }
-    // 子方法用于获取本地数据库名称
-    protected abstract getDBName(): string;
 
     // 新增文档
     public abstract insert(value: T): Promise<T>;
@@ -43,10 +41,14 @@ export default abstract class DaoMapper<T> {
     // 查询文档
     public find(example: NeDBExample = new NeDBExample(), page: number = 1, pagesize: number = 0): any {
         let criteria = example.getCriteria();
-        if (pagesize == 0) {
+        if (pagesize === 0) {
             return this.dataStroe.find(criteria);
         } else {
             return this.dataStroe.find(criteria).skip((page - 1) * pagesize).limit(pagesize);
         }
     }
+    // 子方法用于获取本地数据库名称
+    protected abstract getDBName(): string;
 }
+
+export { DaoMapper };
