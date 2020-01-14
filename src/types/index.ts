@@ -21,14 +21,14 @@ export interface NavigationInter {
 }
 
 export interface TodoItem {
-    id: number // id
-    code: string // code
-    content: string // todo内容
-    completed: boolean // 是否完成
-    createdDate: Date // 创建日期
-    completedDate: Date // 完成日期
+    id: number; // id
+    code: string; // code
+    content: string; // todo内容
+    completed: boolean; // 是否完成
+    createdDate: Date; // 创建日期
+    completedDate: Date; // 完成日期
 }
 
-export interface TodoItemEdiable extends TodoItem{
-    edit: boolean
+export interface TodoItemEdiable extends TodoItem {
+    edit: boolean;
 }

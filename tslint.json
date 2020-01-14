@@ -27,10 +27,11 @@
         ]
       }
     ],
+    "quotemark":[true, "single","avoid-escape"], //引号的使用规则
     // "no-empty-interface":true,// 不允许空接口
     "no-parameter-reassignment":false,// 不允许修改方法输入参数
     "prefer-for-of":true,// 如果for循环中没有使用索引，建议是使用for-of
-
+    "prefer-const": false, // 优先使用 const 声明变量
     // 功能特性
     "no-namespace":false,
     "only-arrow-functions":false, //禁止使用传统（非箭头）函数表达式
@@ -71,6 +72,7 @@
     "max-line-length":[true,300],// 定义每行代码数
     "no-default-export":true,// 禁止使用export default关键字，因为当export对象名称发生变化时，需要修改import中的对象名。https://github.com/palantir/tslint/issues/1182#issue-151780453
     "no-duplicate-imports":true,// 禁止在一个文件内，多次引用同一module
+//    "no-inferrable-types": [true, "ignore-params"],  // 声明立即被赋值的基础类型不需要声明变量类型，let state: boolean = false 删除类型声明
 
     // 格式
     "align":[true,"parameters","arguments","statements","members","elements"],// 定义对齐风格
@@ -79,16 +81,12 @@
     "comment-format":[true, "check-space"],// 定义注释格式
     "encoding":false,// 定义编码格式默认utf-8
     "import-spacing":true,// import关键字后加空格
-    "interface-name":[true,"always-prefix"],// interface必须以I开头
+    "interface-name":[false,"always-prefix"],// interface必须以I开头
     "jsdoc-format":false,// 注释基于jsdoc风格
     "new-parens":true,// 调用构造函数时需要用括号
     "object-literal-sort-keys":false,
     "no-consecutive-blank-lines":[true,2],// 不允许有空行
-    // "no-trailing-whitespace": [// 不允许空格结尾
-    //     true,
-    //     "ignore-comments",
-    //     "ignore-jsdoc"
-    // ],
+    "eofline": false,// 文件必须用新的行结束
     "no-unnecessary-initializer":true,// 不允许没有必要的初始化
     "variable-name":[false, "check-format",// 定义变量命名规则
       "allow-leading-underscore",

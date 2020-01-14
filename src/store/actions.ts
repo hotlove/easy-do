@@ -1,9 +1,15 @@
-import { ActionContext } from "vuex";
-import { State } from "@/types";
-import * as types from "./mutation-types";
+import { State } from '@/types';
+import { ActionContext } from 'vuex';
+import * as types from './mutation-types';
 
-export {
+interface ActionInter {
+    [propName: string]: (context: ActionContext<State, any>, token: string) => void;
+}
+
+let actions: ActionInter = {
     [types.SET_TOKEN]: (context: ActionContext<State, any>, token: string): void => {
         context.commit(types.SET_TOKEN, token);
-    };
-}
+    },
+};
+
+export {actions};

@@ -1,11 +1,11 @@
-import Vue from "vue";
-import { request } from "@/http";
-import moment from "moment";
-import MuseUI from 'muse-ui';
+import { request } from '@/http';
 import ElementUI from 'element-ui';
-import lodash from "lodash";
-import 'muse-ui/dist/muse-ui.css'
 import 'element-ui/lib/theme-chalk/index.css';
+import lodash from 'lodash';
+import moment from 'moment';
+import MuseUI from 'muse-ui';
+import 'muse-ui/dist/muse-ui.css';
+import Vue, {VueConstructor} from 'vue';
 
 // muse-ui
 Vue.use(MuseUI);
@@ -14,17 +14,17 @@ Vue.use(MuseUI);
 Vue.use(ElementUI);
 
 // http
-Vue.use(v => {
-    v.prototype.$http = request;
+Vue.use((vue: VueConstructor<Vue>) => {
+    vue.prototype.$http = request;
 });
 
 // moment
-Vue.use(v => {
+Vue.use((vue: VueConstructor<Vue>) => {
     // 这里配合vue.d.ts使用
-    v.prototype.$moment = moment;
+    vue.prototype.$moment = moment;
 });
 
 // lodash
-Vue.use(v => {
-    v.prototype.$_ = lodash;
+Vue.use((vue: VueConstructor<Vue>) => {
+    vue.prototype.$_ = lodash;
 });

@@ -41,8 +41,8 @@ import {ipcRenderer} from "electron";
     import {Component, Vue, Watch} from "vue-property-decorator";
     import {TodoItemEdiable} from "@/types";
     import {todoItemMapper} from "@/dbutil";
-    import CommonUtil from "@/common/CommonUtil";
-    import NeDBExample from "@/dbutil/nedbutil/NeDBExample";
+    import {CommonUtil} from "@/common/CommonUtil";
+    import {NeDBExample} from "@/dbutil/nedbutil/NeDBExample";
 
     @Component
     export default class TodoList extends Vue {

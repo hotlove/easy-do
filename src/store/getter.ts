@@ -1,10 +1,14 @@
-import { State } from "@/types";
-import * as types from "@/store/mutation-types"
+import * as types from '@/store/mutation-types';
+import { State } from '@/types';
 
-const getters = {
+interface GettersInter {
+    [propName: string]: (state: State) => string;
+}
+
+const getters: GettersInter = {
     [types.GET_TOKEN]: (state: State): string => {
         return state.token;
-    }
+    },
 };
 
-export default getters;
+export {getters};

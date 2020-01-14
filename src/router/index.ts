@@ -1,5 +1,5 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import Vue from 'vue';
+import VueRouter from 'vue-router';
 // import { getToken } from '@/utils/common'
 
 Vue.use(VueRouter);
@@ -13,26 +13,26 @@ const routes = [
             {
                 path: '/todo',
                 name: 'todo',
-                component: () => import('@/views/Todo.vue')
+                component: () => import('@/views/Todo.vue'),
             },
             {
                 path: '/setting',
                 name: 'setting',
-                component: () => import('@/views/Setting.vue')
+                component: () => import('@/views/Setting.vue'),
             },
-        ]
+        ],
     },
     {
         path: '/about',
         name: 'about',
-        component: () => import('@/views/About.vue')
-    }
+        component: () => import('@/views/About.vue'),
+    },
 ];
 
 const router = new VueRouter({
     mode: process.env.IS_ELECTRON ? 'hash' : 'history',
     base: process.env.BASE_URL,
-    routes
+    routes,
 });
 
 // 登陆页面路由 name
@@ -69,4 +69,4 @@ const router = new VueRouter({
 //     //
 // })
 
-export default router
+export {router};

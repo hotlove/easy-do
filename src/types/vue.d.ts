@@ -4,20 +4,20 @@ import Vue, { VueConstructor } from 'vue';
 import VueRouter, {Route} from 'vue-router';
 declare module 'vue/types/vue' {
     interface Vue {
-        $router: VueRouter,
-        $route: Route
+        $router: VueRouter;
+        $route: Route;
     }
 }
 
 // 支持this.$http.post模式
-import HttpRequest from "@/http/HttpRequest";
+import {HttpRequest} from '@/http/HttpRequest';
 declare module 'vue/types/vue' {
     interface Vue {
-        $http: HttpRequest, //自定义微信接口
+        $http: HttpRequest; // 自定义微信接口
     }
 }
 
-import moment from "moment";
+import moment from 'moment';
 declare module 'vue/types/vue' {
     interface Vue {
         // 这里声明作为全局使用
@@ -31,10 +31,10 @@ declare module 'vue/types/vue' {
 }
 
 // lodash
-import lodash from "lodash";
+import lodash from 'lodash';
 declare module 'vue/types/vue' {
     interface Vue {
         // 这里声明作为全局使用
-        $_: typeof lodash
+        $_: typeof lodash;
     }
 }

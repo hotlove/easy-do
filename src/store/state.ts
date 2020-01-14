@@ -1,14 +1,14 @@
-import {Profile, State} from "@/types";
+import {Profile, State} from '@/types';
 
 // 登陆人员默认值
 let defaultProfile: Profile = {
-    userName: "",
-    token: ""
+    userName: '',
+    token: '',
 };
 
 let state: State = {
-    token: "",
-    profileInfo: defaultProfile
+    token: '',
+    profileInfo: defaultProfile,
 };
 
-export default state;
+export {state};

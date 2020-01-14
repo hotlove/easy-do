@@ -5,7 +5,7 @@ class NeDBExample {
     private allCriteriaList: Criteria[] = [];
 
     public createCrteria(): Criteria {
-        let criteria = new Criteria();
+        const criteria = new Criteria();
         this.allCriteriaList.push(criteria);
         return criteria;
     }
@@ -15,31 +15,31 @@ class NeDBExample {
     }
 
     public getCriteria(): CriteriaType {
-        let param: CriteriaType = {};
+        const param: CriteriaType = {};
 
         if (this.allCriteriaList.length > 0) {
             if (this.allCriteriaList.length > 1) {
                 // or 条件
-                let orCriterias: CriteriaType[] = [];
-                for (let criteria of this.allCriteriaList) {
-                    let criterias = criteria.criterias;
+                const orCriterias: CriteriaType[] = [];
+                for (const criteria of this.allCriteriaList) {
+                    const criterias = criteria.criterias;
                     if (criterias.length > 1) {
-                        let andParam: CriteriaType = {
-                            $and: criterias
+                        const andParam: CriteriaType = {
+                            $and: criterias,
                         };
                         orCriterias.push(andParam);
                     } else {
-                        orCriterias.push(criterias[0])
+                        orCriterias.push(criterias[0]);
                     }
                 }
                 return { $or: orCriterias};
             } else {
                 // 非or
-                let criteria = this.allCriteriaList[0];
+                const criteria = this.allCriteriaList[0];
                 if (criteria.criterias.length > 1) {
                     return {
-                        $and: criteria.criterias
-                    }
+                        $and: criteria.criterias,
+                    };
                 } else {
                     return criteria.criterias[0];
                 }

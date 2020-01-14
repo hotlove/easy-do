@@ -1,4 +1,4 @@
-import todoItemMapper from "./TotoItemMapper";
+import {todoItemMapper} from './TotoItemMapper';
 export {
-    todoItemMapper
-}
+    todoItemMapper,
+};

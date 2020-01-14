@@ -1,5 +1,3 @@
-import {HttpRequest} from "@/http/HttpRequest";
+import {HttpRequest} from '@/http/HttpRequest';
 let request = new HttpRequest();
-export {
-    request
-}
+export {request};
