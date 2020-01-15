@@ -79,7 +79,7 @@
     "array-type":[true,"array"],// 建议使用T[]方式声明一个数组对象
     "class-name":false,// 类名以大驼峰格式命名
     "comment-format":[true, "check-space"],// 定义注释格式
-    "encoding":false,// 定义编码格式默认utf-8
+    "encoding":true,// 定义编码格式默认utf-8
     "import-spacing":true,// import关键字后加空格
     "interface-name":[false,"always-prefix"],// interface必须以I开头
     "jsdoc-format":false,// 注释基于jsdoc风格

@@ -1,19 +1,19 @@
-'use strict'
+'use strict';
 
-import {app, protocol, BrowserWindow} from 'electron'
+import {app, BrowserWindow, ipcMain, protocol} from 'electron';
 import {
     createProtocol,
-    installVueDevtools
-} from 'vue-cli-plugin-electron-builder/lib'
+    installVueDevtools,
+} from 'vue-cli-plugin-electron-builder/lib';
 
-const isDevelopment = process.env.NODE_ENV !== 'production'
+const isDevelopment = process.env.NODE_ENV !== 'production';
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let win: BrowserWindow | null
+let win: BrowserWindow | null;
 
 // Scheme must be registered before the app is ready
-protocol.registerSchemesAsPrivileged([{scheme: 'app', privileges: {secure: true, standard: true}}])
+protocol.registerSchemesAsPrivileged([{scheme: 'app', privileges: {secure: true, standard: true}}]);
 
 function createWindow() {
     // Create the browser window.
@@ -22,14 +22,14 @@ function createWindow() {
         height: 581,
         frame: false,
         webPreferences: {
-            nodeIntegration: true
-        }
-    })
+            nodeIntegration: true,
+        },
+    });
 
     if (process.env.WEBPACK_DEV_SERVER_URL) {
         // Load the url of the dev server if in development mode
-        win.loadURL(process.env.WEBPACK_DEV_SERVER_URL as string)
-        if (!process.env.IS_TEST) win.webContents.openDevTools()
+        win.loadURL(process.env.WEBPACK_DEV_SERVER_URL as string);
+        if (!process.env.IS_TEST) { win.webContents.openDevTools(); }
     } else {
         createProtocol('app');
         // Load the index.html when not in development
@@ -37,8 +37,8 @@ function createWindow() {
     }
 
     win.on('closed', () => {
-        win = null
-    })
+        win = null;
+    });
 }
 
 // Quit when all windows are closed.
@@ -46,17 +46,17 @@ app.on('window-all-closed', () => {
     // On macOS it is common for applications and their menu bar
     // to stay active until the user quits explicitly with Cmd + Q
     if (process.platform !== 'darwin') {
-        app.quit()
+        app.quit();
     }
-})
+});
 
 app.on('activate', () => {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
     if (win === null) {
-        createWindow()
+        createWindow();
     }
-})
+});
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -76,44 +76,43 @@ app.on('ready', async () => {
         // }
 
     }
-    createWindow()
-})
+    createWindow();
+});
 
 // Exit cleanly on request from parent process in development mode.
 if (isDevelopment) {
     if (process.platform === 'win32') {
-        process.on('message', data => {
+        process.on('message', (data) => {
             if (data === 'graceful-exit') {
-                app.quit()
+                app.quit();
             }
-        })
+        });
     } else {
         process.on('SIGTERM', () => {
-            app.quit()
-        })
+            app.quit();
+        });
     }
 }
 
 // 进程通信
-import { ipcMain } from 'electron';
-import {APP_CLOSE_EVENT, APP_MIN_EVENT, APP_MAX_EVENT, APP_SET_OPACITY, PUT_DATA_STORE} from "@/common/EventType";
+import {APP_CLOSE_EVENT, APP_MAX_EVENT, APP_MIN_EVENT, APP_SET_OPACITY, PUT_DATA_STORE} from '@/common/EventType';
 
 // app 关闭时间
-ipcMain.on(APP_CLOSE_EVENT, event => {
+ipcMain.on(APP_CLOSE_EVENT, (event) => {
     if (win != null) {
         win.close();
     }
 });
 
 // 最小化
-ipcMain.on(APP_MIN_EVENT, event => {
+ipcMain.on(APP_MIN_EVENT, (event) => {
     if (win != null) {
         win.minimize();
     }
 });
 
 // 最大化
-ipcMain.on(APP_MAX_EVENT, event => {
+ipcMain.on(APP_MAX_EVENT, (event) => {
     if (win != null) {
         if (win.isMaximized()) {
             win.restore();
