@@ -6,13 +6,6 @@
   "description": "",
   "glyphs": [
     {
-      "icon_id": "351761",
-      "name": "减号",
-      "font_class": "delete",
-      "unicode": "e615",
-      "unicode_decimal": 58901
-    },
-    {
       "icon_id": "448351",
       "name": "项目",
       "font_class": "project",
@@ -22,7 +15,7 @@
     {
       "icon_id": "675257",
       "name": "最大化",
-      "font_class": "maxmum",
+      "font_class": "maxmum-bak",
       "unicode": "e662",
       "unicode_decimal": 58978
     },
@@ -62,18 +55,39 @@
       "unicode_decimal": 58883
     },
     {
-      "icon_id": "6654487",
+      "icon_id": "6754193",
       "name": "关 闭",
       "font_class": "close",
-      "unicode": "e767",
-      "unicode_decimal": 59239
+      "unicode": "e62a",
+      "unicode_decimal": 58922
     },
     {
-      "icon_id": "8140959",
-      "name": "最小化",
+      "icon_id": "7160395",
+      "name": "最大化",
+      "font_class": "maxmum",
+      "unicode": "e61a",
+      "unicode_decimal": 58906
+    },
+    {
+      "icon_id": "12818665",
+      "name": "plus",
+      "font_class": "plus",
+      "unicode": "e7e5",
+      "unicode_decimal": 59365
+    },
+    {
+      "icon_id": "12818667",
+      "name": "reduce",
       "font_class": "minimum",
-      "unicode": "e600",
-      "unicode_decimal": 58880
+      "unicode": "e7e6",
+      "unicode_decimal": 59366
+    },
+    {
+      "icon_id": "12818682",
+      "name": "check",
+      "font_class": "check",
+      "unicode": "e7e8",
+      "unicode_decimal": 59368
     }
   ]
 }

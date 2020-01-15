@@ -134,11 +134,10 @@
             display: inline-block;
             width: 60px;
             height: 100vh;
-            /*background: #26292E;*/
-            background: #2196F3;
+            background: #1c7fcd;
 
             .item-icon-focus {
-                background: #1a82d2;
+                background: #1d92eb;
             }
             .home-nav-item {
                 text-align: center;
@@ -157,7 +156,7 @@
 
             .home-nav-item:hover {
                 cursor: pointer;
-                background: #1a82d2;
+                background: #1d92eb;
             }
 
             .home-nav-item:hover .item-icon-hover {

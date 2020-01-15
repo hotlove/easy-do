@@ -1,6 +1,6 @@
-import {ipcRenderer} from "electron";
 <template>
-    <div class="todo-list">
+    <div class="todo-list" @click="updateToItemEdit($event)">
+        <!-- 头部数据框 -->
         <div class="todo-uncompleted-input">
             <el-input type="textarea"
                       ref="todoInput"
@@ -11,27 +11,35 @@ import {ipcRenderer} from "electron";
                       @keydown.native="preventEnter($event)"
                       v-model="todoItem"/>
         </div>
+
+        <!-- 列表 -->
         <div class="todo-uncompleted-list" :style="uncompletedStyle">
+            <!-- todoitem 列表块 -->
             <div class="todo-list-item" v-for="(item, index) in todoItemList" :key="index">
-                <div v-if="!item.edit">
+                <!-- todoitem未编辑 -->
+                <div v-if="!item.edit" class="todo-item-unedit">
+                    <!-- todoitemdot -->
                     <span class="todo-list-item-mark">
-                        <el-checkbox v-model="item.completed" @change="checkboxMarkTodoCompleted(item)"></el-checkbox>
+                        <span class="todo-list-item-dot"></span>
                     </span>
+                    <!-- todoitem内容 -->
                     <span class="todo-list-item-content"
                           :class="item.completed ? 'todo-list-item-content-completed' : ''"
-                          v-html="item.content" @click="markTodoCompleted(item)"></span>
+                          v-html="item.content" @click="editTodoItem(item)"></span>
+                    <!-- todoitem操作 -->
                     <span class="todo-item-oper">
-                        <i class="iconfont icon-edit" @click="editTodoItem(item)"></i>
-                        <i class="iconfont icon-delete" @click="deleteTodoItem(index)"></i>
+                        <i class="iconfont icon-check" @click="markTodoCompleted(item)"></i>
+                        <i class="iconfont icon-minimum" @click="deleteTodoItem(index)"></i>
                     </span>
                 </div>
+                <!-- todoitem编辑 -->
                 <div v-if="item.edit" class="todo-uncompleted-input">
                     <el-input type="textarea"
                               autosize
                               @input.native="heightMonitor"
                               @keyup.enter.native.prevent="confirmEditTodo(item)"
                               @keydown.native="preventEnter($event)"
-                              v-model="item.content"/>
+                              v-model="item.tempContent"/>
                 </div>
             </div>
         </div>
@@ -116,27 +124,48 @@ import {ipcRenderer} from "electron";
         // 编辑tudo
         public editTodoItem(todoItem: TodoItemEdiable): void {
             todoItem.edit = true;
-            this.todoItemList.filter((e: TodoItemEdiable) => !(e.code == todoItem.code)).forEach((value, index) => {
-                value.edit = false;
-            });
+            todoItem.tempContent = todoItem.content;
+            this.editTodoItemToUnEditByCode(todoItem.code);
         }
 
         // 确认编辑todo
         public confirmEditTodo(todoItem: TodoItemEdiable): void {
             todoItem.edit = false;
 
-            let example = new NeDBExample();
-            example.createCrteria().eq('code', todoItem.code);
-            todoItemMapper.update(example, todoItem).then((number) => {
-                if (number > 0) {
-                    console.log(number)
-                }
-            });
+            if (todoItem.content !== todoItem.tempContent) {
+                let oldContent = todoItem.content;
+                todoItem.content = todoItem.tempContent;
+
+                let example = new NeDBExample();
+                example.createCrteria().eq(TodoItemProperty.code, todoItem.code);
+                todoItemMapper.update(example, todoItem).then((number) => {
+                    if (number < 1) {
+                        todoItem.content = oldContent;
+                        this.$message({
+                            message: '修改todo信息失败',
+                            type: 'error',
+                            duration: 3000,
+                            showClose: true,
+                            customClass: 'notify-message',
+                        });
+                    }
+                }).catch((err: Error) => {
+                    this.$message({
+                        message: '修改todo信息失败',
+                        type: 'error',
+                        duration: 3000,
+                        showClose: true,
+                        customClass: 'notify-message',
+                    });
+                });
+            }
         }
 
-        // checkbox change
-        public checkboxMarkTodoCompleted(todoItem: TodoItemEdiable): void {
-            this.checkAndUpateTodoItem(todoItem);
+        // 编辑todoitem列表 为未编辑状态
+        public editTodoItemToUnEditByCode(todoCode: string = ''): void {
+            this.todoItemList.filter((e: TodoItemEdiable) => !(e.code === todoCode)).forEach((value, index) => {
+                value.edit = false;
+            });
         }
 
         // 点击事件修改todo完成状态
@@ -151,6 +180,13 @@ import {ipcRenderer} from "electron";
                 todoItem.completedDate = new Date();
             } else {
                 todoItem.completedDate = new Date(0);
+            }
+        }
+
+        // 处理点击空白处 todoitem列表修改为未编辑状态
+        public updateToItemEdit(event: any): void {
+            if (event.target.className === 'todo-uncompleted-list') {
+                this.editTodoItemToUnEditByCode();
             }
         }
 
@@ -170,12 +206,17 @@ import {ipcRenderer} from "electron";
     }
 </script>
 <style lang="scss">
-
+    .notify-message {
+        min-width: 250px;
+        height: 20px;
+        border-radius: 2px;
+    }
     .todo-list {
         .todo-uncompleted-input {
-            font-size: 12px;
+            font-size: 16px;
 
             .el-textarea__inner {
+                font-size: 16px;
                 border: none !important;
                 border-bottom: 1px solid #DCDFE6 !important;
                 border-radius: 0;
@@ -189,11 +230,20 @@ import {ipcRenderer} from "electron";
             overflow-x: hidden;
 
             .todo-list-item {
+                -webkit-user-select: text;
+                -moz-user-select: text;
+                -ms-user-select: text;
+                user-select: text;
+
                 float: left;
                 width: 100%;
                 padding: 5px;
                 margin-bottom: 10px;
                 position: relative;
+                .todo-item-unedit {
+                    float: left;
+                    width: 100%;
+                }
                 .todo-item-oper {
                     display: none;
                     position: absolute;
@@ -223,6 +273,15 @@ import {ipcRenderer} from "electron";
                     float: left;
                     width: 3%;
                     text-align: center;
+
+                    .todo-list-item-dot {
+                        display: inline-block;
+                        width: 8px;
+                        height: 8px;
+                        background: #304760;
+                        border-radius: 50px;
+                        vertical-align: middle;
+                    }
                 }
 
                 .todo-list-item-content {
@@ -230,6 +289,7 @@ import {ipcRenderer} from "electron";
                     width: 95%;
                     word-break:break-all;
                     text-align: left;
+                    font-size: 16px;
                     /*color: #499C54;*/
                 }
 
@@ -240,7 +300,7 @@ import {ipcRenderer} from "electron";
             }
             .todo-list-item:hover {
                 cursor: pointer;
-                background: #fdfdfd;
+                /*background: #fdfdfd;*/
                 & .todo-item-oper {
                     display: inline-block;
                 }
@@ -248,5 +308,4 @@ import {ipcRenderer} from "electron";
 
         }
     }
-
 </style>

@@ -18,5 +18,5 @@ export interface TodoItem {
 
 export interface TodoItemEdiable extends TodoItem {
     edit: boolean;
-    tempContent: '';
+    tempContent: string;
 }

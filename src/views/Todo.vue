@@ -98,7 +98,7 @@
             width: 250px;
             height: 100%;
             float: left;
-            background: #E6E5E5;
+            background: #f2f1f1;
             /*background: #fffdff;*/
             padding: 25px 10px 0 10px;
 
@@ -130,7 +130,7 @@
             height: 100%;
             float: right;
             /*background: #F5F5F5;*/
-            background: #f8f8f8;
+            background: #fcfcfc;
             padding: 25px 0 0 0;
 
             .todo-home-body-content {
