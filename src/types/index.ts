@@ -1,5 +1,5 @@
 export interface RequestParams {
-    [propName: string]: any
+    [propName: string]: any;
 }
 
 export interface Profile {
@@ -8,7 +8,7 @@ export interface Profile {
 }
 
 export interface State {
-    token: string,
+    token: string;
     profileInfo: Profile;
 }
 

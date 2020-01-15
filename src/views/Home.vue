@@ -26,96 +26,98 @@
 
 <script lang="ts">
     // @ is an alias to /src
-    import {Component, Vue} from "vue-property-decorator";
-    import {NavigationInter} from "@/types";
-    import {Getter, Action} from "vuex-class";
-    import Music from "@/components/Music.vue";
-    import TodoList from "@/components/TodoList.vue";
-    import CloseNavigation from "@/components/CloseNavigation.vue";
+    import {Component, Vue} from 'vue-property-decorator';
+    import {NavigationInter} from '@/types';
+    import {Getter, Action} from 'vuex-class';
+    import Music from '@/components/Music.vue';
+    import TodoList from '@/components/TodoList.vue';
+    import CloseNavigation from '@/components/CloseNavigation.vue';
 
     @Component({
         components: {
             Music,
             TodoList,
-            CloseNavigation
-        }
+            CloseNavigation,
+        },
     })
     export default class Home extends Vue {
-
         // @Getter @Action 在vuex-class 包内
         // 这里使用 ！ 是说明 属性不会为undefined 否则需要进行初始化操作
-        @Getter getToken !: string;
-        @Action("setToken") setToken !: Function;
+        @Getter
+        public getToken !: string;
 
-        navigations: NavigationInter[] = [
+        @Action('setToken')
+        public  setToken !: Function;
+
+        public navigations: NavigationInter[] = [
             {
-                route: "todo",
+                route: 'todo',
                 default: false,
                 hoverName: 'item-icon-hover',
-                className: "icon-todo",
-                tipText: 'Todo列表'
+                className: 'icon-todo',
+                tipText: 'Todo列表',
             },
             {
-                route: "setting",
+                route: 'setting',
                 default: false,
                 hoverName: 'item-icon-hover',
-                className: "icon-task",
-                tipText: '任务列表'
+                className: 'icon-task',
+                tipText: '任务列表',
             },
             {
-                route: "",
+                route: '',
                 default: false,
                 hoverName: 'item-icon-hover',
-                className: "icon-project",
-                tipText: '项目列表'
+                className: 'icon-project',
+                tipText: '项目列表',
             },
             {
-                route: "",
+                route: '',
                 default: false,
                 hoverName: 'item-icon-hover',
-                className: "icon-message",
-                tipText: '消息列表'
+                className: 'icon-message',
+                tipText: '消息列表',
             },
             {
-                route: "",
+                route: '',
                 default: false,
                 hoverName: 'item-icon-hover',
-                className: "icon-user",
-                tipText: '好友列表'
-            }
+                className: 'icon-user',
+                tipText: '好友列表',
+            },
         ];
 
         // 声明钩子
-        mounted() {
+        public mounted() {
             this.storeToken();
         }
 
         // 声明狗子
-        created() {
+        public created() {
 
         }
 
         // 计算属性
         get computedMsg() {
-            return "test";
+            return 'test';
         }
 
         private storeToken(): void {
-            this.setToken("testtoken123");
+            this.setToken('testtoken123');
         }
 
         // 点击导航事件
         private clickItem(route: string, index: number): void {
             // 首先修改其他nav 为未选中状态并可以 hover
-            this.navigations.forEach(e => {
+            this.navigations.forEach((e: NavigationInter) => {
                 e.default = false;
-                e.hoverName = "item-icon-hover";
+                e.hoverName = 'item-icon-hover';
             });
 
             // 将目标nav修改为选中 不可hover状态
             let nav: NavigationInter = this.navigations[index];
             nav.default = true;
-            nav.hoverName = "";
+            nav.hoverName = '';
 
             this.$router.push(nav.route).catch((err: Error) => err);
         }

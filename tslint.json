@@ -44,7 +44,7 @@
     "no-arg":true,// 不允许使用arguments.callee
     "no-bitwise":false, // 不允许使用特殊运算符 &, &=, |, |=, ^, ^=, <<, <<=, >>, >>=, >>>, >>>=, ~
     "no-conditional-assignment":true,// do while/for/if/while 语句中将会对例如if(a=b)进行检查
-    "no-console":true,// 不允许使用console对象
+    "no-console":false,// 不允许使用console对象
     "no-debugger":true,// 不允许使用debugger
     "no-duplicate-super":true,// 不允许super() 两次使用在构造函数中
     "no-empty":false,// 函数体不允许空
@@ -70,11 +70,12 @@
     "max-classes-per-file":[true,1],// 每个文件中可定义类的个数
     "max-file-line-count":[true,1000],// 定义每个文件代码行数
     "max-line-length":[true,300],// 定义每行代码数
-    "no-default-export":true,// 禁止使用export default关键字，因为当export对象名称发生变化时，需要修改import中的对象名。https://github.com/palantir/tslint/issues/1182#issue-151780453
+    "no-default-export": false,// 禁止使用export default关键字，因为当export对象名称发生变化时，需要修改import中的对象名。https://github.com/palantir/tslint/issues/1182#issue-151780453
     "no-duplicate-imports":true,// 禁止在一个文件内，多次引用同一module
 //    "no-inferrable-types": [true, "ignore-params"],  // 声明立即被赋值的基础类型不需要声明变量类型，let state: boolean = false 删除类型声明
 
     // 格式
+    "ordered-imports": false,
     "align":[true,"parameters","arguments","statements","members","elements"],// 定义对齐风格
     "array-type":[true,"array"],// 建议使用T[]方式声明一个数组对象
     "class-name":false,// 类名以大驼峰格式命名

@@ -18,47 +18,47 @@
 </template>
 <script lang="ts">
     import { ipcRenderer } from 'electron';
-    import {Component, Prop, Vue} from "vue-property-decorator";
-    import {APP_CLOSE_EVENT, APP_MAX_EVENT, APP_MIN_EVENT} from "@/common/EventType";
+    import {Component, Prop, Vue} from 'vue-property-decorator';
+    import {APP_CLOSE_EVENT, APP_MAX_EVENT, APP_MIN_EVENT} from '@/common/EventType';
 
     @Component
     export default class CloseNavigation extends Vue {
         // 设置高度
         @Prop({ default: 20 })
-        height !: number;
+        public height !: number;
 
         // 是否展示关闭按钮
         @Prop( {default: false})
-        showClose !: boolean;
+        public showClose !: boolean;
 
-        @Prop({default: ""})
-        text !: string;
+        @Prop({default: ''})
+        public text !: string;
 
         @Prop({default: 16})
-        textSize !: number;
+        public textSize !: number;
 
         // 计算属性
         get heigthValue() {
             return {
                 'height': this.height + 'px',
-                'line-height': this.height + 'px'
-            }
+                'line-height': this.height + 'px',
+            };
         }
 
         get textFontSize() {
             return {
-                'font-size': this.textSize + 'px'
-            }
+                'font-size': this.textSize + 'px',
+            };
         }
 
-        closeHandle(eventType: string):void {
-            if (eventType == 'close') {
+        public closeHandle(eventType: string): void {
+            if (eventType === 'close') {
                 ipcRenderer.send(APP_CLOSE_EVENT);
             }
-            if (eventType == 'min') {
+            if (eventType === 'min') {
                 ipcRenderer.send(APP_MIN_EVENT);
             }
-            if (eventType == 'max') {
+            if (eventType === 'max') {
                 ipcRenderer.send(APP_MAX_EVENT);
             }
         }

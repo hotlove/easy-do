@@ -38,44 +38,45 @@ import {ipcRenderer} from "electron";
     </div>
 </template>
 <script lang="ts">
-    import {Component, Vue, Watch} from "vue-property-decorator";
-    import {TodoItemEdiable} from "@/types";
-    import {todoItemMapper} from "@/dbutil";
-    import {CommonUtil} from "@/common/CommonUtil";
-    import {NeDBExample} from "@/dbutil/nedbutil/NeDBExample";
+    import {Component, Vue, Watch} from 'vue-property-decorator';
+    import {TodoItemEdiable} from '@/types';
+    import {todoItemMapper} from '@/dbutil';
+    import {CommonUtil} from '@/common/CommonUtil';
+    import {NeDBExample} from '@/dbutil/nedbutil/NeDBExample';
 
     @Component
     export default class TodoList extends Vue {
 
-        todoItem: string = ''; // 填写得内容
-        todoItemList: TodoItemEdiable[] = []; // todoitem列表
+        public todoItem: string = ''; // 填写得内容
 
-        uncompletedStyle: any = { // 未完成todo列表样式 用于自动控制高度
-            height: 'calc(100vh - 115px)'
+        public todoItemList: TodoItemEdiable[] = []; // todoitem列表
+
+        public uncompletedStyle: any = { // 未完成todo列表样式 用于自动控制高度
+            height: 'calc(100vh - 115px)',
         };
 
         // 控制修改todo列表高度值
         @Watch('uncompletedStyle')
-        uncompletedMethod() {
+        public uncompletedMethod() {
             return {
-                height: 'calc(100vh - 115px)'
-            }
+                height: 'calc(100vh - 115px)',
+            };
         }
 
         // 声明钩子函数
-        mounted() {
+        public mounted() {
             this.getTodoItemList();
         }
 
         // 获取todoitemList
-        public getTodoItemList() {
+        public getTodoItemList(): void {
             todoItemMapper.find().then((todoItemList: any) => {
                 this.todoItemList = todoItemList;
-            })
+            });
         }
 
         // 新增todo
-        public addNewTodoItem(): any  {
+        public addNewTodoItem(): any {
             // ts 好像判断 != "" 有问题
             if (this.todoItem.trim().length > 0) {
                 let todoItem: TodoItemEdiable = {
@@ -85,7 +86,7 @@ import {ipcRenderer} from "electron";
                     completed: false,
                     createdDate: new Date(),
                     completedDate: new Date(0),
-                    edit: false
+                    edit: false,
                 };
                 // 最新的排在最上面
                 this.todoItemList.unshift(todoItem);
@@ -93,7 +94,7 @@ import {ipcRenderer} from "electron";
                 // 保存到本地数据库
                 todoItemMapper.insert(todoItem).then((value) => {}, (err) => err);
 
-                this.todoItem = "";
+                this.todoItem = '';
             }
         }
 
@@ -101,21 +102,21 @@ import {ipcRenderer} from "electron";
         public deleteTodoItem(index: number): void {
             let todoItemEdiable = this.todoItemList[index];
             let neDBExample = new NeDBExample();
-            neDBExample.createCrteria().eq("code", todoItemEdiable.code);
+            neDBExample.createCrteria().eq('code', todoItemEdiable.code);
 
             todoItemMapper.delete(neDBExample).then((number) => {
                 if (number > 0) {
                     this.getTodoItemList();
                 }
-            })
+            });
         }
 
         // 编辑tudo
-        public editTodoItem(todoItem: TodoItemEdiable): void{
+        public editTodoItem(todoItem: TodoItemEdiable): void {
             todoItem.edit = true;
-            this.todoItemList.filter(e => !(e.content == todoItem.content)).forEach((value, index) => {
+            this.todoItemList.filter((e: TodoItemEdiable) => !(e.content == todoItem.content)).forEach((value, index) => {
                 value.edit = false;
-            })
+            });
         }
 
         // 确认编辑todo
@@ -153,7 +154,7 @@ import {ipcRenderer} from "electron";
         public preventEnter(event: KeyboardEvent): any {
             if (event.keyCode === 13) {
                 event.preventDefault(); // 阻止浏览器默认换行操作
-                return false
+                return false;
             }
         }
     }

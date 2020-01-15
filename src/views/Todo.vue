@@ -50,28 +50,30 @@
 </template>
 
 <script lang="ts">
-    import {Component, Vue} from "vue-property-decorator";
-    import {Getter, Action} from "vuex-class";
-    import CloseNavigation from "@/components/CloseNavigation.vue";
-    import TodoList from "@/components/TodoList.vue";
+    import {Component, Vue} from 'vue-property-decorator';
+    import {Getter, Action} from 'vuex-class';
+    import CloseNavigation from '@/components/CloseNavigation.vue';
+    import TodoList from '@/components/TodoList.vue';
 
     @Component({
         components: {
             CloseNavigation,
-            TodoList
-        }
+            TodoList,
+        },
     })
     export default class Home extends Vue {
-
         // @Getter @Action 在vuex-class 包内
         // 这里使用 ！ 是说明 属性不会为undefined 否则需要进行初始化操作
-        @Getter getToken !: string;
-        @Action("setToken") setToken !: Function;
+        @Getter
+        public getToken !: string;
 
-        todoItemSearch: string = ""; // todoitem搜索关键字
-        date: any = new Date(); // 导航日期变量
-        showDatePicker: boolean = true; // 展示日历
-        completedControl: boolean = false; // 控制是否完成
+        @Action('setToken')
+        public setToken !: Function;
+
+        public todoItemSearch: string = ''; // todoitem搜索关键字
+        public date: any = new Date(); // 导航日期变量
+        public showDatePicker: boolean = true; // 展示日历
+        public completedControl: boolean = false; // 控制是否完成
 
         // 展示最近修改东西
         public showRecentSearch(): void {
