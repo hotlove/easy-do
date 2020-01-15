@@ -39,7 +39,7 @@ import {ipcRenderer} from "electron";
 </template>
 <script lang="ts">
     import {Component, Vue, Watch} from 'vue-property-decorator';
-    import {TodoItemEdiable} from '@/types';
+    import {TodoItemEdiable, TodoItemProperty} from '@/domain/TodoItem';
     import {todoItemMapper} from '@/dbutil';
     import {CommonUtil} from '@/common/CommonUtil';
     import {NeDBExample} from '@/dbutil/nedbutil/NeDBExample';
@@ -70,7 +70,10 @@ import {ipcRenderer} from "electron";
 
         // 获取todoitemList
         public getTodoItemList(): void {
-            todoItemMapper.find().then((todoItemList: any) => {
+            let neDBExample = new NeDBExample();
+            neDBExample.createCrteria().eq(TodoItemProperty.completed, false);
+
+            todoItemMapper.find(neDBExample).then((todoItemList: any) => {
                 this.todoItemList = todoItemList;
             });
         }
@@ -87,6 +90,7 @@ import {ipcRenderer} from "electron";
                     createdDate: new Date(),
                     completedDate: new Date(0),
                     edit: false,
+                    tempContent: '',
                 };
                 // 最新的排在最上面
                 this.todoItemList.unshift(todoItem);
@@ -100,7 +104,7 @@ import {ipcRenderer} from "electron";
         public deleteTodoItem(index: number): void {
             let todoItemEdiable = this.todoItemList[index];
             let neDBExample = new NeDBExample();
-            neDBExample.createCrteria().eq('code', todoItemEdiable.code);
+            neDBExample.createCrteria().eq(TodoItemProperty.code, todoItemEdiable.code);
 
             todoItemMapper.delete(neDBExample).then((number) => {
                 if (number > 0) {
@@ -112,7 +116,7 @@ import {ipcRenderer} from "electron";
         // 编辑tudo
         public editTodoItem(todoItem: TodoItemEdiable): void {
             todoItem.edit = true;
-            this.todoItemList.filter((e: TodoItemEdiable) => !(e.content == todoItem.content)).forEach((value, index) => {
+            this.todoItemList.filter((e: TodoItemEdiable) => !(e.code == todoItem.code)).forEach((value, index) => {
                 value.edit = false;
             });
         }
@@ -120,6 +124,14 @@ import {ipcRenderer} from "electron";
         // 确认编辑todo
         public confirmEditTodo(todoItem: TodoItemEdiable): void {
             todoItem.edit = false;
+
+            let example = new NeDBExample();
+            example.createCrteria().eq('code', todoItem.code);
+            todoItemMapper.update(example, todoItem).then((number) => {
+                if (number > 0) {
+                    console.log(number)
+                }
+            });
         }
 
         // checkbox change

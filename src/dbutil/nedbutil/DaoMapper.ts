@@ -20,7 +20,7 @@ abstract class DaoMapper<T> {
     public abstract insert(value: T): Promise<T>;
 
     // 修改文档
-    public update(example: NeDBExample, updateQuery: any): Promise<Number> {
+    public update(example: NeDBExample, updateQuery: T): Promise<Number> {
         const criteria = example.getCriteria();
         const options: any = {
             muti: true,
