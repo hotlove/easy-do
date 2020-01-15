@@ -47,11 +47,11 @@ import {ipcRenderer} from "electron";
     @Component
     export default class TodoList extends Vue {
 
-        public todoItem: string = ''; // 填写得内容
+        private todoItem: string = ''; // 填写得内容
 
-        public todoItemList: TodoItemEdiable[] = []; // todoitem列表
+        private todoItemList: TodoItemEdiable[] = []; // todoitem列表
 
-        public uncompletedStyle: any = { // 未完成todo列表样式 用于自动控制高度
+        private uncompletedStyle: any = { // 未完成todo列表样式 用于自动控制高度
             height: 'calc(100vh - 115px)',
         };
 
@@ -90,10 +90,8 @@ import {ipcRenderer} from "electron";
                 };
                 // 最新的排在最上面
                 this.todoItemList.unshift(todoItem);
-
                 // 保存到本地数据库
                 todoItemMapper.insert(todoItem).then((value) => {}, (err) => err);
-
                 this.todoItem = '';
             }
         }
