@@ -5,20 +5,24 @@
             <div class="todo-home-nav">
                 <close-navigation :height="25"></close-navigation>
                 <div class="todo-home-nav-content">
-                    <el-input v-model="todoItemSearch" placeholder="搜索" size="mini" prefix-icon="el-icon-search"
-                              @focus="showRecentSearch">
-                        <i v-if="!showDatePicker" slot="suffix" class="el-icon-circle-close el-input__icon"
-                           style="cursor: pointer" @click="clearSearch">
-                        </i>
-                    </el-input>
-
-                    <div v-if="!showDatePicker" style="margin-top: 10px">
-                        <span class="recent-search">ceshide</span>
+                    <!-- 导航搜索 -->
+                    <div style="width: 100%; height: 30px; line-height: 30px;padding: 0 10px">
+                        <el-input v-model="todoItemSearch" placeholder="搜索" size="mini" prefix-icon="el-icon-search"
+                                  @focus="showRecentSearch">
+                            <i v-if="!showDatePicker" slot="suffix" class="el-icon-circle-close el-input__icon"
+                               style="cursor: pointer" @click="clearSearch">
+                            </i>
+                        </el-input>
                     </div>
 
-<!--                    <div style="margin-top: 10px">-->
-<!--                        <mu-date-picker class="to-do-nav-picker" :date.sync="date"></mu-date-picker>-->
-<!--                    </div>-->
+                    <!-- 任务列表 -->
+                    <div class="todo-home-nav-task">
+                        <div v-for="(item, idnex) in 10" class="task-item">
+                            <span style="width: 40px; display: inline-block; height: 40px; border: 1px solid red;">
+
+                            </span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -45,7 +49,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 </template>
 
@@ -99,12 +102,27 @@
             height: 100%;
             float: left;
             background: #f2f1f1;
-            /*background: #fffdff;*/
-            padding: 25px 10px 0 10px;
+            padding-top: 25px;
 
             .todo-home-nav-content {
                 height: calc(100vh - 25px);
 
+                .todo-home-nav-task {
+                    overflow-y: auto;
+                    height: calc(100vh - 63px);
+                    margin-top: 15px;
+
+                    .task-item {
+                        height: 65px;
+                        line-height: 65px;
+                        padding: 10px;
+
+                        &:hover {
+                            cursor: pointer;
+                            background: #D7D7D8;
+                        }
+                    }
+                }
             }
 
             /*.to-do-nav-picker {*/
@@ -129,7 +147,6 @@
             width: calc(100vw - 310px);
             height: 100%;
             float: right;
-            /*background: #F5F5F5;*/
             background: #fcfcfc;
             padding: 25px 0 0 0;
 
