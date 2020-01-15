@@ -18,8 +18,21 @@
                     <!-- 任务列表 -->
                     <div class="todo-home-nav-task">
                         <div v-for="(item, idnex) in 10" class="task-item">
-                            <span style="width: 40px; display: inline-block; height: 40px; border: 1px solid red;">
+                            <!-- 任务图片 -->
+                            <span class="task-img">
+                                <el-avatar shape="square" :size="45" fit="fill" :src="url"></el-avatar>
+                            </span>
+                            <!-- 任务内容 -->
+                            <span class="task-content">
+                                <!-- 标题 时间-->
+                                <div class="task-detail-common">
+                                    <span class="task-title">测试任务标题</span>
+                                </div>
 
+                                <!-- 日期 -->
+                                <div class="task-detail-common">
+                                    <span class="task-date">结束日期：{{ $moment().format('YY/MM/DD  HH:hh') }}</span>
+                                </div>
                             </span>
                         </div>
                     </div>
@@ -73,10 +86,11 @@
         @Action('setToken')
         public setToken !: Function;
 
-        public todoItemSearch: string = ''; // todoitem搜索关键字
-        public date: any = new Date(); // 导航日期变量
-        public showDatePicker: boolean = true; // 展示日历
-        public completedControl: boolean = false; // 控制是否完成
+        private url = 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg';
+        private todoItemSearch: string = ''; // todoitem搜索关键字
+        private date: any = new Date(); // 导航日期变量
+        private showDatePicker: boolean = true; // 展示日历
+        private completedControl: boolean = false; // 控制是否完成
 
         // 展示最近修改东西
         public showRecentSearch(): void {
@@ -111,15 +125,63 @@
                     overflow-y: auto;
                     height: calc(100vh - 63px);
                     margin-top: 15px;
+                    padding-bottom: 8px;
 
                     .task-item {
+                        /*float: left;*/
+                        /*width: 100%;*/
                         height: 65px;
-                        line-height: 65px;
                         padding: 10px;
 
                         &:hover {
                             cursor: pointer;
                             background: #D7D7D8;
+                        }
+
+                        .task-img {
+                            /*position: relative;*/
+                            /*top: 50%;*/
+                            /* transform: translateY(-50%);*/
+                            float: left;
+                            width: 45px;
+                            height: 45px;
+                            display: inline-block;
+
+                            .el-avatar--square {
+                                border-radius: 0;
+                            }
+                        }
+
+                        .task-content {
+                            float: left;
+                            width: 180px;
+                            height: 45px;
+                            display: inline-block;
+
+                            .task-detail-common {
+                                float: left;
+                                width: 100%;
+                                height: 22.5px;
+                                line-height: 22.5px;
+                                padding-left: 10px;
+
+                                .task-title {
+                                    width: 100%;
+                                    display: inline-block;
+                                    float: left;
+                                    font-size: 12px;
+                                    overflow: hidden;/*超出部分隐藏*/
+                                    white-space: nowrap;/*不换行*/
+                                    text-overflow: ellipsis;/*超出部分文字以...显示*/
+                                }
+
+                                .task-date {
+                                    display: inline-block;
+                                    float: left;
+                                    font-size: 11px;
+                                    color: #8c939d;
+                                }
+                            }
                         }
                     }
                 }
@@ -156,6 +218,10 @@
 
                 .todo-body-title {
                     height: 23px;
+
+                    .el-radio-button__inner {
+                        border-radius: 0;
+                    }
                 }
 
                 .todo-body-content-list {

@@ -213,10 +213,11 @@
     }
     .todo-list {
         .todo-uncompleted-input {
-            font-size: 16px;
+            font-size: 14px;
 
             .el-textarea__inner {
-                font-size: 16px;
+                color: #000;
+                font-size: 14px;
                 border: none !important;
                 border-bottom: 1px solid #DCDFE6 !important;
                 border-radius: 0;
@@ -289,7 +290,8 @@
                     width: 95%;
                     word-break:break-all;
                     text-align: left;
-                    font-size: 16px;
+                    font-size: 14px;
+                    color: #000000;
                     /*color: #499C54;*/
                 }
 
