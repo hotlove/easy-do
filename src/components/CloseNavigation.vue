@@ -1,5 +1,6 @@
 <template>
     <div class="dragger-element" :style="heigthValue">
+        <div class="dragger-element-no-drag"></div>
         <div class="dragger-text" :style="textFontSize">
             {{ text }}
         </div>
@@ -72,6 +73,13 @@
         text-align: right;
         top: 0;
         background: transparent;
+
+        .dragger-element-no-drag {
+            position: absolute;
+            width: 100%;
+            height: 3px;
+            -webkit-app-region: no-drag;
+        }
 
         .dragger-text {
             height: 100%;

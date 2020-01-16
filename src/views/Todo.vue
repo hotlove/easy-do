@@ -115,10 +115,15 @@
             width: 250px;
             height: 100%;
             float: left;
-            background: #f2f1f1;
+            /*background: #fcfbfb;*/
             padding-top: 25px;
 
             .todo-home-nav-content {
+
+                .el-input__inner {
+                    border-radius: 0;
+                }
+
                 height: calc(100vh - 25px);
 
                 .todo-home-nav-task {

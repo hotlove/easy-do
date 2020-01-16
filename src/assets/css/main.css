@@ -9,7 +9,7 @@ html {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 1);
+    /*box-shadow: 13px 13px 10px rgba(0, 0, 0, 1);*/
 }
 
 body {

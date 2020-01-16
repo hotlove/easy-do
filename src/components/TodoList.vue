@@ -277,10 +277,10 @@
 
                     .todo-list-item-dot {
                         display: inline-block;
-                        width: 8px;
-                        height: 8px;
+                        width: 6px;
+                        height: 6px;
                         background: #304760;
-                        border-radius: 50px;
+                        /*border-radius: 50px;*/
                         vertical-align: middle;
                     }
                 }
