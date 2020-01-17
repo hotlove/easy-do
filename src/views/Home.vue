@@ -135,6 +135,8 @@
             width: 60px;
             height: 100vh;
             background: #1c7fcd;
+            z-index: 1;
+            box-shadow:3px 0 8px -4px #000;
 
             .item-icon-focus {
                 background: #1d92eb;
