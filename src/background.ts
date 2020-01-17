@@ -1,6 +1,6 @@
 'use strict';
 
-import {app, BrowserWindow, ipcMain, protocol} from 'electron';
+import {app, BrowserWindow, ipcMain, protocol, globalShortcut } from 'electron';
 import {
     createProtocol,
     installVueDevtools,
@@ -83,6 +83,12 @@ app.on('ready', async () => {
         // }
 
     }
+    globalShortcut.register('CommandOrControl+o', () => {
+        console.log('CommandOrControl+o is pressed');
+        if (win !== null) {
+
+        }
+    });
     createWindow();
 });
 
