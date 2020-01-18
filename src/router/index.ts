@@ -8,6 +8,7 @@ const routes = [
     {
         path: '/',
         name: 'home',
+        redirect: '/todo',
         component: () => import('@/views/Home.vue'),
         children: [
             {

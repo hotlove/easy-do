@@ -4,7 +4,7 @@ import {TodoItem} from '@/domain/TodoItem';
 class TotoItemMapper extends DaoMapper<TodoItem> {
     // 新增文档
     public insert(value: TodoItem): Promise<TodoItem> {
-        return this.dataStroe.insert(value);
+        return this.dataStore.insert(value);
     }
 
     protected getDBName(): string {

@@ -12,10 +12,10 @@
             <!-- 17h 20w -->
             <span class="home-nav-item" :class="item.default ? 'item-icon-focus' : ''" @click.prevent.stop="clickItem(item.route, index)"
                   v-for="(item, index) in navigations" :key="index">
-                <el-tooltip :content="item.tipText" placement="right" effect="light" :open-delay="800" popper-class="item-poptip">
+<!--                <el-tooltip :content="item.tipText" placement="right" effect="light" :open-delay="800" popper-class="item-poptip">-->
                     <span class="iconfont item-icon"
                           :class="item.hoverName + ' ' +item.className"></span>
-                    </el-tooltip>
+<!--                    </el-tooltip>-->
             </span>
         </div>
         <div class="home-body">
@@ -32,6 +32,10 @@
     import Music from '@/components/Music.vue';
     import TodoList from '@/components/TodoList.vue';
     import CloseNavigation from '@/components/CloseNavigation.vue';
+    import {SystemSetting} from '@/domain/SystemSetting';
+    import {systemSettingMapper} from '@/dbutil';
+    import {GET_SYSTEM_SETTING, SET_SYSTEM_SETTING} from '@/store/mutation-types';
+    import {CommonUtil} from '@/common/CommonUtil';
 
     @Component({
         components: {
@@ -43,11 +47,14 @@
     export default class Home extends Vue {
         // @Getter @Action 在vuex-class 包内
         // 这里使用 ！ 是说明 属性不会为undefined 否则需要进行初始化操作
-        @Getter
-        public getToken !: string;
+        @Getter(GET_SYSTEM_SETTING)
+        public getSystemSetting !: SystemSetting;
 
-        @Action('setToken')
-        public  setToken !: Function;
+        @Action(SET_SYSTEM_SETTING)
+        public setSystemSetting !: Function;
+
+        // 系统设置
+        public systemSetting !: SystemSetting;
 
         public navigations: NavigationInter[] = [
             {
@@ -89,25 +96,30 @@
 
         // 声明钩子
         public mounted() {
-            this.storeToken();
+            this.systemSettingHandler();
         }
 
-        // 声明狗子
-        public created() {
-
+        // 处理系统设置
+        public systemSettingHandler(): void {
+            systemSettingMapper.find().then((systemSettingList: any) => {
+                console.log(systemSettingList);
+                // 如果有则取出来并 存入vuex
+                if (systemSettingList.length > 0) {
+                    this.systemSetting = systemSettingList[0];
+                    console.log(this.systemSetting);
+                    this.setSystemSetting(this.systemSetting);
+                } else {
+                    // 如果没有则新建一个并存入vuex 也就是第一次会用到后面基本上用不到
+                    let systemSettingTemp: SystemSetting = this.getSystemSetting;
+                    console.log(systemSettingTemp);
+                    systemSettingTemp.code = CommonUtil.getUUID();
+                    systemSettingMapper.insert(systemSettingTemp);
+                    this.setSystemSetting(systemSettingTemp);
+                }
+            });
         }
-
-        // 计算属性
-        get computedMsg() {
-            return 'test';
-        }
-
-        private storeToken(): void {
-            this.setToken('testtoken123');
-        }
-
         // 点击导航事件
-        private clickItem(route: string, index: number): void {
+        public clickItem(route: string, index: number): void {
             // 首先修改其他nav 为未选中状态并可以 hover
             this.navigations.forEach((e: NavigationInter) => {
                 e.default = false;
@@ -140,6 +152,8 @@
 
             .item-icon-focus {
                 background: #1d92eb;
+                border-color: transparent;
+                outline: none;
             }
             .home-nav-item {
                 text-align: center;
