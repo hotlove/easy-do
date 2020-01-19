@@ -107,8 +107,14 @@
         public closeHandle(eventType: string): void {
             if (eventType === 'close') {
                 if (this.getSystemSetting.remeberQuit) {
-                    ipcRenderer.send(APP_CLOSE_EVENT, this.getSystemSetting.quitType);
                     this.showQuitChose = false;
+                    // 增加延时是为了防止在次激活窗口时 dialog对话框再次显示出来 闪烁
+                    setTimeout(
+                        () => {
+                            ipcRenderer.send(APP_CLOSE_EVENT, this.getSystemSetting.quitType);
+                        },
+                        130,
+                    );
                 } else {
                     this.showQuitChose = true;
                 }
@@ -137,13 +143,23 @@
                 systemSettingMapper.update(neDBExample, systemSetting).then((result: any) => {
                     if (result > 0) {
                         this.setSystemSetting(systemSetting);
-                        ipcRenderer.send(APP_CLOSE_EVENT, systemSetting.quitType);
                         this.showQuitChose = false;
+                        setTimeout(
+                            () => {
+                                ipcRenderer.send(APP_CLOSE_EVENT, this.getSystemSetting.quitType);
+                            },
+                            130,
+                        );
                     }
                 });
             } else {
-                ipcRenderer.send(APP_CLOSE_EVENT, this.getSystemSetting.quitType);
                 this.showQuitChose = false;
+                setTimeout(
+                    () => {
+                        ipcRenderer.send(APP_CLOSE_EVENT, this.getSystemSetting.quitType);
+                    },
+                    130,
+                );
             }
         }
     }

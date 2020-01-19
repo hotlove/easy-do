@@ -154,7 +154,7 @@ if (isDevelopment) {
 }
 
 // 进程通信
-import {APP_CLOSE_EVENT, APP_MAX_EVENT, APP_MIN_EVENT, APP_SET_OPACITY, PUT_DATA_STORE} from '@/common/EventType';
+import {APP_CLOSE_EVENT, APP_MAX_EVENT, APP_MIN_EVENT, APP_SET_OPACITY} from '@/common/EventType';
 
 // app 关闭时间
 ipcMain.on(APP_CLOSE_EVENT, (event, args) => {
