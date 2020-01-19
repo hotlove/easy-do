@@ -7,12 +7,20 @@
                 <div class="todo-home-nav-content">
                     <!-- 导航搜索 -->
                     <div style="width: 100%; height: 30px; line-height: 30px;padding: 0 10px">
-                        <el-input v-model="todoItemSearch" placeholder="搜索" size="mini" prefix-icon="el-icon-search"
-                                  @focus="showRecentSearch">
-                            <i v-if="!showDatePicker" slot="suffix" class="el-icon-circle-close el-input__icon"
-                               style="cursor: pointer" @click="clearSearch">
-                            </i>
-                        </el-input>
+                        <el-row :gutter="10">
+                            <el-col :span="20">
+                                <el-input v-model="todoItemSearch" placeholder="搜索" size="mini" prefix-icon="el-icon-search"
+                                              @focus="showRecentSearch">
+                                    <i v-if="!showDatePicker" slot="suffix" class="el-icon-circle-close el-input__icon"
+                                       style="cursor: pointer" @click="clearSearch">
+                                    </i>
+                                </el-input>
+                            </el-col>
+                            <el-col :span="4">
+                                <el-button icon="el-icon-plus" circle size="mini" @click="showAddTask = true"></el-button>
+                            </el-col>
+                        </el-row>
+
                     </div>
 
                     <!-- 任务列表 -->
@@ -27,6 +35,7 @@
                                 <!-- 标题 时间-->
                                 <div class="task-detail-common">
                                     <span class="task-title">测试任务标题</span>
+                                    <span class="task-level"></span>
                                 </div>
 
                                 <!-- 日期 -->
@@ -62,6 +71,8 @@
                 </div>
             </div>
         </div>
+
+        <add-task :show.sync="showAddTask"></add-task>
     </div>
 </template>
 
@@ -70,11 +81,13 @@
     import {Getter, Action} from 'vuex-class';
     import CloseNavigation from '@/components/CloseNavigation.vue';
     import TodoList from '@/components/TodoList.vue';
+    import AddTask from '@/components/AddTask.vue';
 
     @Component({
         components: {
             CloseNavigation,
             TodoList,
+            AddTask,
         },
     })
     export default class Home extends Vue {
@@ -86,6 +99,7 @@
         @Action('setToken')
         public setToken !: Function;
 
+        private showAddTask: boolean = false; // 控制显示添加任务对话框
         private url = 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg';
         private todoItemSearch: string = ''; // todoitem搜索关键字
         private date: any = new Date(); // 导航日期变量
@@ -124,6 +138,18 @@
                     border-radius: 0;
                 }
 
+                .el-button.is-circle {
+                    border-radius: 0;
+                }
+
+                .el-button--mini, .el-button--small {
+                    border-radius: 0;
+                }
+
+                .el-button {
+                    border-radius: 0;
+                }
+
                 height: calc(100vh - 25px);
 
                 .todo-home-nav-task {
@@ -140,7 +166,7 @@
 
                         &:hover {
                             cursor: pointer;
-                            background: #D7D7D8;
+                            background: #e5e5e6;
                         }
 
                         .task-img {
@@ -171,13 +197,28 @@
                                 padding-left: 10px;
 
                                 .task-title {
-                                    width: 100%;
                                     display: inline-block;
                                     float: left;
                                     font-size: 12px;
                                     overflow: hidden;/*超出部分隐藏*/
                                     white-space: nowrap;/*不换行*/
                                     text-overflow: ellipsis;/*超出部分文字以...显示*/
+                                }
+
+                                .task-level {
+                                    float: right;
+                                    width: 10px;
+                                    height: 10px;
+                                    border-radius: 50px;
+                                }
+
+                                /* 紧急 */
+                                .task-level-color-emergent {
+                                    background: #ff2020;
+                                }
+                                /* 重要 */
+                                .task-level-color-important {
+                                    background: #3040FF;
                                 }
 
                                 .task-date {
