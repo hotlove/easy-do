@@ -214,11 +214,11 @@
 
                                 /* 紧急 */
                                 .task-level-color-emergent {
-                                    background: #ff2020;
+                                    background: #ff5858;
                                 }
                                 /* 重要 */
                                 .task-level-color-important {
-                                    background: #3040FF;
+                                    background: #ff9e2a;
                                 }
 
                                 .task-date {

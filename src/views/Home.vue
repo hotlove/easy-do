@@ -102,16 +102,13 @@
         // 处理系统设置
         public systemSettingHandler(): void {
             systemSettingMapper.find().then((systemSettingList: any) => {
-                console.log(systemSettingList);
                 // 如果有则取出来并 存入vuex
                 if (systemSettingList.length > 0) {
                     this.systemSetting = systemSettingList[0];
-                    console.log(this.systemSetting);
                     this.setSystemSetting(this.systemSetting);
                 } else {
                     // 如果没有则新建一个并存入vuex 也就是第一次会用到后面基本上用不到
                     let systemSettingTemp: SystemSetting = this.getSystemSetting;
-                    console.log(systemSettingTemp);
                     systemSettingTemp.code = CommonUtil.getUUID();
                     systemSettingMapper.insert(systemSettingTemp);
                     this.setSystemSetting(systemSettingTemp);
