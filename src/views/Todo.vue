@@ -25,7 +25,7 @@
 
                     <!-- 任务列表 -->
                     <div class="todo-home-nav-task">
-                        <div v-for="(item, idnex) in 10" class="task-item">
+                        <div v-for="(item) in taskList" class="task-item" :key="item._id">
                             <!-- 任务图片 -->
                             <span class="task-img">
                                 <el-avatar shape="square" :size="45" fit="fill" :src="url"></el-avatar>
@@ -34,13 +34,15 @@
                             <span class="task-content">
                                 <!-- 标题 时间-->
                                 <div class="task-detail-common">
-                                    <span class="task-title">测试任务标题</span>
-                                    <span class="task-level"></span>
+                                    <span class="task-title">{{ item.title }}</span>
+                                    <span v-if="item.level === 3" class="task-level task-level-color-emergent"></span>
+                                    <span v-if="item.level === 2" class="task-level task-level-color-important"></span>
+                                    <span v-if="item.level === 1" class="task-level"></span>
                                 </div>
 
                                 <!-- 日期 -->
                                 <div class="task-detail-common">
-                                    <span class="task-date">结束日期：{{ $moment().format('YY/MM/DD  HH:hh') }}</span>
+                                    <span class="task-date" v-if="item.endDate !== null">结束日期：{{ $moment(item.endDate).format('YY/MM/DD  HH:hh') }}</span>
                                 </div>
                             </span>
                         </div>
@@ -72,7 +74,7 @@
             </div>
         </div>
 
-        <add-task :show.sync="showAddTask"></add-task>
+        <add-task :show.sync="showAddTask" @cadd-ompleted="addTaskCompleted"></add-task>
     </div>
 </template>
 
@@ -82,6 +84,10 @@
     import CloseNavigation from '@/components/CloseNavigation.vue';
     import TodoList from '@/components/TodoList.vue';
     import AddTask from '@/components/AddTask.vue';
+    import { NeDBExample } from '../dbutil/nedbutil/NeDBExample';
+    import { TaskProperty } from '../domain/Task';
+    import { taskMapper } from '../dbutil/TaskMapper';
+    import { Task } from 'electron';
 
     @Component({
         components: {
@@ -106,6 +112,19 @@
         private showDatePicker: boolean = true; // 展示日历
         private completedControl: boolean = false; // 控制是否完成
 
+        private taskList: Task[] = [];
+
+        public mounted(): void {
+            this.getAllTask();
+        }
+        // 获取所有的任务
+        public getAllTask(): void {
+            taskMapper.find().then((taskList: any) => {
+                console.log(taskList);
+                this.taskList = taskList;
+            });
+        }
+
         // 展示最近修改东西
         public showRecentSearch(): void {
             // 1.停止展示日历切换最近修改面板
@@ -115,6 +134,10 @@
         // 清除搜索值
         public clearSearch(): void {
             this.showDatePicker = true;
+        }
+
+        public addTaskCompleted(): void {
+            this.getAllTask();
         }
 
     }

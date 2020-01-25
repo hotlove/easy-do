@@ -8,7 +8,7 @@
                     :open.sync="show">
             <div class="add-task-content" v-loading="loading" style="font-size: 12px;">
                 <el-row>
-                    <mu-text-field v-model="task.title" placeholder="任务标题" full-width></mu-text-field>
+                    <mu-text-field v-model="task.title" placeholder="输入任务标题" full-width></mu-text-field>
                 </el-row>
                 <el-row>
                     <el-col :span="8">
