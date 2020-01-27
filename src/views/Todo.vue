@@ -71,10 +71,17 @@
                         </div>
                     </div>
                 </div>
+                <span class="todo-home-open-spin" @click="openDrawer = !openDrawer">
+                    <i class="el-icon-d-arrow-left"></i>
+                </span>
             </div>
         </div>
 
-        <add-task :show.sync="showAddTask" @cadd-ompleted="addTaskCompleted"></add-task>
+        <add-task :show.sync="showAddTask" @add-completed="addTaskCompleted"></add-task>
+
+        <mu-drawer :open.sync="openDrawer" :docked="true" :right="true">
+            fasdasd
+        </mu-drawer>
     </div>
 </template>
 
@@ -85,9 +92,8 @@
     import TodoList from '@/components/TodoList.vue';
     import AddTask from '@/components/AddTask.vue';
     import { NeDBExample } from '../dbutil/nedbutil/NeDBExample';
-    import { TaskProperty } from '../domain/Task';
+    import { TaskProperty, Task } from '../domain/Task';
     import { taskMapper } from '../dbutil/TaskMapper';
-    import { Task } from 'electron';
 
     @Component({
         components: {
@@ -111,6 +117,7 @@
         private date: any = new Date(); // 导航日期变量
         private showDatePicker: boolean = true; // 展示日历
         private completedControl: boolean = false; // 控制是否完成
+        private openDrawer: boolean =  false;
 
         private taskList: Task[] = [];
 
@@ -120,8 +127,9 @@
         // 获取所有的任务
         public getAllTask(): void {
             taskMapper.find().then((taskList: any) => {
-                console.log(taskList);
-                this.taskList = taskList;
+                this.taskList = taskList.sort((a: Task, b: Task) => {
+                    return (b.createdDate - a.createdDate);
+                });
             });
         }
 
@@ -280,6 +288,26 @@
             float: right;
             background: #fcfcfc;
             padding: 25px 0 0 0;
+
+            .todo-home-open-spin {
+                position: absolute; 
+                display: inline-block;
+                right: -13px;
+                top: 50%; /*偏移*/
+                transform: translateY(-50%);
+
+                width: 30px;
+                height: 30px;
+                line-height: 29px;
+                border-radius: 50px;
+                text-align: left;
+                cursor: pointer;
+                box-shadow:0 0 10px -2px #000;
+
+                & i {
+                    margin-left: 3px;
+                }
+            }
 
             .todo-home-body-content {
                 height: calc(100vh - 20px);

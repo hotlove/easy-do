@@ -31,7 +31,7 @@
             </div>
             <div slot="actions" style="width: 100%; padding: 0 16px">
                 <div style="display: inline-block; float: left; font-size: 12px; padding-top: 3px;">
-                    <el-checkbox v-model="remeberChose">记住我的选择</el-checkbox>
+                    <el-checkbox v-model="remeberChose" class="adjust-font-size">记住我的选择</el-checkbox>
                 </div>
                 <div style="display: inline-block; float: right">
                     <el-button size="mini" type="text" @click="showQuitChose = false">取消</el-button>
@@ -206,6 +206,12 @@
             .dragger-close-item:last-child:hover {
                 background: #F45454;
             }
+        }
+    }
+
+    .adjust-font-size {
+        .el-checkbox__label {
+            font-size: 12px !important;
         }
     }
 </style>

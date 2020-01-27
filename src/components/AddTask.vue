@@ -14,6 +14,7 @@
                     <el-col :span="8">
                         <mu-popover cover :open.sync="showDate" :trigger="trigger">
                             <mu-date-picker landscape
+                                            :should-disable-date="allowedDates"
                                             @change="confirmChoseEndDate"></mu-date-picker>
                         </mu-popover>
                         <span id="endDateBtn" style="cursor: pointer;"  @click="showChoseEndDate">
@@ -54,8 +55,8 @@
 <script lang="ts">
     import {Component, Prop, Ref, Vue} from 'vue-property-decorator';
     import {Task} from '@/domain/Task';
-    import {CommonUtil} from "@/common/CommonUtil";
-    import {taskMapper} from "@/dbutil/TaskMapper";
+    import {CommonUtil} from '@/common/CommonUtil';
+    import {taskMapper} from '@/dbutil/TaskMapper';
 
     @Component
     export default class AddTask extends Vue {
@@ -98,7 +99,6 @@
         public confirmAddTask(): void {
             this.task.createdDate = new Date();
             this.task.code = CommonUtil.getUUID();
-
             this.loading = true;
             taskMapper.insert(this.task).then((result: any) => {
                 if (result._id) {
@@ -106,9 +106,7 @@
                     this.$emit('add-completed', (result as Task));
                 } else {
                     // 添加失败
-
                 }
-
                 this.loading = false;
             }, (err) => {
                 this.loading = false;
@@ -141,6 +139,15 @@
         public clearChosedDate(): void {
             this.showChoseDateValue = false;
             this.task.endDate = null;
+        }
+
+        // 禁用过期日期 
+        public allowedDates(date: Date): boolean {
+            if (date.getTime() < Date.now()) {
+                return true;
+            } else {
+                return false;
+            }
         }
 
         // 取消添加任务

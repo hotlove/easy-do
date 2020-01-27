@@ -69,6 +69,20 @@
       "unicode_decimal": 58906
     },
     {
+      "icon_id": "7352827",
+      "name": "右向箭头",
+      "font_class": "right-arrow",
+      "unicode": "e670",
+      "unicode_decimal": 58992
+    },
+    {
+      "icon_id": "7352828",
+      "name": "左向箭头",
+      "font_class": "left-arrow",
+      "unicode": "e671",
+      "unicode_decimal": 58993
+    },
+    {
       "icon_id": "12818665",
       "name": "plus",
       "font_class": "plus",

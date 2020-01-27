@@ -59,7 +59,7 @@
         public navigations: NavigationInter[] = [
             {
                 route: 'todo',
-                default: false,
+                default: true,
                 hoverName: 'item-icon-hover',
                 className: 'icon-todo',
                 tipText: 'Todo列表',
