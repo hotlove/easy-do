@@ -53,7 +53,7 @@
             <!-- todo内容列表 -->
             <div class="todo-home-body">
                 <close-navigation :height="25" :show-close="true"></close-navigation>
-                <div class="todo-home-body-content">
+                <div class="todo-home-body-content" v-if="!openDrawer">
                     <!--内容标题 用于条件控制-->
                     <div class="todo-body-title">
                         <el-radio-group v-model="completedControl" size="mini">
@@ -74,14 +74,11 @@
                 <span class="todo-home-open-spin" @click="openDrawer = !openDrawer">
                     <i class="el-icon-d-arrow-left"></i>
                 </span>
+                <task-info :show.sync="openDrawer"></task-info>
             </div>
         </div>
 
-        <add-task :show.sync="showAddTask" @add-completed="addTaskCompleted"></add-task>
-
-        <mu-drawer :open.sync="openDrawer" :docked="true" :right="true">
-            fasdasd
-        </mu-drawer>
+        <add-task :show.sync="showAddTask" @add-completed="addTaskCompleted"></add-task>    
     </div>
 </template>
 
@@ -91,6 +88,7 @@
     import CloseNavigation from '@/components/CloseNavigation.vue';
     import TodoList from '@/components/TodoList.vue';
     import AddTask from '@/components/AddTask.vue';
+    import TaskInfo from '@/components/TaskInfo.vue';
     import { NeDBExample } from '../dbutil/nedbutil/NeDBExample';
     import { TaskProperty, Task } from '../domain/Task';
     import { taskMapper } from '../dbutil/TaskMapper';
@@ -100,6 +98,7 @@
             CloseNavigation,
             TodoList,
             AddTask,
+            TaskInfo,
         },
     })
     export default class Home extends Vue {

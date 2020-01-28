@@ -140,7 +140,7 @@
             this.showChoseDateValue = false;
             this.task.endDate = null;
         }
-
+        
         // 禁用过期日期 
         public allowedDates(date: Date): boolean {
             if (date.getTime() < Date.now()) {
