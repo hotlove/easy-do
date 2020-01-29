@@ -48,11 +48,32 @@
       "unicode_decimal": 60124
     },
     {
+      "icon_id": "3708455",
+      "name": "最大化",
+      "font_class": "to-open",
+      "unicode": "e777",
+      "unicode_decimal": 59255
+    },
+    {
+      "icon_id": "4031889",
+      "name": "最小化",
+      "font_class": "to-close",
+      "unicode": "e6d6",
+      "unicode_decimal": 59094
+    },
+    {
       "icon_id": "5213510",
       "name": "消息",
       "font_class": "message",
       "unicode": "e603",
       "unicode_decimal": 58883
+    },
+    {
+      "icon_id": "5930263",
+      "name": "最小化",
+      "font_class": "to-close2",
+      "unicode": "e60e",
+      "unicode_decimal": 58894
     },
     {
       "icon_id": "6754193",

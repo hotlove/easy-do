@@ -57,6 +57,7 @@
         }
 
         .task-info-spin {
+            background: #fcfcfc;
             position: absolute; 
             display: inline-block;
             left: 0;

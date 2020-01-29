@@ -291,6 +291,7 @@
             padding: 25px 0 0 0;
 
             .todo-home-open-spin {
+                background: #fcfcfc;
                 position: absolute; 
                 display: inline-block;
                 right: 0;
