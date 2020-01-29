@@ -70,10 +70,12 @@
                             <!-- 已完成列表页 -->
                         </div>
                     </div>
+
+                    <span v-if="!openDrawer" class="todo-home-open-spin" @click="openDrawer = true">
+                        <i class="el-icon-d-arrow-left"></i>
+                    </span>
                 </div>
-                <span class="todo-home-open-spin" @click="openDrawer = !openDrawer">
-                    <i class="el-icon-d-arrow-left"></i>
-                </span>
+                
                 <task-info :show.sync="openDrawer"></task-info>
             </div>
         </div>
@@ -291,26 +293,33 @@
             .todo-home-open-spin {
                 position: absolute; 
                 display: inline-block;
-                right: -13px;
+                right: 0;
                 top: 50%; /*偏移*/
                 transform: translateY(-50%);
 
-                width: 30px;
-                height: 30px;
-                line-height: 29px;
-                border-radius: 50px;
-                text-align: left;
-                cursor: pointer;
-                box-shadow:0 0 10px -2px #000;
+                width:20px;
+                height:35px;
+                border-radius: 50px 0 0 50px;
+                line-height:35px;
+                text-align: center;
 
-                & i {
-                    margin-left: 3px;
-                }
+                // width: 30px;
+                // height: 30px;
+                // line-height: 29px;
+                // border-radius: 50px;
+                // text-align: left;
+                cursor: pointer;
+                box-shadow:0 3px 10px -2px rgba(0, 0, 0, .8);
+
+                // & i {
+                //     margin-left: 3px;
+                // }
             }
 
             .todo-home-body-content {
                 height: calc(100vh - 20px);
                 padding: 0px 10px;
+                position: relative;
 
                 .todo-body-title {
                     height: 23px;
