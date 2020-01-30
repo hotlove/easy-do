@@ -27,7 +27,7 @@
                         </span>
                     </el-col>
                     <el-col :span="16">
-                        <el-radio-group v-model="task.level" fill="red">
+                        <el-radio-group v-model="task.level">
                             <el-radio :label="1"><span class="level-font">正常</span></el-radio>
                             <el-radio :label="2" class="level-font-important"><span class="level-font level-font-important">重要</span></el-radio>
                             <el-radio :label="3" class="level-font-emergency"><span class="level-font level-font-emergency">紧急</span></el-radio>
@@ -63,10 +63,7 @@
         @Prop({ default: false })
         public show: boolean = false;
 
-        // @Ref('endDateBtn')
-        // public readonly endDateBtnRef!: any;
-        // 任务对象
-        public task: Task = {
+        public task: Task = {// 任务对象
             id: 0,
             code: '',
             title: '',
@@ -75,18 +72,10 @@
             endDate: null,
             createdDate: null,
         };
-
-        // 控制展示日期选择弹窗
-        public showDate: boolean = true;
-
-        // 控制popover
-        public trigger: any = {};
-
-        // 展示选择后的日期值
-        public showChoseDateValue: boolean = false;
-
-        // 添加任务时进度
-        public loading: boolean = false;
+        public showDate: boolean = true;// 控制展示日期选择弹窗
+        public trigger: any = {};// 控制popover
+        public showChoseDateValue: boolean = false;// 展示选择后的日期值
+        public loading: boolean = false;// 添加任务时进度
 
         public mounted(): void {
             this.$nextTick(() => {
@@ -100,6 +89,10 @@
             this.task.createdDate = new Date();
             this.task.code = CommonUtil.getUUID();
             this.loading = true;
+            if (this.task.content.trim().length > 0) {
+                this.task.content = this.task.content.replace(/\n/g, '<br/>');
+            }
+
             taskMapper.insert(this.task).then((result: any) => {
                 if (result._id) {
                     this.$emit('update:show', false);

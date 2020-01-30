@@ -2,10 +2,41 @@
     <div class="task-info-top" v-if="show" >
         <div class="task-info">
             <el-row>
-                <div style="font-size: 20px;">测试标题</div>
+                <div style="font-size: 18px; padding-left: 15px;">{{ taskInfo.title }}</div>
+                <el-divider></el-divider>
             </el-row>
             <el-row>
-
+                <el-row style="padding-left: 15px;">
+                    创建日期：{{ $moment(taskInfo.createdDate).format('YYYY-MM-DD HH:mm') }}
+                </el-row>
+                <el-row v-if="taskInfo.endDate !== null" class="task-info-item">
+                    完成日期：{{ $moment(taskInfo.endDate).format('YYYY-MM-DD HH:mm') }}
+                </el-row>
+                <el-row class="task-info-item"> 
+                    任务等级：
+                    <span v-if="taskInfo.level === 3" >
+                        <span class="task-level task-level-color-emergent"></span>
+                        <span style="color: #ff5858;">紧急</span>
+                    </span>
+                    <span v-if="taskInfo.level === 2" >
+                        <span class="task-level task-level-color-important"></span>
+                        <span style="color: #ff9e2a;">重要</span>
+                    </span>
+                    <span v-if="taskInfo.level === 1" >
+                        <span class="task-level"></span>正常
+                    </span>
+                        
+                    
+                    <!-- <el-radio-group>
+                        <el-radio :label="1"><span class="level-font">正常</span></el-radio>
+                        <el-radio :label="2" class="level-font-important"><span class="level-font level-font-important">重要</span></el-radio>
+                        <el-radio :label="3" class="level-font-emergency"><span class="level-font level-font-emergency">紧急</span></el-radio>
+                    </el-radio-group> -->
+                </el-row>
+                <el-row class="task-info-item">
+                    任务详情：
+                    <div v-html="taskInfo.content" style="margin-top: 6px;"></div>
+                </el-row>
             </el-row>
         </div>
         <span class="task-info-spin" @click="closeTaskInfo">
@@ -14,28 +45,51 @@
     </div>
 </template>
 <script lang="ts">
-    import {Component, Prop, Ref, Vue} from 'vue-property-decorator';
+    import {Component, Prop, Vue, Watch} from 'vue-property-decorator';
+    import { taskMapper } from '@/dbutil/TaskMapper';
+    import { NeDBExample } from '@/dbutil/nedbutil/NeDBExample';
+    import { TaskProperty, Task } from '@/domain/Task';
 
     @Component
     export default class TaskInfo extends Vue {
+        
         @Prop({default: false})
-        public show: boolean = false;
+        public show: boolean = false;// 控制是否展示
 
-        @Prop({default: '50px'})
-        public width: string = '50px';
+        @Prop({default: '0'})
+        public code: string = '0';// 任务code
+        
+        public taskInfo: Task = {// 任务详情
+            id: 0,
+            code: '0',
+            title: '',
+            content: '',
+            level: 1, // 1.普通 2.重要 3.紧急
+            endDate: null,
+            createdDate: null,
+        };
 
-        @Prop({default: '50px'})
-        public height: string = '50px';
-
-        // 根据不同的条件呢获取不同的动画方向
-        get direction() {
-            return this.show ? 'animated fadeInRight' : 'animated fadeInLeft';
+        @Watch('show')
+        public showTaskInfo() {
+            if (this.show) {
+                this.getTaskInfo();
+            }
         }
 
-        // 获取宽高样式
-        get widthAndHeight() {
-            // return 'width:' + this.width + ';height:' + this.height;
-            return 'width: 100vw; height: 100vh; border: 1px soid red;';
+        public getTaskInfo(): void {
+
+            if (this.code === '0') {
+                return;
+            }
+
+            let neDBExample = new NeDBExample();
+            neDBExample.createCriteria().eq(TaskProperty.code, this.code);
+
+            taskMapper.find(neDBExample).then((taskList: any) => {
+                if (taskList.length > 0) {
+                    this.taskInfo = taskList[0];
+                }
+            });
         }
 
         public closeTaskInfo(): void {
@@ -54,6 +108,66 @@
             width: 100%;
             height: 100%;
             padding: 5px 10px;
+
+            .task-info-item {
+                margin: 20px 0;
+                padding-left: 15px;
+
+                .task-level {
+                    display: inline-block;
+                    width: 15px;
+                    height: 15px;
+                    border-radius: 50px;
+                    vertical-align: text-bottom;
+                }
+
+                /* 紧急 */
+                .task-level-color-emergent {
+                    background: #ff5858;
+                }
+                /* 重要 */
+                .task-level-color-important {
+                    background: #ff9e2a;
+                }
+            }
+
+            .el-divider--horizontal {
+                margin: 12px 0;
+            }
+
+            .el-radio{
+                margin-right: 15px;
+                font-size: 12px;
+            }
+
+            .el-radio__label {
+                font-size: 12px;
+                padding-left: 5px;
+            }
+
+            .el-textarea__inner {
+                border-radius: 0;
+            }
+
+            .level-font {
+                font-size: 12px;
+            }
+
+            .level-font-important {
+                color: #ff9e2a;
+                .el-radio__input.is-checked .el-radio__inner {
+                    border-color: #ffa63d;
+                    background: #ffa63d;
+                }
+            }
+
+            .level-font-emergency {
+                color: #ff5858;
+                .el-radio__input.is-checked .el-radio__inner {
+                    border-color: #ff5858;
+                    background: #ff5858;
+                }
+            }
         }
 
         .task-info-spin {

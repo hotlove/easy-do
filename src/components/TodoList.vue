@@ -79,7 +79,7 @@
         // 获取todoitemList
         public getTodoItemList(): void {
             let neDBExample = new NeDBExample();
-            neDBExample.createCrteria().eq(TodoItemProperty.completed, false);
+            neDBExample.createCriteria().eq(TodoItemProperty.completed, false);
 
             todoItemMapper.find(neDBExample).then((todoItemList: any) => {
                 this.todoItemList = todoItemList;
@@ -112,7 +112,7 @@
         public deleteTodoItem(index: number): void {
             let todoItemEdiable = this.todoItemList[index];
             let neDBExample = new NeDBExample();
-            neDBExample.createCrteria().eq(TodoItemProperty.code, todoItemEdiable.code);
+            neDBExample.createCriteria().eq(TodoItemProperty.code, todoItemEdiable.code);
 
             todoItemMapper.delete(neDBExample).then((number) => {
                 if (number > 0) {
@@ -137,7 +137,7 @@
                 todoItem.content = todoItem.tempContent;
 
                 let example = new NeDBExample();
-                example.createCrteria().eq(TodoItemProperty.code, todoItem.code);
+                example.createCriteria().eq(TodoItemProperty.code, todoItem.code);
                 todoItemMapper.update(example, todoItem).then((number) => {
                     if (number < 1) {
                         todoItem.content = oldContent;

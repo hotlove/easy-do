@@ -4,14 +4,14 @@ class NeDBExample {
 
     private allCriteriaList: Criteria[] = [];
 
-    public createCrteria(): Criteria {
+    public createCriteria(): Criteria {
         const criteria = new Criteria();
         this.allCriteriaList.push(criteria);
         return criteria;
     }
 
     public or(): Criteria {
-        return this.createCrteria();
+        return this.createCriteria();
     }
 
     public getCriteria(): CriteriaType {

@@ -25,7 +25,8 @@
 
                     <!-- 任务列表 -->
                     <div class="todo-home-nav-task">
-                        <div v-for="(item) in taskList" class="task-item" :key="item._id">
+                        <div v-for="(item) in taskList" class="task-item" 
+                            :key="item._id" @click="choseTask(item)">
                             <!-- 任务图片 -->
                             <span class="task-img">
                                 <el-avatar shape="square" :size="45" fit="fill" :src="url"></el-avatar>
@@ -76,7 +77,7 @@
                     </span>
                 </div>
                 
-                <task-info :show.sync="openDrawer"></task-info>
+                <task-info :show.sync="openDrawer" :code="taskCode"></task-info>
             </div>
         </div>
 
@@ -91,9 +92,9 @@
     import TodoList from '@/components/TodoList.vue';
     import AddTask from '@/components/AddTask.vue';
     import TaskInfo from '@/components/TaskInfo.vue';
-    import { NeDBExample } from '../dbutil/nedbutil/NeDBExample';
-    import { TaskProperty, Task } from '../domain/Task';
-    import { taskMapper } from '../dbutil/TaskMapper';
+    import { NeDBExample } from '@/dbutil/nedbutil/NeDBExample';
+    import { TaskProperty, Task } from '@/domain/Task';
+    import { taskMapper } from '@/dbutil/TaskMapper';
 
     @Component({
         components: {
@@ -112,15 +113,32 @@
         @Action('setToken')
         public setToken !: Function;
 
-        private showAddTask: boolean = false; // 控制显示添加任务对话框
+        // 控制显示添加任务对话框
+        private showAddTask: boolean = false; 
+
+        // 默认头像
         private url = 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg';
-        private todoItemSearch: string = ''; // todoitem搜索关键字
-        private date: any = new Date(); // 导航日期变量
-        private showDatePicker: boolean = true; // 展示日历
-        private completedControl: boolean = false; // 控制是否完成
+
+        // todoitem搜索关键字
+        private todoItemSearch: string = '';
+
+        // 导航日期变量
+        private date: any = new Date();
+
+        // 展示日历
+        private showDatePicker: boolean = true;
+
+        // 控制是否完成
+        private completedControl: boolean = false;
+
+        // 控制展示任务详情
         private openDrawer: boolean =  false;
 
+        // 任务列表
         private taskList: Task[] = [];
+
+        // 任务code
+        private taskCode: string = '0';
 
         public mounted(): void {
             this.getAllTask();
@@ -132,6 +150,11 @@
                     return (b.createdDate - a.createdDate);
                 });
             });
+        }
+
+        // 选择任务
+        public choseTask(taskInfo: Task): void {
+            this.taskCode = taskInfo.code;
         }
 
         // 展示最近修改东西

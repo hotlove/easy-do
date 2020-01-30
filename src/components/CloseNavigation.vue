@@ -139,7 +139,7 @@
                 systemSetting.remeberQuit = this.remeberChose;
 
                 let neDBExample = new NeDBExample();
-                neDBExample.createCrteria().eq(SystemSettingProperty.code, systemSetting.code);
+                neDBExample.createCriteria().eq(SystemSettingProperty.code, systemSetting.code);
                 systemSettingMapper.update(neDBExample, systemSetting).then((result: any) => {
                     if (result > 0) {
                         this.setSystemSetting(systemSetting);
