@@ -35,15 +35,30 @@
                             <span class="task-content">
                                 <!-- 标题 时间-->
                                 <div class="task-detail-common">
-                                    <span class="task-title">{{ item.title }}</span>
-                                    <span v-if="item.level === 3" class="task-level task-level-color-emergent"></span>
-                                    <span v-if="item.level === 2" class="task-level task-level-color-important"></span>
-                                    <span v-if="item.level === 1" class="task-level"></span>
+                                    <el-row>
+                                        <el-col :span="21" class="task-title-container">
+                                            <span class="task-title">{{ item.title }}</span>
+                                        </el-col>
+                                        <el-col :span="3" class="task-title-right">
+                                            <span v-if="item.level === 3" class="task-level task-level-color-emergent"></span>
+                                            <span v-if="item.level === 2" class="task-level task-level-color-important"></span>
+                                            <span v-if="item.level === 1" class="task-level"></span>
+                                        </el-col>
+                                    </el-row>
                                 </div>
 
                                 <!-- 日期 -->
                                 <div class="task-detail-common">
-                                    <span class="task-date" v-if="item.endDate !== null">结束日期：{{ $moment(item.endDate).format('YY/MM/DD  HH:hh') }}</span>
+                                    <el-row>
+                                        <el-col :span="21" class="task-title-container">
+                                            <span class="task-date" v-if="item.endDate !== null">
+                                                结束日期：{{ $moment(item.endDate).format('YY/MM/DD  HH:hh') }}
+                                            </span>
+                                        </el-col>
+                                        <el-col :span="3" class="task-title-right">
+                                            <span class="task-delete el-icon-delete" @click.stop.prevent="deleteTask(item)"></span>
+                                        </el-col>
+                                    </el-row> 
                                 </div>
                             </span>
                         </div>
@@ -81,7 +96,23 @@
             </div>
         </div>
 
-        <add-task :show.sync="showAddTask" @add-completed="addTaskCompleted"></add-task>    
+        <!-- 新增任务 -->
+        <add-task :show.sync="showAddTask" @add-completed="addTaskCompleted"></add-task> 
+
+        <!-- 删除任务确认框 -->
+        <mu-dialog width="40%" max-width="80%" 
+            transition="fade"
+            :esc-press-close="false" 
+            :overlay-close="false" 
+            :overlay="false"
+            :open.sync="showDelTaskDialog">
+            <div slot="title" style="font-size: 18px;">删除任务</div>
+            是否要删除该任务？
+            <div slot="actions" style="padding: 0 16px" >
+                <el-button size="mini" type="text" @click="showDelTaskDialog = false">取消</el-button>
+                <el-button size="mini" type="text" @click="confirmDeleteTask">确认</el-button>
+            </div>
+        </mu-dialog> 
     </div>
 </template>
 
@@ -113,32 +144,18 @@
         @Action('setToken')
         public setToken !: Function;
 
-        // 控制显示添加任务对话框
-        private showAddTask: boolean = false; 
-
+        private showAddTask: boolean = false; // 控制显示添加任务对话框
         // 默认头像
         private url = 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg';
-
-        // todoitem搜索关键字
-        private todoItemSearch: string = '';
-
-        // 导航日期变量
-        private date: any = new Date();
-
-        // 展示日历
-        private showDatePicker: boolean = true;
-
-        // 控制是否完成
-        private completedControl: boolean = false;
-
-        // 控制展示任务详情
-        private openDrawer: boolean =  false;
-
-        // 任务列表
-        private taskList: Task[] = [];
-
-        // 任务code
-        private taskCode: string = '0';
+        private todoItemSearch: string = ''; // todoitem搜索关键字
+        private date: any = new Date(); // 导航日期变量
+        private showDatePicker: boolean = true; // 展示日历
+        private completedControl: boolean = false; // 控制是否完成
+        private openDrawer: boolean = false; // 控制展示任务详情
+        private taskList: Task[] = []; // 任务列表
+        private taskCode: string = '0'; // 任务code
+        private showDelTaskDialog: boolean = false; // 控制展示任务删除对话框
+        private deleteTaskCode: string = '0'; // 需要删除任务code
 
         public mounted(): void {
             this.getAllTask();
@@ -170,6 +187,22 @@
 
         public addTaskCompleted(): void {
             this.getAllTask();
+        }
+
+        public deleteTask(taskInfo: Task): void {
+            this.deleteTaskCode = taskInfo.code;
+            this.showDelTaskDialog = true;
+        }
+
+        public confirmDeleteTask(): void {
+            let neDBExample = new NeDBExample();
+            neDBExample.createCriteria().eq(TaskProperty.code, this.deleteTaskCode);
+            taskMapper.delete(neDBExample).then(number => {
+                if (number > 0) {
+                    this.getAllTask();
+                    this.showDelTaskDialog = false;
+                }
+            });
         }
 
     }
@@ -222,7 +255,13 @@
                         &:hover {
                             cursor: pointer;
                             background: #e5e5e6;
+
+                            .task-delete {
+                                display: inline-block !important;
+                            }
                         }
+
+
 
                         .task-img {
                             /*position: relative;*/
@@ -251,21 +290,34 @@
                                 line-height: 22.5px;
                                 padding-left: 10px;
 
-                                .task-title {
-                                    display: inline-block;
-                                    float: left;
-                                    font-size: 12px;
-                                    overflow: hidden;/*超出部分隐藏*/
-                                    white-space: nowrap;/*不换行*/
-                                    text-overflow: ellipsis;/*超出部分文字以...显示*/
+                                .task-title-container {
+                                    text-align: left;
+                                    height: 22.5px;
+
+                                    .task-title {
+                                        width: 100%;
+                                        display: inline-block;
+                                        font-size: 12px;
+                                        overflow: hidden;/*超出部分隐藏*/
+                                        white-space: nowrap;/*不换行*/
+                                        text-overflow: ellipsis;/*超出部分文字以...显示*/
+                                    }
                                 }
 
-                                .task-level {
-                                    float: right;
-                                    width: 10px;
-                                    height: 10px;
-                                    border-radius: 50px;
+                                
+
+                                .task-title-right {
+                                    text-align: right;
+                                    height: 22.5px;
+
+                                    .task-level {
+                                        display: inline-block;
+                                        width: 10px;
+                                        height: 10px;
+                                        border-radius: 50px;
+                                    }
                                 }
+                                
 
                                 /* 紧急 */
                                 .task-level-color-emergent {
@@ -278,9 +330,13 @@
 
                                 .task-date {
                                     display: inline-block;
-                                    float: left;
                                     font-size: 11px;
                                     color: #8c939d;
+                                }
+
+                                .task-delete {
+                                    display: none;
+                                    line-height: 22.5px;
                                 }
                             }
                         }

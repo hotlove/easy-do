@@ -17,6 +17,7 @@
         </div>
 
         <mu-dialog title="" width="280"
+                   transition="fade"
                    :overlay="false"
                    :overlay-close="false"
                    :esc-press-close="false"

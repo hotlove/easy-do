@@ -2,6 +2,7 @@
     <div>
         <!-- 添加 -->
         <mu-dialog  width="55%"
+                    transition="fade"
                     :overlay="false"
                     :overlay-close="false"
                     :esc-press-close="false"

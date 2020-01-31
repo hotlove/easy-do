@@ -10,7 +10,7 @@
                            shape="square"></el-avatar>
             </span>
             <!-- 17h 20w -->
-            <span class="home-nav-item" :class="item.default ? 'item-icon-focus' : ''" @click.prevent.stop="clickItem(item.route, index)"
+            <span class="home-nav-item home-nav-item-hover" :class="item.default ? 'item-icon-focus' : ''" @click.prevent.stop="clickItem(item.route, index)"
                   v-for="(item, index) in navigations" :key="index">
 <!--                <el-tooltip :content="item.tipText" placement="right" effect="light" :open-delay="800" popper-class="item-poptip">-->
                     <span class="iconfont item-icon"
@@ -152,6 +152,7 @@
                 border-color: transparent;
                 outline: none;
             }
+
             .home-nav-item {
                 text-align: center;
                 display: inline-block;
@@ -167,12 +168,12 @@
                 }
             }
 
-            .home-nav-item:hover {
+            .home-nav-item-hover:hover {
                 cursor: pointer;
                 background: #1d92eb;
             }
 
-            .home-nav-item:hover .item-icon-hover {
+            .home-nav-item-hover:hover .item-icon-hover {
                 color: #e4e3e4;
             }
         }
