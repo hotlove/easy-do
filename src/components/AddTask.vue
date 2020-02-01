@@ -73,10 +73,10 @@
             endDate: null,
             createdDate: null,
         };
-        public showDate: boolean = true;// 控制展示日期选择弹窗
-        public trigger: any = {};// 控制popover
-        public showChoseDateValue: boolean = false;// 展示选择后的日期值
-        public loading: boolean = false;// 添加任务时进度
+        public showDate: boolean = true; // 控制展示日期选择弹窗
+        public trigger: any = {}; // 控制popover
+        public showChoseDateValue: boolean = false; // 展示选择后的日期值
+        public loading: boolean = false; // 添加任务时进度
 
         public mounted(): void {
             this.$nextTick(() => {
@@ -102,9 +102,7 @@
                     // 添加失败
                 }
                 this.loading = false;
-            }, (err) => {
-                this.loading = false;
-            });
+            }, (err) => { this.loading = false; });
         }
 
         // 界面操作----------------------------------------------------------
@@ -133,8 +131,8 @@
         public clearChosedDate(): void {
             this.showChoseDateValue = false;
             this.task.endDate = null;
-        }
-        // 禁用过期日期 
+        }        
+        //禁用过期日期 
         public allowedDates(date: Date): boolean {
             if (date.getTime() < Date.now()) {
                 return true;

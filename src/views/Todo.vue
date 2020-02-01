@@ -9,8 +9,10 @@
                     <div style="width: 100%; height: 30px; line-height: 30px;padding: 0 10px">
                         <el-row :gutter="10">
                             <el-col :span="20">
-                                <el-input v-model="todoItemSearch" placeholder="搜索" size="mini" prefix-icon="el-icon-search"
-                                              @focus="showRecentSearch">
+                                <el-input v-model="todoItemSearch"
+                                          placeholder="搜索" size="mini"
+                                          prefix-icon="el-icon-search"
+                                          @focus="showRecentSearch">
                                     <i v-if="!showDatePicker" slot="suffix" class="el-icon-circle-close el-input__icon"
                                        style="cursor: pointer" @click="clearSearch">
                                     </i>
@@ -25,8 +27,9 @@
 
                     <!-- 任务列表 -->
                     <div class="todo-home-nav-task">
-                        <div v-for="(item) in taskList" class="task-item" 
-                            :key="item._id" @click="choseTask(item)">
+                        <div v-for="(item, index) in taskList" class="task-item"
+                            :class="(index === currentTaskIndex) ? 'current-chose-task' : 'task-item-hover'"
+                            :key="item._id" @click="choseTask(item, index)">
                             <!-- 任务图片 -->
                             <span class="task-img">
                                 <el-avatar shape="square" :size="45" fit="fill" :src="url"></el-avatar>
@@ -69,7 +72,7 @@
             <!-- todo内容列表 -->
             <div class="todo-home-body">
                 <close-navigation :height="25" :show-close="true"></close-navigation>
-                <div class="todo-home-body-content" v-if="!openDrawer">
+                <div class="todo-home-body-content" v-if="!openDrawer && (taskCode !== '0')">
                     <!--内容标题 用于条件控制-->
                     <div class="todo-body-title">
                         <el-radio-group v-model="completedControl" size="mini">
@@ -80,7 +83,7 @@
                     <div class="todo-body-content-list">
                         <div class="todo-uncompleted todo-container" v-if="!completedControl">
                             <!-- to-do未完成列表页 -->
-                            <todo-list></todo-list>
+                            <todo-list :task-code="taskCode"></todo-list>
                         </div>
                         <div class="todo-completed todo-container" v-if="completedControl">
                             <!-- 已完成列表页 -->
@@ -154,8 +157,13 @@
         private openDrawer: boolean = false; // 控制展示任务详情
         private taskList: Task[] = []; // 任务列表
         private taskCode: string = '0'; // 任务code
+        private currentTaskIndex: number = -1; // 默认选择的任务索引
         private showDelTaskDialog: boolean = false; // 控制展示任务删除对话框
         private deleteTaskCode: string = '0'; // 需要删除任务code
+
+        // get currentTaskCode() {
+        //     return this.taskCode;
+        // }
 
         public mounted(): void {
             this.getAllTask();
@@ -170,7 +178,8 @@
         }
 
         // 选择任务
-        public choseTask(taskInfo: Task): void {
+        public choseTask(taskInfo: Task, index: number): void {
+            this.currentTaskIndex = index;
             this.taskCode = taskInfo.code;
         }
 
@@ -197,14 +206,13 @@
         public confirmDeleteTask(): void {
             let neDBExample = new NeDBExample();
             neDBExample.createCriteria().eq(TaskProperty.code, this.deleteTaskCode);
-            taskMapper.delete(neDBExample).then(number => {
+            taskMapper.delete(neDBExample).then( number => {
                 if (number > 0) {
                     this.getAllTask();
                     this.showDelTaskDialog = false;
                 }
             });
         }
-
     }
 </script>
 <style lang="scss">
@@ -246,6 +254,13 @@
                     margin-top: 15px;
                     padding-bottom: 8px;
 
+                    .current-chose-task {
+                        background: #d4d3d3;
+                    }
+                    .task-item-hover:hover {
+                        cursor: pointer;
+                        background: #e5e5e6;
+                    }
                     .task-item {
                         /*float: left;*/
                         /*width: 100%;*/
@@ -253,8 +268,9 @@
                         padding: 10px;
 
                         &:hover {
-                            cursor: pointer;
-                            background: #e5e5e6;
+                            // cursor: pointer;
+                            // background: #e5e5e6;
+
 
                             .task-delete {
                                 display: inline-block !important;
@@ -312,8 +328,8 @@
 
                                     .task-level {
                                         display: inline-block;
-                                        width: 10px;
-                                        height: 10px;
+                                        width: 13px;
+                                        height: 13px;
                                         border-radius: 50px;
                                     }
                                 }

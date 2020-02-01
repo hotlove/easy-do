@@ -51,15 +51,14 @@
     import { TaskProperty, Task } from '@/domain/Task';
 
     @Component
-    export default class TaskInfo extends Vue {
-        
+    export default class TaskInfo extends Vue {        
         @Prop({default: false})
-        public show: boolean = false;// 控制是否展示
+        public show: boolean = false; // 控制是否展示
 
         @Prop({default: '0'})
-        public code: string = '0';// 任务code
+        public code: string = '0'; // 任务code
         
-        public taskInfo: Task = {// 任务详情
+        public taskInfo: Task = { // 任务详情
             id: 0,
             code: '0',
             title: '',

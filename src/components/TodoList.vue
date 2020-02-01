@@ -46,7 +46,7 @@
     </div>
 </template>
 <script lang="ts">
-    import {Component, Vue, Watch} from 'vue-property-decorator';
+    import {Component, Vue, Watch, Prop} from 'vue-property-decorator';
     import {TodoItemEdiable, TodoItemProperty} from '@/domain/TodoItem';
     import {todoItemMapper} from '@/dbutil';
     import {CommonUtil} from '@/common/CommonUtil';
@@ -54,6 +54,8 @@
 
     @Component
     export default class TodoList extends Vue {
+        @Prop({default: '0'})
+        public taskCode: string = '0'; // 任务code
 
         private todoItem: string = ''; // 填写得内容
 
@@ -62,6 +64,13 @@
         private uncompletedStyle: any = { // 未完成todo列表样式 用于自动控制高度
             height: 'calc(100vh - 115px)',
         };
+
+        @Watch('taskCode')
+        public onTaskCodeChanage(newValue: string, oldValue: string) {
+            console.log(newValue);
+            console.log(oldValue);
+            this.getTodoItemList();
+        }
 
         // 控制修改todo列表高度值
         @Watch('uncompletedStyle')
@@ -73,13 +82,16 @@
 
         // 声明钩子函数
         public mounted() {
+            console.log('-----------');
+            // this.parentTaskCode = this.taskCode;
             this.getTodoItemList();
         }
 
         // 获取todoitemList
         public getTodoItemList(): void {
             let neDBExample = new NeDBExample();
-            neDBExample.createCriteria().eq(TodoItemProperty.completed, false);
+            neDBExample.createCriteria().eq(TodoItemProperty.completed, false)
+                .eq(TodoItemProperty.taskCode, this.taskCode);
 
             todoItemMapper.find(neDBExample).then((todoItemList: any) => {
                 this.todoItemList = todoItemList;
@@ -93,6 +105,7 @@
                 let todoItem: TodoItemEdiable = {
                     id: 0,
                     code: CommonUtil.getUUID(),
+                    taskCode: this.taskCode,
                     content: this.todoItem,
                     completed: false,
                     createdDate: new Date(),
