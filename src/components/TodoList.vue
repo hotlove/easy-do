@@ -1,46 +1,63 @@
 <template>
-    <div class="todo-list" @click="updateToItemEdit($event)">
-        <!-- 头部数据框 -->
-        <div class="todo-uncompleted-input">
-            <el-input type="textarea"
-                      ref="todoInput"
-                      autosize
-                      placeholder="请输入内容"
-                      @input.native="heightMonitor"
-                      @keyup.enter.native.prevent="addNewTodoItem"
-                      @keydown.native="preventEnter($event)"
-                      v-model="todoItem"/>
+    <div>
+        <!--内容标题 用于条件控制-->
+        <div class="todo-body-title">
+            <el-radio-group v-model="completedControl" size="mini">
+                <el-radio-button :label="false">Todo</el-radio-button>
+                <el-radio-button :label="true">Done</el-radio-button>
+            </el-radio-group>
         </div>
+        <div class="todo-body-content-list">
+            <div class="todo-uncompleted todo-container" v-show="!completedControl">
+                <!-- to-do未完成列表页 -->
+                <div class="todo-list" @click="updateToItemEdit($event)">
+                    <!-- 头部数据框 -->
+                    <div class="todo-uncompleted-input">
+                        <el-input type="textarea"
+                                  ref="todoInput"
+                                  autosize
+                                  placeholder="请输入内容"
+                                  @input.native="heightMonitor"
+                                  @keyup.enter.native.prevent="addNewTodoItem"
+                                  @keydown.native="preventEnter($event)"
+                                  v-model="todoItem"/>
+                    </div>
 
-        <!-- 列表 -->
-        <div class="todo-uncompleted-list" :style="uncompletedStyle">
-            <!-- todoitem 列表块 -->
-            <div class="todo-list-item" v-for="(item, index) in todoItemList" :key="index">
-                <!-- todoitem未编辑 -->
-                <div v-if="!item.edit" class="todo-item-unedit">
-                    <!-- todoitemdot -->
-                    <span class="todo-list-item-mark">
+                    <!-- 列表 -->
+                    <div class="todo-uncompleted-list" :style="uncompletedStyle">
+                        <!-- todoitem 列表块 -->
+                        <div class="todo-list-item" v-for="(item, index) in todoItemList" :key="index">
+                            <!-- todoitem未编辑 -->
+                            <div v-if="!item.edit" class="todo-item-unedit">
+                                <!-- todoitemdot -->
+                                <span class="todo-list-item-mark">
                         <span class="todo-list-item-dot"></span>
                     </span>
-                    <!-- todoitem内容 -->
-                    <span class="todo-list-item-content"
-                          :class="item.completed ? 'todo-list-item-content-completed' : ''"
-                          v-html="item.content" @click="editTodoItem(item)"></span>
-                    <!-- todoitem操作 -->
-                    <span class="todo-item-oper">
+                                <!-- todoitem内容 -->
+                                <span class="todo-list-item-content"
+                                      :class="item.completed ? 'todo-list-item-content-completed' : ''"
+                                      v-html="item.content" @click="editTodoItem(item)"></span>
+                                <!-- todoitem操作 -->
+                                <span class="todo-item-oper">
                         <i class="iconfont icon-check" @click="markTodoCompleted(item)"></i>
                         <i class="iconfont icon-minimum" @click="deleteTodoItem(index)"></i>
                     </span>
+                            </div>
+                            <!-- todoitem编辑 -->
+                            <div v-if="item.edit" class="todo-uncompleted-input">
+                                <el-input type="textarea"
+                                          autosize
+                                          @input.native="heightMonitor"
+                                          @keyup.enter.native.prevent="confirmEditTodo(item)"
+                                          @keydown.native="preventEnter($event)"
+                                          v-model="item.tempContent"/>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <!-- todoitem编辑 -->
-                <div v-if="item.edit" class="todo-uncompleted-input">
-                    <el-input type="textarea"
-                              autosize
-                              @input.native="heightMonitor"
-                              @keyup.enter.native.prevent="confirmEditTodo(item)"
-                              @keydown.native="preventEnter($event)"
-                              v-model="item.tempContent"/>
-                </div>
+            </div>
+            <div class="todo-completed todo-container" v-show="completedControl">
+                <!-- 已完成列表页 -->
             </div>
         </div>
     </div>
@@ -61,14 +78,14 @@
 
         private todoItemList: TodoItemEdiable[] = []; // todoitem列表
 
+        private completedControl: boolean = false; // 控制是否完成
+
         private uncompletedStyle: any = { // 未完成todo列表样式 用于自动控制高度
             height: 'calc(100vh - 115px)',
         };
 
-        @Watch('taskCode')
+        @Watch('taskCode', {immediate: true})
         public onTaskCodeChanage(newValue: string, oldValue: string) {
-            console.log(newValue);
-            console.log(oldValue);
             this.getTodoItemList();
         }
 
@@ -82,9 +99,7 @@
 
         // 声明钩子函数
         public mounted() {
-            console.log('-----------');
-            // this.parentTaskCode = this.taskCode;
-            this.getTodoItemList();
+            // this.getTodoItemList();
         }
 
         // 获取todoitemList
@@ -223,6 +238,13 @@
         min-width: 250px;
         height: 20px;
         border-radius: 2px;
+    }
+    .todo-body-title {
+        height: 23px;
+
+        .el-radio-button__inner {
+            border-radius: 0;
+        }
     }
     .todo-list {
         .todo-uncompleted-input {
