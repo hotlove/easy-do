@@ -8,7 +8,7 @@
             </el-radio-group>
         </div>
         <div class="todo-body-content-list">
-            <div class="todo-uncompleted todo-container" v-show="!completedControl">
+            <div class="todo-uncompleted todo-container" v-if="!completedControl">
                 <!-- to-do未完成列表页 -->
                 <div class="todo-list" @click="updateToItemEdit($event)">
                     <!-- 头部数据框 -->
@@ -31,17 +31,17 @@
                             <div v-if="!item.edit" class="todo-item-unedit">
                                 <!-- todoitemdot -->
                                 <span class="todo-list-item-mark">
-                        <span class="todo-list-item-dot"></span>
-                    </span>
+                                    <span class="todo-list-item-dot"></span>
+                                </span>
                                 <!-- todoitem内容 -->
                                 <span class="todo-list-item-content"
                                       :class="item.completed ? 'todo-list-item-content-completed' : ''"
                                       v-html="item.content" @click="editTodoItem(item)"></span>
                                 <!-- todoitem操作 -->
                                 <span class="todo-item-oper">
-                        <i class="iconfont icon-check" @click="markTodoCompleted(item)"></i>
-                        <i class="iconfont icon-minimum" @click="deleteTodoItem(index)"></i>
-                    </span>
+                                    <i class="iconfont icon-check" @click="markTodoCompleted(item, index)"></i>
+                                    <i class="iconfont icon-minimum" @click="deleteTodoItem(index)"></i>
+                                </span>
                             </div>
                             <!-- todoitem编辑 -->
                             <div v-if="item.edit" class="todo-uncompleted-input">
@@ -56,15 +56,45 @@
                     </div>
                 </div>
             </div>
-            <div class="todo-completed todo-container" v-show="completedControl">
-                <!-- 已完成列表页 -->
+            <div class="todo-completed todo-container" v-if="completedControl">
+                <!-- 列表 -->
+                <div class="todo-uncompleted-list" :style="uncompletedStyle">
+                    <!-- todoitem 列表块 -->
+                    <div class="todo-list-item" v-for="(item, index) in todoItemList" :key="index">
+                        <!-- todoitem未编辑 -->
+                        <div v-if="!item.edit" class="todo-item-unedit">
+                            <!-- todoitemdot -->
+                            <span class="todo-list-item-mark">
+                                    <span class="todo-list-item-dot"></span>
+                                </span>
+                            <!-- todoitem内容 -->
+                            <span class="todo-list-item-content"
+                                  :class="item.completed ? 'todo-list-item-content-completed' : ''"
+                                  v-html="item.content" @click="editTodoItem(item)"></span>
+                            <!-- todoitem操作 -->
+                            <span class="todo-item-oper">
+                                    <i class="iconfont icon-check" @click="markTodoCompleted(item, index)"></i>
+                                    <i class="iconfont icon-minimum" @click="deleteTodoItem(index)"></i>
+                                </span>
+                        </div>
+                        <!-- todoitem编辑 -->
+                        <div v-if="item.edit" class="todo-uncompleted-input">
+                            <el-input type="textarea"
+                                      autosize
+                                      @input.native="heightMonitor"
+                                      @keyup.enter.native.prevent="confirmEditTodo(item)"
+                                      @keydown.native="preventEnter($event)"
+                                      v-model="item.tempContent"/>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </template>
 <script lang="ts">
     import {Component, Vue, Watch, Prop} from 'vue-property-decorator';
-    import {TodoItemEdiable, TodoItemProperty} from '@/domain/TodoItem';
+    import {TodoItem, TodoItemEdiable, TodoItemProperty} from '@/domain/TodoItem';
     import {todoItemMapper} from '@/dbutil';
     import {CommonUtil} from '@/common/CommonUtil';
     import {NeDBExample} from '@/dbutil/nedbutil/NeDBExample';
@@ -86,6 +116,7 @@
 
         @Watch('taskCode', {immediate: true})
         public onTaskCodeChanage(newValue: string, oldValue: string) {
+            this.completedControl = false;
             this.getTodoItemList();
         }
 
@@ -197,9 +228,24 @@
         }
 
         // 点击事件修改todo完成状态
-        public markTodoCompleted(todoItem: TodoItemEdiable): void {
+        public markTodoCompleted(todoItem: TodoItemEdiable, index: number): void {
             todoItem.completed = !todoItem.completed;
             this.checkAndUpateTodoItem(todoItem);
+
+            let neDBExample = new NeDBExample();
+            neDBExample.createCriteria().eq(TodoItemProperty.code, todoItem.code);
+
+            if (todoItem.completed) {
+                todoItem.completedDate = new Date();
+            } else {
+                todoItem.completedDate = new Date(0);
+            }
+
+            todoItemMapper.update(neDBExample, todoItem).then( result => {
+                if (result > 0) {
+                    this.todoItemList.splice(index, 1);
+                }
+            });
         }
 
         // 检测并更新todo 完成状态
