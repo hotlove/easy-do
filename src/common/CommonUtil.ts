@@ -1,4 +1,5 @@
 class CommonUtil {
+    // 获取UUID
     public static getUUID(): string {
         let s: any = [];
         let hexDigits: string = '0123456789abcdef';
@@ -11,6 +12,17 @@ class CommonUtil {
 
         let uuid: string = s.join('');
         return uuid;
+    }
+
+    // 分组
+    public static groupBy(list: any, fn: Function): any {
+        const groups: any = {};
+        list.forEach((item: any) => {
+            const group = fn(item);
+            groups[group] = groups[group] || [];
+            groups[group].push(item);
+        });
+        return groups;
     }
 }
 export {

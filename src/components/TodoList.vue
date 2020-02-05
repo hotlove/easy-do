@@ -2,7 +2,7 @@
     <div>
         <!--内容标题 用于条件控制-->
         <div class="todo-body-title">
-            <el-radio-group v-model="completedControl" size="mini">
+            <el-radio-group v-model="completedControl" size="mini" @change="changeRadio">
                 <el-radio-button :label="false">Todo</el-radio-button>
                 <el-radio-button :label="true">Done</el-radio-button>
             </el-radio-group>
@@ -35,7 +35,6 @@
                                 </span>
                                 <!-- todoitem内容 -->
                                 <span class="todo-list-item-content"
-                                      :class="item.completed ? 'todo-list-item-content-completed' : ''"
                                       v-html="item.content" @click="editTodoItem(item)"></span>
                                 <!-- todoitem操作 -->
                                 <span class="todo-item-oper">
@@ -57,34 +56,30 @@
                 </div>
             </div>
             <div class="todo-completed todo-container" v-if="completedControl">
-                <!-- 列表 -->
-                <div class="todo-uncompleted-list" :style="uncompletedStyle">
-                    <!-- todoitem 列表块 -->
-                    <div class="todo-list-item" v-for="(item, index) in todoItemList" :key="index">
-                        <!-- todoitem未编辑 -->
-                        <div v-if="!item.edit" class="todo-item-unedit">
-                            <!-- todoitemdot -->
-                            <span class="todo-list-item-mark">
-                                    <span class="todo-list-item-dot"></span>
-                                </span>
-                            <!-- todoitem内容 -->
-                            <span class="todo-list-item-content"
-                                  :class="item.completed ? 'todo-list-item-content-completed' : ''"
-                                  v-html="item.content" @click="editTodoItem(item)"></span>
-                            <!-- todoitem操作 -->
-                            <span class="todo-item-oper">
-                                    <i class="iconfont icon-check" @click="markTodoCompleted(item, index)"></i>
-                                    <i class="iconfont icon-minimum" @click="deleteTodoItem(index)"></i>
-                                </span>
-                        </div>
-                        <!-- todoitem编辑 -->
-                        <div v-if="item.edit" class="todo-uncompleted-input">
-                            <el-input type="textarea"
-                                      autosize
-                                      @input.native="heightMonitor"
-                                      @keyup.enter.native.prevent="confirmEditTodo(item)"
-                                      @keydown.native="preventEnter($event)"
-                                      v-model="item.tempContent"/>
+                <!-- to-do未完成列表页 -->
+                <div class="todo-list">
+                    <!-- 列表 -->
+                    <div class="todo-uncompleted-list" :style="uncompletedStyle">
+                        <!-- todoitem 列表块 -->
+                        <div v-for="(item, date) in completedTodoList" :key="date">
+                            <!-- todoitem未编辑 -->
+                            <div class="todo-item-unedit">
+                                <div style="padding-left: 8px; color: #8b8b8b; font-size: 16px;">{{ date }}</div>
+                                <div v-for="(e, i) in item" :key="i" class="todo-list-item" >
+                                    <!-- todoitemdot -->
+                                    <span class="todo-list-item-mark">
+                                        <span class="todo-list-item-dot"></span>
+                                    </span>
+                                    <!-- todoitem内容 -->
+                                    <span class="todo-list-item-content"
+                                          v-html="e.content"></span>
+                                    <!-- todoitem操作 -->
+                                    <span class="todo-item-oper">
+                                        <i class="iconfont icon-reback" @click="rebackTodoItem(e, date, i)"></i>
+                                        <i class="iconfont icon-minimum" @click="deleteCompletedTodoItem(date, i)"></i>
+                                    </span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -110,6 +105,8 @@
 
         private completedControl: boolean = false; // 控制是否完成
 
+        private completedTodoList: any = {};
+
         private uncompletedStyle: any = { // 未完成todo列表样式 用于自动控制高度
             height: 'calc(100vh - 115px)',
         };
@@ -133,6 +130,17 @@
             // this.getTodoItemList();
         }
 
+        // radio 切换
+        public changeRadio(label: boolean): void {
+            if (!label) {
+                // 说明查询未完成
+                this.getTodoItemList();
+            } else {
+                // 查询已完成
+                this.getTodoItemCompltedList();
+            }
+        }
+
         // 获取todoitemList
         public getTodoItemList(): void {
             let neDBExample = new NeDBExample();
@@ -141,6 +149,25 @@
 
             todoItemMapper.find(neDBExample).then((todoItemList: any) => {
                 this.todoItemList = todoItemList;
+            });
+        }
+
+        public getTodoItemCompltedList(): void {
+            let neDBExample = new NeDBExample();
+            neDBExample.createCriteria().eq(TodoItemProperty.completed, true)
+                .eq(TodoItemProperty.taskCode, this.taskCode);
+
+            todoItemMapper.find(neDBExample).then((todoItemList: any) => {
+                if (todoItemList.length > 0) {
+                    let completedTodolist =
+                        todoItemList.sort((a: TodoItemEdiable, b: TodoItemEdiable) => a.completedDate < b.completedDate);
+
+                    this.completedTodoList = CommonUtil
+                        .groupBy(completedTodolist,
+                                 (item: TodoItemEdiable) => this.$moment(item.completedDate).format('YYYY-MM-DD'));
+                } else {
+                    this.completedTodoList = {};
+                }
             });
         }
 
@@ -165,6 +192,35 @@
                 todoItemMapper.insert(todoItem).then((value) => {}, (err) => err);
                 this.todoItem = '';
             }
+        }
+
+        // 撤销TODO完成
+        public rebackTodoItem(todoItem: TodoItemEdiable, key: string, index: number): void {
+            todoItem.completed = !todoItem.completed;
+            todoItem.completedDate = new Date();
+
+            let neDBExample = new NeDBExample();
+            neDBExample.createCriteria().eq(TodoItemProperty.code, todoItem.code);
+
+            todoItemMapper.update(neDBExample, todoItem).then( result => {
+                if (result > 0) {
+                    // this.completedTodoList[key].splice(index, 1);
+                    this.getTodoItemCompltedList();
+                }
+            });
+        }
+
+        // 删除未完成todo
+        public deleteCompletedTodoItem(key: string, index: number): void {
+            let todoItemEdiable = this.completedTodoList[key][index];
+            let neDBExample = new NeDBExample();
+            neDBExample.createCriteria().eq(TodoItemProperty.code, todoItemEdiable.code);
+
+            todoItemMapper.delete(neDBExample).then((number) => {
+                if (number > 0) {
+                    this.getTodoItemCompltedList();
+                }
+            });
         }
 
         // 删除todo
@@ -234,12 +290,6 @@
 
             let neDBExample = new NeDBExample();
             neDBExample.createCriteria().eq(TodoItemProperty.code, todoItem.code);
-
-            if (todoItem.completed) {
-                todoItem.completedDate = new Date();
-            } else {
-                todoItem.completedDate = new Date(0);
-            }
 
             todoItemMapper.update(neDBExample, todoItem).then( result => {
                 if (result > 0) {

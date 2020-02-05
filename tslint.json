@@ -33,6 +33,7 @@
     "prefer-for-of":true,// 如果for循环中没有使用索引，建议是使用for-of
     "prefer-const": false, // 优先使用 const 声明变量
     // 功能特性
+    "no-trailing-whitespace": false,
     "no-namespace":false,
     "only-arrow-functions":false, //禁止使用传统（非箭头）函数表达式
     "no-shadowed-variable": true, // 不允许子作用域与外层作用域声明同名变量

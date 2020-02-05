@@ -4,7 +4,7 @@
             <!-- todo导航 -->
             <div class="todo-home-nav">
                 <close-navigation :height="25"></close-navigation>
-                <todo-navigation @chose-task="choseTask"></todo-navigation>
+                <todo-navigation @chose-task="choseTask" @task-delete="taskDelete"></todo-navigation>
             </div>
 
             <!-- todo内容列表 -->
@@ -57,6 +57,10 @@
 
         public choseTask(taskCode: string): void {
             this.taskCode = taskCode;
+        }
+
+        public taskDelete(): void {
+            this.taskCode = '0';
         }
     }
 </script>

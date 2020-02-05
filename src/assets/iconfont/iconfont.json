@@ -123,6 +123,13 @@
       "font_class": "check",
       "unicode": "e7e8",
       "unicode_decimal": 59368
+    },
+    {
+      "icon_id": "12859534",
+      "name": "撤销",
+      "font_class": "reback",
+      "unicode": "e649",
+      "unicode_decimal": 58953
     }
   ]
 }

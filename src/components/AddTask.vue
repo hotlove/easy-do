@@ -134,7 +134,7 @@
         }        
         //禁用过期日期 
         public allowedDates(date: Date): boolean {
-            if (date.getTime() < Date.now()) {
+            if (date.getTime() < (Date.now() - 3600 * 24)) {
                 return true;
             } else {
                 return false;

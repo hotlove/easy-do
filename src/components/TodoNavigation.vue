@@ -45,7 +45,7 @@
                         </el-row>
                     </div>
 
-                        <!-- 日期 -->
+                    <!-- 日期 -->
                     <div class="task-detail-common">
                         <el-row>
                             <el-col :span="21" class="task-title-container">
@@ -138,6 +138,7 @@
                 if (number > 0) {
                     this.getAllTask();
                     this.showDelTaskDialog = false;
+                    this.$emit('task-delete')
                 }
             });
         }
@@ -204,6 +205,7 @@
 
 
                     .task-delete {
+                        cursor: pointer;
                         display: inline-block !important;
                     }
                 }
