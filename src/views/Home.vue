@@ -30,7 +30,7 @@
     import {NavigationInter} from '@/types';
     import {Getter, Action} from 'vuex-class';
     import Music from '@/components/Music.vue';
-    import TodoList from '@/components/TodoList.vue';
+    import TodoList from '@/components/taskandtodo/TodoList.vue';
     import CloseNavigation from '@/components/CloseNavigation.vue';
     import {SystemSetting} from '@/domain/SystemSetting';
     import {systemSettingMapper} from '@/dbutil';
@@ -65,11 +65,11 @@
                 tipText: 'Todo列表',
             },
             {
-                route: 'setting',
+                route: 'sign',
                 default: false,
                 hoverName: 'item-icon-hover',
-                className: 'icon-task',
-                tipText: '任务列表',
+                className: 'icon-sigin',
+                tipText: '我的打卡',
             },
             {
                 route: '',

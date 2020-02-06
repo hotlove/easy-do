@@ -84,7 +84,7 @@
 </template>
 <script lang="ts">
     import {Component, Vue} from 'vue-property-decorator';
-    import AddTask from '@/components/AddTask.vue';
+    import AddTask from '@/components/taskandtodo/AddTask.vue';
     import {Task, TaskProperty} from '@/domain/Task';
     import {NeDBExample} from '@/dbutil/nedbutil/NeDBExample';
     import {taskMapper} from '@/dbutil/TaskMapper';

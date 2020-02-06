@@ -17,6 +17,11 @@ const routes = [
                 component: () => import('@/views/Todo.vue'),
             },
             {
+                path: '/sign',
+                name: 'sign',
+                component: () => import('@/views/SignHome.vue'),
+            },
+            {
                 path: '/setting',
                 name: 'setting',
                 component: () => import('@/views/Setting.vue'),

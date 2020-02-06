@@ -27,10 +27,10 @@
     import {Component, Vue} from 'vue-property-decorator';
     import {Getter, Action} from 'vuex-class';
     import CloseNavigation from '@/components/CloseNavigation.vue';
-    import TodoList from '@/components/TodoList.vue';
+    import TodoList from '@/components/taskandtodo/TodoList.vue';
 
-    import TaskInfo from '@/components/TaskInfo.vue';
-    import TodoNavigation from '@/components/TodoNavigation.vue';
+    import TaskInfo from '@/components/taskandtodo/TaskInfo.vue';
+    import TodoNavigation from '@/components/taskandtodo/TodoNavigation.vue';
 
     @Component({
         components: {

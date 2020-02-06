@@ -76,6 +76,13 @@
       "unicode_decimal": 58894
     },
     {
+      "icon_id": "6694049",
+      "name": "签到",
+      "font_class": "sigin",
+      "unicode": "e6c3",
+      "unicode_decimal": 59075
+    },
+    {
       "icon_id": "6754193",
       "name": "关 闭",
       "font_class": "close",
