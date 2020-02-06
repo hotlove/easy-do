@@ -17,7 +17,7 @@
                         <i class="el-icon-d-arrow-left"></i>
                     </span>
                 </div>
-                <task-info :show.sync="openDrawer" :code="taskCode"></task-info>
+                <task-info v-if="taskCode !== '0'" :show.sync="openDrawer" :code="taskCode"></task-info>
             </div>
         </div>
     </div>

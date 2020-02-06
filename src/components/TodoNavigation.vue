@@ -138,7 +138,7 @@
                 if (number > 0) {
                     this.getAllTask();
                     this.showDelTaskDialog = false;
-                    this.$emit('task-delete')
+                    this.$emit('task-delete');
                 }
             });
         }
