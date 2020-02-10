@@ -64,7 +64,9 @@
                         <div v-for="(item, date) in completedTodoList" :key="date">
                             <!-- todoitem未编辑 -->
                             <div class="todo-item-unedit">
-                                <div style="padding-left: 8px; color: #8b8b8b; font-size: 16px;">{{ date }}</div>
+                                <div style="padding-left: 8px; color: #8b8b8b; font-size: 16px;">
+                                    {{ $moment(date).format('dddd YYYY-MM-DD') }}
+                                </div>
                                 <div v-for="(e, i) in item" :key="i" class="todo-list-item" >
                                     <!-- todoitemdot -->
                                     <span class="todo-list-item-mark">

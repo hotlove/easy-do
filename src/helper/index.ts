@@ -3,10 +3,13 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import lodash from 'lodash';
 import moment from 'moment';
+import './moment-locale'; // 中文支持
 import MuseUI from 'muse-ui';
 import 'muse-ui/dist/muse-ui.css';
 import Vue, {VueConstructor} from 'vue';
 
+// 设置为中文
+moment.locale('zh-ch');
 
 // muse-ui
 Vue.use(MuseUI);
