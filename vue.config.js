@@ -43,6 +43,9 @@ module.exports = {
                     ],
                     "legalTrademarks": "easy-do"
                 },
+                "linux": {
+                    "icon": "./static/e-do-blue.png"
+                },
                 "nsis": {
                     "perMachine": true, // 安装的时候是否为所有用户安装
                     "oneClick": false, // 是否一键安装
