@@ -14,7 +14,19 @@ const routes = [
             {
                 path: '/todo',
                 name: 'todo',
-                component: () => import('@/views/Todo.vue'),
+                component: () => import('@/views/todo/Todo.vue'),
+                children: [
+                    {
+                        path: '/todo-list',
+                        name: 'todo-list',
+                        component: () => import('@/views/todo/TodoListNew.vue'),
+                    },
+                    {
+                        path: '/todo-done-list',
+                        name: 'todo-done-list',
+                        component: () => import('@/views/todo/TodoDoneList.vue'),
+                    },
+                ],
             },
             {
                 path: '/sign',

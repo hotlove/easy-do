@@ -4,20 +4,16 @@
             <!-- todo导航 -->
             <div class="todo-home-nav">
                 <close-navigation :height="25"></close-navigation>
-                <todo-navigation @chose-task="choseTask" @task-delete="taskDelete"></todo-navigation>
+                <todo-navigation-new></todo-navigation-new>
             </div>
 
             <!-- todo内容列表 -->
             <div class="todo-home-body">
                 <close-navigation :height="25" :show-close="true"></close-navigation>
-                <div class="todo-home-body-content" v-show="!openDrawer && (taskCode !== '0')">
+                <div class="todo-home-body-content">
                     <!-- to-do未完成列表页 -->
-                    <todo-list :task-code="taskCode"></todo-list>
-                    <span v-if="!openDrawer" class="todo-home-open-spin" @click="openDrawer = true">
-                        <i class="el-icon-d-arrow-left"></i>
-                    </span>
+                    <router-view></router-view>
                 </div>
-                <task-info v-if="taskCode !== '0'" :show.sync="openDrawer" :code="taskCode"></task-info>
             </div>
         </div>
     </div>
@@ -27,17 +23,18 @@
     import {Component, Vue} from 'vue-property-decorator';
     import {Getter, Action} from 'vuex-class';
     import CloseNavigation from '@/components/CloseNavigation.vue';
-    import TodoList from '@/components/taskandtodo/TodoList.vue';
-
+    // import TodoList from '@/components/taskandtodo/TodoList.vue';
+    // import TodoListNew from '@/components/taskandtodo/TodoListNew.vue';
     import TaskInfo from '@/components/taskandtodo/TaskInfo.vue';
-    import TodoNavigation from '@/components/taskandtodo/TodoNavigation.vue';
+    // import TodoNavigation from '@/components/taskandtodo/TodoNavigation.vue';
+    import TodoNavigationNew from '@/components/taskandtodo/TodoNavigationNew.vue';
+
 
     @Component({
         components: {
             CloseNavigation,
-            TodoList,
             TaskInfo,
-            TodoNavigation,
+            TodoNavigationNew,
         },
     })
     export default class Home extends Vue {
@@ -55,6 +52,12 @@
 
         private taskCode: string = '0'; // 任务code
 
+        private todoNav: string = '0';
+
+        public choseNav(label: string): void {
+            this.todoNav = label;
+        }
+
         public choseTask(taskCode: string): void {
             this.taskCode = taskCode;
         }
@@ -71,7 +74,7 @@
 
         .todo-home-nav {
             position: relative;
-            width: 250px;
+            width: 210px;
             height: 100%;
             float: left;
             /*background: #fcfbfb;*/
@@ -96,7 +99,7 @@
 
         .todo-home-body {
             position: relative;
-            width: calc(100vw - 310px);
+            width: calc(100vw - 270px);
             height: 100%;
             float: right;
             background: #fcfcfc;
