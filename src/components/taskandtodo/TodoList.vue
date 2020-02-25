@@ -146,8 +146,7 @@
         // 获取todoitemList
         public getTodoItemList(): void {
             let neDBExample = new NeDBExample();
-            neDBExample.createCriteria().eq(TodoItemProperty.completed, false)
-                .eq(TodoItemProperty.taskCode, this.taskCode);
+            neDBExample.createCriteria().eq(TodoItemProperty.completed, false);
 
             todoItemMapper.find(neDBExample).then((todoItemList: any) => {
                 this.todoItemList = todoItemList;
@@ -156,8 +155,7 @@
 
         public getTodoItemCompltedList(): void {
             let neDBExample = new NeDBExample();
-            neDBExample.createCriteria().eq(TodoItemProperty.completed, true)
-                .eq(TodoItemProperty.taskCode, this.taskCode);
+            neDBExample.createCriteria().eq(TodoItemProperty.completed, true);
 
             todoItemMapper.find(neDBExample).then((todoItemList: any) => {
                 if (todoItemList.length > 0) {
@@ -180,7 +178,6 @@
                 let todoItem: TodoItemEdiable = {
                     id: 0,
                     code: CommonUtil.getUUID(),
-                    taskCode: this.taskCode,
                     content: this.todoItem,
                     completed: false,
                     createdDate: new Date(),
