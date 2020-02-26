@@ -5,7 +5,7 @@
             <div class="nav-todo">
                 <div class="nav-todo-title">
                     <i class="iconfont icon-todo1 nav-todo-icon"></i>
-                    <span>Todo</span>
+                    <span>待办</span>
                 </div>
                 <div class="nav-todo-item">
                     <div v-for="(item, index) in todoNavs">
@@ -67,7 +67,7 @@
                 className: 'icon-todo-completed',
             },
         ];
-        private currentNavIndex: number = -1; // 当前导航默认值
+        private currentNavIndex: number = 0; // 当前导航默认值
         private showAddTask: boolean = false; // 控制显示添加任务对话框
 
         private showDelTaskDialog: boolean = false; // 控制展示任务删除对话框

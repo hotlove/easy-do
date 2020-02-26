@@ -107,7 +107,7 @@
 
             .todo-home-open-spin {
                 background: #fcfcfc;
-                position: absolute; 
+                position: absolute;
                 display: inline-block;
                 right: 0;
                 top: 50%; /*偏移*/
