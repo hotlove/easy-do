@@ -116,6 +116,17 @@ app.on('activate', () => {
     }
 });
 
+// 关闭到系统图标
+function hideToTray(browserWindow: BrowserWindow) {
+
+    if (browserWindow.isMinimized()) {
+        browserWindow.setSkipTaskbar(true);
+    } else {
+        browserWindow.setSkipTaskbar(true);
+        browserWindow.minimize();
+    }
+}
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
@@ -133,6 +144,7 @@ app.on('ready', async () => {
     globalShortcut.register('CommandOrControl+m', () => {
         if (win !== null) {
             win.hide();
+            // hideToTray(win);
         }
     });
     createWindow();
@@ -163,6 +175,7 @@ ipcMain.on(APP_CLOSE_EVENT, (event, args) => {
         if (args === 1) {
             // 最小化到系统托盘
             win.hide();
+            // hideToTray(win);
         } else {
             // 直接退出
             app.quit();
