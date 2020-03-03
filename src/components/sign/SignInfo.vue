@@ -10,10 +10,6 @@
                 </template>
             </el-calendar>
         </div>
-        <div class="sign-info-desc">
-            <div class="sign-info-desc-title"></div>
-            <div class="sign-info-desc-content"></div>
-        </div>
     </div>
 </template>
 <script lang="ts">
