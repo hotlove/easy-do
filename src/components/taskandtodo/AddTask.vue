@@ -187,8 +187,5 @@
                 background: #ff5858;
             }
         }
-
-
-
     }
 </style>

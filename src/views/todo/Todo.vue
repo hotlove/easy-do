@@ -25,7 +25,7 @@
     import CloseNavigation from '@/components/CloseNavigation.vue';
     // import TodoList from '@/components/taskandtodo/TodoList.vue';
     // import TodoListNew from '@/components/taskandtodo/TodoListNew.vue';
-    import TaskInfo from '@/components/taskandtodo/TaskInfo.vue';
+    import TaskInfo from '@/views/todo/TaskInfo.vue';
     // import TodoNavigation from '@/components/taskandtodo/TodoNavigation.vue';
     import TodoNavigationNew from '@/components/taskandtodo/TodoNavigationNew.vue';
 

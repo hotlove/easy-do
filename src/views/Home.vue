@@ -30,7 +30,6 @@
     import {NavigationInter} from '@/types';
     import {Getter, Action} from 'vuex-class';
     import Music from '@/components/Music.vue';
-    import TodoList from '@/components/taskandtodo/TodoList.vue';
     import CloseNavigation from '@/components/CloseNavigation.vue';
     import {SystemSetting} from '@/domain/SystemSetting';
     import {systemSettingMapper} from '@/dbutil';
@@ -40,7 +39,6 @@
     @Component({
         components: {
             Music,
-            TodoList,
             CloseNavigation,
         },
     })

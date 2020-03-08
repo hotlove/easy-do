@@ -53,7 +53,7 @@
     </div>
 </template>
 <script lang="ts">
-    import {Component, Vue} from 'vue-property-decorator';
+    import {Component, Vue, Watch} from 'vue-property-decorator';
     import {TodoItem, TodoItemEdiable, TodoItemProperty} from '@/domain/TodoItem';
     import {todoItemMapper} from '@/dbutil';
     import {CommonUtil} from '@/common/CommonUtil';
@@ -69,6 +69,12 @@
         private uncompletedStyle: any = { // 未完成todo列表样式 用于自动控制高度
             height: 'calc(100vh - 115px)',
         };
+
+        @Watch('$route')
+        public routerMonitor() {
+            console.log(this.$route)
+            this.getTodoItemList();
+        }
 
         // 声明钩子函数
         public mounted() {

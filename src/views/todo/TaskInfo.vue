@@ -1,8 +1,15 @@
 <template>
-    <div class="task-info-top" v-if="show" >
+    <div class="task-info-top">
         <div class="task-info">
             <el-row>
-                <div style="font-size: 18px; padding-left: 15px;">{{ taskInfo.title }}</div>
+                <div style="font-size: 16px; padding-left: 15px;">
+                    <el-row>
+                        <el-col :span="22">{{ taskInfo.title }}</el-col>
+                        <el-col :span="2" class="task-info-del">
+                            <i class="el-icon-delete" @click="deleteTask"></i>
+                        </el-col>
+                    </el-row>
+                </div>
                 <el-divider></el-divider>
             </el-row>
             <el-row>
@@ -25,13 +32,6 @@
                     <span v-if="taskInfo.level === 1" >
                         <span class="task-level"></span>正常
                     </span>
-                        
-                    
-                    <!-- <el-radio-group>
-                        <el-radio :label="1"><span class="level-font">正常</span></el-radio>
-                        <el-radio :label="2" class="level-font-important"><span class="level-font level-font-important">重要</span></el-radio>
-                        <el-radio :label="3" class="level-font-emergency"><span class="level-font level-font-emergency">紧急</span></el-radio>
-                    </el-radio-group> -->
                 </el-row>
                 <el-row class="task-info-item">
                     任务详情：
@@ -39,25 +39,36 @@
                 </el-row>
             </el-row>
         </div>
-        <span class="task-info-spin" @click="closeTaskInfo">
-            <i class="el-icon-d-arrow-right"></i>
-        </span>
+
+        <!-- 删除任务确认框 -->
+        <mu-dialog width="40%" max-width="80%"
+                   transition="fade"
+                   :esc-press-close="false"
+                   :overlay-close="false"
+                   :overlay="false"
+                   :open.sync="showDelTaskDialog">
+            <div slot="title" style="font-size: 18px;">删除任务</div>
+            是否要删除该任务？
+            <div slot="actions" style="padding: 0 16px" >
+                <el-button size="mini" type="text" @click="showDelTaskDialog = false">取消</el-button>
+                <el-button size="mini" type="text" @click="confirmDeleteTask">确认</el-button>
+            </div>
+        </mu-dialog>
     </div>
 </template>
 <script lang="ts">
-    import {Component, Prop, Vue, Watch} from 'vue-property-decorator';
+    import {Component, Vue, Watch} from 'vue-property-decorator';
     import { taskMapper } from '@/dbutil/TaskMapper';
     import { NeDBExample } from '@/dbutil/nedbutil/NeDBExample';
     import { TaskProperty, Task } from '@/domain/Task';
 
     @Component
     export default class TaskInfo extends Vue {        
-        @Prop({default: false})
-        public show: boolean = false; // 控制是否展示
 
-        @Prop({default: '0'})
-        public code: string = '0'; // 任务code
-        
+        public code: string | (string | null)[] = '0'; // 任务code
+
+        private showDelTaskDialog: boolean = false; // 控制展示任务删除对话框
+
         public taskInfo: Task = { // 任务详情
             id: 0,
             code: '0',
@@ -68,18 +79,20 @@
             createdDate: null,
         };
 
-        @Watch('show')
-        public showTaskInfo() {
-            if (this.show) {
-                this.getTaskInfo();
-            }
+        @Watch('$route')
+        public routerMonitor() {
+            console.log(this.$route)
+            this.code = this.$route.query.code;
+            this.getTaskInfo();
         }
 
-        public getTaskInfo(): void {
+        public mounted(): void {
+            this.code = this.$route.query.code;
+            this.getTaskInfo();
+        }
 
-            if (this.code === '0') {
-                return;
-            }
+        // 获取任务详细信息
+        public getTaskInfo(): void {
 
             let neDBExample = new NeDBExample();
             neDBExample.createCriteria().eq(TaskProperty.code, this.code);
@@ -91,8 +104,21 @@
             });
         }
 
-        public closeTaskInfo(): void {
-            this.$emit('update:show', false);
+        // 弹出删除确确认框
+        public deleteTask(): void {
+            this.showDelTaskDialog = true;
+        }
+
+        // 确认删除任务
+        public confirmDeleteTask(): void {
+            let neDBExample = new NeDBExample();
+            neDBExample.createCriteria().eq(TaskProperty.code, this.code);
+            taskMapper.delete(neDBExample).then( number => {
+                if (number > 0) {
+                    this.$bus.$emit('delete-task', this.code);
+                    this.showDelTaskDialog = false;
+                }
+            });
         }
     }
 </script>
@@ -107,6 +133,13 @@
             width: 100%;
             height: 100%;
             padding: 5px 10px;
+
+            .task-info-del {
+                text-align: right;
+                padding-right: 20px;
+                cursor: pointer;
+                color: #409EFF;
+            }
 
             .task-info-item {
                 margin: 20px 0;

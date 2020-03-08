@@ -16,15 +16,20 @@ const routes = [
                 name: 'todo',
                 component: () => import('@/views/todo/Todo.vue'),
                 children: [
-                    {
+                    {// 未完成todo列表
                         path: '/todo-list',
                         name: 'todo-list',
                         component: () => import('@/views/todo/TodoListNew.vue'),
                     },
-                    {
+                    {// 完成todo列表
                         path: '/todo-done-list',
                         name: 'todo-done-list',
                         component: () => import('@/views/todo/TodoDoneList.vue'),
+                    },
+                    {// 任务详情
+                        path: '/task-info',
+                        name: 'task-info',
+                        component: () => import('@/views/todo/TaskInfo.vue'),
                     },
                 ],
             },

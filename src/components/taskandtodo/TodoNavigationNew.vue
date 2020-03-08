@@ -9,7 +9,7 @@
                 </div>
                 <div class="nav-todo-item">
                     <div v-for="(item, index) in todoNavs">
-                        <span class="nav-item" :class="(currentNavIndex == index) ? 'nav-item-focus' : ''" @click="choseCurrentItem(item, index)">
+                        <span class="nav-item" :class="(currentNavIndex == index) ? 'nav-item-focus' : ''" @click.prevent.stop="choseCurrentItem(item, index)">
                             <i class="iconfont" :class="item.className"></i>{{ item.label }}
                         </span>
                     </div>
@@ -19,8 +19,29 @@
             <!-- 任务列表 -->
             <div class="todo-home-nav-task">
                 <div class="nav-todo-title">
-                    <i class="iconfont icon-notebook"></i>
-                    <span>我的任务</span>
+                    <el-row>
+                        <el-col :span="12" style="text-align: left">
+                            <i class="iconfont icon-notebook"></i>
+                            <span>我的任务</span>
+                        </el-col>
+                        <el-col :span="12" style="text-align: right; padding-right: 5px">
+                            <i class="iconfont icon-plus task-add-style" @click="showAddTask = true"></i>
+                        </el-col>
+                    </el-row>
+                </div>
+                <div class="nav-task-item" v-if="taskList.length > 0">
+                    <div class="nav-item  nav-task" v-for="(task, index) in taskList"
+                         :class="(taskIndex === index) ? 'current-task-color':''"
+                         :key="task.code"
+                         @click.prevent.stop="showTaskInfo(task, index)">
+                        <div style="position: relative">
+                            <i class="task-dot" :class="'task-level-' + task.level"></i>
+                            <span style="padding-left: 15px; display: inline-block;">{{ task.title }}</span>
+                        </div>
+                        <div class="task-date" v-if="task.endDate != null">
+                            完成日期：{{ $moment(task.endDate).format("YYYY/MM/DD") }}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -28,20 +49,6 @@
         <!-- 新增任务 -->
         <add-task :show.sync="showAddTask" @add-completed="addTaskCompleted"></add-task>
 
-        <!-- 删除任务确认框 -->
-        <mu-dialog width="40%" max-width="80%"
-                   transition="fade"
-                   :esc-press-close="false"
-                   :overlay-close="false"
-                   :overlay="false"
-                   :open.sync="showDelTaskDialog">
-            <div slot="title" style="font-size: 18px;">删除任务</div>
-            是否要删除该任务？
-            <div slot="actions" style="padding: 0 16px" >
-                <el-button size="mini" type="text" @click="showDelTaskDialog = false">取消</el-button>
-                <el-button size="mini" type="text" @click="confirmDeleteTask">确认</el-button>
-            </div>
-        </mu-dialog>
     </div>
 </template>
 <script lang="ts">
@@ -70,20 +77,26 @@
         private currentNavIndex: number = 0; // 当前导航默认值
         private showAddTask: boolean = false; // 控制显示添加任务对话框
 
-        private showDelTaskDialog: boolean = false; // 控制展示任务删除对话框
-        private deleteTaskCode: string = '0'; // 需要删除任务code
-
         private taskList: Task[] = []; // 任务列表
+        private taskIndex: number = 0; // 当前任务索引
 
         public mounted(): void {
             this.getAllTask();
+
+            this.$bus.$on('delete-task', (taskCode: string) => {
+                this.taskList = this.taskList.filter(e => e.code !== taskCode);
+                if (this.taskList.length > 0) {
+                    let code = this.taskList[0].code;
+                    this.goFirstTaskInfo(code)
+                } else {
+                    this.$router.push('todo-list').catch((err: Error) => err);
+                }
+            })
         }
 
         // 选择当前nav导航
         public choseCurrentItem(navItem: any, index: number): void {
             this.currentNavIndex = index;
-            // this.$emit('chose-nav', navItem.label);
-            console.log(navItem);
             if (navItem.label === 'Todo') {
                 this.$router.push('todo-list').catch((err: Error) => err);
             } else {
@@ -101,27 +114,21 @@
             });
         }
 
-        // 弹出删除确确认框
-        public deleteTask(taskInfo: Task): void {
-            this.deleteTaskCode = taskInfo.code;
-            this.showDelTaskDialog = true;
-        }
-
-        // 确认删除任务
-        public confirmDeleteTask(): void {
-            let neDBExample = new NeDBExample();
-            neDBExample.createCriteria().eq(TaskProperty.code, this.deleteTaskCode);
-            taskMapper.delete(neDBExample).then( number => {
-                if (number > 0) {
-                    this.getAllTask();
-                    this.showDelTaskDialog = false;
-                    this.$emit('task-delete');
-                }
-            });
-        }
-
-        public addTaskCompleted(): void {
+        // 新增任务
+        public addTaskCompleted(task: Task): void {
             this.getAllTask();
+            this.goFirstTaskInfo(task.code)
+        }
+
+        public goFirstTaskInfo(code: string): void {
+            this.taskIndex = 0;
+            this.$router.push({name: 'task-info', query:{code: code}}).catch((err: Error) => err);
+        }
+
+        // 点击任务
+        public showTaskInfo(task: Task, index: number): void {
+            this.taskIndex = index;
+            this.$router.push({name: 'task-info', query:{code: task.code}}).catch((err: Error) => err);
         }
     }
 </script>
@@ -161,11 +168,19 @@
                 margin-left: 3px;
             }
 
+            .task-add-style {
+                cursor: pointer;
+            }
+
+            .task-add-style:hover {
+                color: #1c7fcd;
+            }
+
         }
 
         .nav-todo-item {
             margin-top: 15px;
-            padding-left: 20px;
+            padding-left: 10px;
 
             div {
                 margin: 5px 0;
@@ -179,17 +194,78 @@
             .nav-item {
                 cursor: pointer;
                 &:hover {
-                    color: #2360cd;
+                    color: #409EFF;
                 }
             }
 
             .nav-item-focus {
-                color: #2360cd;
+                color: #409EFF;
             }
         }
 
         .nav-todo {
             height: 120px;
+        }
+
+        /**
+          *任务样式
+         */
+        .nav-task-item {
+            margin-top: 15px;
+            div {
+                i {
+                    font-size: 20px;
+                    vertical-align: middle;
+                }
+            }
+
+            .current-task-color {
+                color: #409EFF;
+            }
+
+            .nav-item {
+                cursor: pointer;
+                &:hover {
+                    color: #409EFF;
+                }
+            }
+
+            .nav-item-focus {
+                color: #409EFF;
+            }
+        }
+
+        .nav-task {
+            padding: 5px 0 5px 10px;
+            /*padding-left: 10px;*/
+            background: #eef1f3;
+            margin-top: 10px;
+        }
+
+        .task-dot {
+            position: absolute;
+            top: 5px;
+            width: 10px;
+            height: 10px;
+            border-radius: 100%;
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        /*1.普通 2.重要 3.紧急*/
+        .task-level-1 {
+           background: #409EFF;
+        }
+        .task-level-2 {
+           background: #ff9e2a;
+        }.task-level-3 {
+           background: #ff5858;
+        }
+
+        .task-date {
+            margin-left: 15px !important;
+            font-size: 12px;
+            color: #b1bac7;
         }
 
     }
