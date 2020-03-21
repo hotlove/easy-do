@@ -72,7 +72,6 @@
 
         @Watch('$route')
         public routerMonitor() {
-            console.log(this.$route)
             this.getTodoItemList();
         }
 
@@ -87,7 +86,9 @@
             neDBExample.createCriteria().eq(TodoItemProperty.completed, false);
 
             todoItemMapper.find(neDBExample).then((todoItemList: any) => {
-                this.todoItemList = todoItemList;
+                if (CommonUtil.collectionNotEmpty(todoItemList)){
+                    this.todoItemList = todoItemList.sort((a: TodoItemEdiable, b: TodoItemEdiable) => a.createdDate < b.createdDate);
+                }
             });
         }
 

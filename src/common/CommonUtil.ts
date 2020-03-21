@@ -24,6 +24,16 @@ class CommonUtil {
         });
         return groups;
     }
+
+    // 判断集合是否为空
+    public static collectionNotEmpty(list: any): boolean {
+        return !!(list && list.length > 0);
+    }
+
+    // 数组去重
+    public static arrayDuplicateRemove(oldArr: any[]): any[] {
+        return [...new Set(oldArr)];
+    }
 }
 export {
     CommonUtil,

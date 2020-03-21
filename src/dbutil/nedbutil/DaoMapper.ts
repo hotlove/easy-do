@@ -3,6 +3,7 @@ import { NeDBExample } from '@/dbutil/nedbutil/NeDBExample';
 import {remote} from 'electron';
 import Datastore from 'nedb-promises';
 import path from 'path';
+import {CommonUtil} from "@/common/CommonUtil";
 
 abstract class DaoMapper<T> {
 
@@ -49,12 +50,25 @@ abstract class DaoMapper<T> {
     }
 
     // 查询文档
-    public find(example: NeDBExample = new NeDBExample(), page: number = 1, pagesize: number = 0): any {
+    public find(example: NeDBExample = new NeDBExample(), colums: string[] = [], page: number = 1, pagesize: number = 0): any {
         const criteria = example.getCriteria();
+
+        let projections: any = null;
+        if (CommonUtil.collectionNotEmpty(colums)) {
+            projections = {};
+            colums.forEach((colum, index) => {
+                projections[colum] = 1;
+            })
+        }
+
         if (pagesize === 0) {
-            return this.dataStore.find(criteria);
+            return projections != null
+                ? this.dataStore.find(criteria, projections)
+                : this.dataStore.find(criteria);
         } else {
-            return this.dataStore.find(criteria).skip((page - 1) * pagesize).limit(pagesize);
+            return projections != null
+                ? this.dataStore.find(criteria, projections).skip((page - 1) * pagesize).limit(pagesize)
+                : this.dataStore.find(criteria).skip((page - 1) * pagesize).limit(pagesize);
         }
     }
     // 子方法用于获取本地数据库名称

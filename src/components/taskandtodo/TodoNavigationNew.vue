@@ -78,11 +78,16 @@
         private showAddTask: boolean = false; // 控制显示添加任务对话框
 
         private taskList: Task[] = []; // 任务列表
-        private taskIndex: number = 0; // 当前任务索引
+        private taskIndex: number = -1; // 当前任务索引
 
         public mounted(): void {
             this.getAllTask();
 
+            // 导航监听任务删除
+            this.taskDeleteMonitor();
+        }
+
+        public taskDeleteMonitor(): void {
             this.$bus.$on('delete-task', (taskCode: string) => {
                 this.taskList = this.taskList.filter(e => e.code !== taskCode);
                 if (this.taskList.length > 0) {
@@ -97,12 +102,12 @@
         // 选择当前nav导航
         public choseCurrentItem(navItem: any, index: number): void {
             this.currentNavIndex = index;
+            this.taskIndex = -1;
             if (navItem.label === 'Todo') {
                 this.$router.push('todo-list').catch((err: Error) => err);
             } else {
                 this.$router.push('todo-done-list').catch((err: Error) => err);
             }
-
         }
 
         // 获取所有的任务
@@ -121,12 +126,14 @@
         }
 
         public goFirstTaskInfo(code: string): void {
+            this.currentNavIndex = -1;
             this.taskIndex = 0;
             this.$router.push({name: 'task-info', query:{code: code}}).catch((err: Error) => err);
         }
 
         // 点击任务
         public showTaskInfo(task: Task, index: number): void {
+            this.currentNavIndex = -1;
             this.taskIndex = index;
             this.$router.push({name: 'task-info', query:{code: task.code}}).catch((err: Error) => err);
         }

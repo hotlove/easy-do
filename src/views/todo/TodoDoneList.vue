@@ -7,25 +7,27 @@
                     <!-- 列表 -->
                     <div class="todo-uncompleted-list">
                         <!-- todoitem 列表块 -->
-                        <div v-for="(item, date) in completedTodoList" :key="date">
+                        <div v-for="(date, index) in completedDateList" :key="index">
                             <!-- todoitem未编辑 -->
                             <div class="todo-item-unedit">
                                 <div style="padding-left: 8px; color: #8b8b8b; font-size: 16px;">
                                     {{ $moment(date).format('dddd YYYY-MM-DD') }}
                                 </div>
-                                <div v-for="(e, i) in item" :key="i" class="todo-list-item" >
-                                    <!-- todoitemdot -->
-                                    <span class="todo-list-item-mark">
-                                        <span class="todo-list-item-dot"></span>
-                                    </span>
-                                    <!-- todoitem内容 -->
-                                    <span class="todo-list-item-content"
-                                          v-html="e.content"></span>
-                                    <!-- todoitem操作 -->
-                                    <span class="todo-item-oper">
-                                        <i class="iconfont icon-reback" @click="rebackTodoItem(e, date, i)"></i>
-                                        <i class="iconfont icon-minimum" @click="deleteCompletedTodoItem(date, i)"></i>
-                                    </span>
+                                <div v-for="(e, i) in completedTodoList" :key="i" class="todo-list-item" >
+                                    <div v-if="$moment(e.completedDate).format('YYYY-MM-DD') ===
+                                                $moment(date).format('YYYY-MM-DD')">
+                                        <!-- todoitemdot -->
+                                        <span class="todo-list-item-mark">
+                                            <span class="todo-list-item-dot"></span>
+                                        </span>
+                                        <!-- todoitem内容 -->
+                                        <span class="todo-list-item-content" v-html="e.content"></span>
+                                        <!-- todoitem操作 -->
+                                        <span class="todo-item-oper">
+                                            <i class="iconfont icon-reback" @click="rebackTodoItem(e, date, i)"></i>
+                                            <i class="iconfont icon-minimum" @click="deleteCompletedTodoItem(date, i)"></i>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -45,7 +47,9 @@
     @Component
     export default class TodoDoneList extends Vue {
 
-        private completedTodoList: any = {};
+        private completedTodoList: any = [];
+
+        private completedDateList: any = [];
 
         // 声明钩子函数
         public mounted() {
@@ -56,16 +60,26 @@
             let neDBExample = new NeDBExample();
             neDBExample.createCriteria().eq(TodoItemProperty.completed, true);
 
+            // 查询日期维度
+            todoItemMapper.find(neDBExample, [TodoItemProperty.completedDate]).then((todoItemList: any) => {
+                if (CommonUtil.collectionNotEmpty(todoItemList)) {
+                    let completeDate: any = todoItemList.map((e: TodoItemEdiable) => this.$moment(e.completedDate).format('YYYY-MM-DD'));
+                    this.completedDateList = CommonUtil.arrayDuplicateRemove(completeDate)
+                        .map(e => this.$moment(e, 'YYYY-MM-DD').toDate())
+                        .sort((a: Date, b: Date) => this.$moment(a).isBefore(this.$moment(b)) ? 1 : -1);
+
+                    this.findTodoDoneList();
+                }
+            });
+        }
+        // 查询数据
+        private findTodoDoneList(): void {
+            let neDBExample = new NeDBExample();
+            neDBExample.createCriteria().eq(TodoItemProperty.completed, true);
+
             todoItemMapper.find(neDBExample).then((todoItemList: any) => {
                 if (todoItemList.length > 0) {
-                    let completedTodolist =
-                        todoItemList.sort((a: TodoItemEdiable, b: TodoItemEdiable) => a.completedDate < b.completedDate);
-
-                    this.completedTodoList = CommonUtil
-                        .groupBy(completedTodolist,
-                                 (item: TodoItemEdiable) => this.$moment(item.completedDate).format('YYYY-MM-DD'));
-                } else {
-                    this.completedTodoList = {};
+                    this.completedTodoList = todoItemList.sort((a: TodoItemEdiable, b: TodoItemEdiable) => a.completedDate < b.completedDate);
                 }
             });
         }
