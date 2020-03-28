@@ -6,18 +6,32 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "2380617",
+      "name": "笔记本",
+      "font_class": "note",
+      "unicode": "e605",
+      "unicode_decimal": 58885
+    },
+    {
+      "icon_id": "1177003",
+      "name": "todo-o",
+      "font_class": "todo-o",
+      "unicode": "e74a",
+      "unicode_decimal": 59210
+    },
+    {
+      "icon_id": "11114098",
+      "name": "TODO",
+      "font_class": "todo-list",
+      "unicode": "e7a7",
+      "unicode_decimal": 59303
+    },
+    {
       "icon_id": "4389575",
       "name": "TODO",
       "font_class": "todo-completed",
       "unicode": "e75a",
       "unicode_decimal": 59226
-    },
-    {
-      "icon_id": "9442867",
-      "name": "todo",
-      "font_class": "todo3",
-      "unicode": "e61d",
-      "unicode_decimal": 58909
     },
     {
       "icon_id": "4095549",

@@ -34,6 +34,11 @@ const routes = [
                 ],
             },
             {
+                path: '/note', // markdown笔记本
+                name: 'note',
+                component: () => import('@/views/note/Note.vue'),
+            },
+            {
                 path: '/sign',
                 name: 'sign',
                 component: () => import('@/views/SignHome.vue'),

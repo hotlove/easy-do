@@ -63,18 +63,18 @@
                 tipText: 'Todo列表',
             },
             {
+                route: 'note',
+                default: false,
+                hoverName: 'item-icon-hover',
+                className: 'icon-note',
+                tipText: '我的笔记',
+            },
+            {
                 route: 'sign',
                 default: false,
                 hoverName: 'item-icon-hover',
                 className: 'icon-sigin',
                 tipText: '我的打卡',
-            },
-            {
-                route: '',
-                default: false,
-                hoverName: 'item-icon-hover',
-                className: 'icon-project',
-                tipText: '项目列表',
             },
             {
                 route: '',
@@ -142,6 +142,7 @@
             width: 60px;
             height: 100vh;
             background: #1c7fcd;
+            /*background: #505D7D;*/
             z-index: 1;
             /*box-shadow:3px 0 8px -4px #000;*/
 

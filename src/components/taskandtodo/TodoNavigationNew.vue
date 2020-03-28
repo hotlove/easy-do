@@ -21,7 +21,7 @@
                 <div class="nav-todo-title">
                     <el-row>
                         <el-col :span="12" style="text-align: left">
-                            <i class="iconfont icon-notebook"></i>
+                            <i class="iconfont icon-task"></i>
                             <span>我的任务</span>
                         </el-col>
                         <el-col :span="12" style="text-align: right; padding-right: 5px">

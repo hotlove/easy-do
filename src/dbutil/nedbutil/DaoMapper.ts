@@ -46,6 +46,7 @@ abstract class DaoMapper<T> {
         const options: any = {
             muti: true,
         };
+        console.log(criteria)
         return this.dataStore.remove(criteria, options);
     }
 
