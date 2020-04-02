@@ -12,7 +12,10 @@
                 <close-navigation :height="25" :show-close="true"></close-navigation>
                 <div class="note-home-body-content">
                     <!-- to-do未完成列表页 -->
-                    <router-view></router-view>
+<!--                    <router-view></router-view>-->
+                    <div v-for="(item, index) in treeDatas" :key="index" @click="deleteData(item)">
+                        {{ item.name }}--{{ item.code }} -- {{ item }}
+                    </div>
                 </div>
             </div>
         </div>
@@ -24,6 +27,10 @@
     import {Getter, Action} from 'vuex-class';
     import CloseNavigation from '@/components/CloseNavigation.vue';
     import NoteNav from '@/components/note/NoteNav.vue';
+    import {NeDBExample} from "@/dbutil/nedbutil/NeDBExample";
+    import {noteFileMapper} from "@/dbutil";
+    import {CommonUtil} from "@/common/CommonUtil";
+    import {NoteFileProperty} from "@/domain/NoteFile";
 
 
     @Component({
@@ -48,6 +55,31 @@
         private taskCode: string = '0'; // 任务code
 
         private todoNav: string = '0';
+
+        private treeDatas: any = [];
+
+        public mounted(): void {
+            this.getAllFile();
+        }
+
+        public deleteData(noteFile: any) {
+            let neDBExample = new NeDBExample();
+            neDBExample.createCriteria().eq(NoteFileProperty.code, noteFile.code);
+
+            noteFileMapper.delete(neDBExample).then((noteFileList: any) => {
+                this.getAllFile()
+            });
+        }
+
+        public getAllFile(): void {
+            let neDBExample = new NeDBExample();
+
+            noteFileMapper.find(neDBExample).then((noteFileList: any) => {
+                if (CommonUtil.collectionNotEmpty(noteFileList)) {
+                   this.treeDatas = noteFileList;
+                }
+            });
+        }
 
         public choseNav(label: string): void {
             this.todoNav = label;

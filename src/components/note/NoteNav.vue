@@ -15,15 +15,20 @@
             </div>
             <el-collapse-transition>
                 <div v-if="showTree">
-                    <el-tree ref="fileTreeNode" :data="treeData" :props="treeProps">
+                    <el-tree ref="fileTreeNode" :data="treeData" :props="treeProps" :expand-on-click-node="false">
                         <div class="custom-tree-node"  slot-scope="{ node, data }">
-                            <div v-if="data.type === '1'" @contextmenu.prevent.stop="contextClick($event, node, data)">
-<!--                                <i class="el-icon-folder"></i>-->
-                                {{ node.label }}
+                            <div v-if="!node.data.isEdit">
+                                <div v-if="data.type === '1'" @contextmenu.prevent.stop="contextClick($event, node, data)">
+                                    <!--                                <i class="el-icon-folder"></i>-->
+                                    {{ node.label }}
+                                </div>
+                                <div v-if="data.type === '2'" @contextmenu.prevent.stop="contextClick($event, node, data)">
+                                    <!--                                <i class="el-icon-document"></i>-->
+                                    {{ node.label }}
+                                </div>
                             </div>
-                            <div v-if="data.type === '2'" @contextmenu.prevent.stop="contextClick($event, node, data)">
-<!--                                <i class="el-icon-document"></i>-->
-                                {{ node.label }}
+                            <div v-if="node.data.isEdit">
+                                <el-input :ref="'editRef-'+ data.code " v-model="data.name" @keyup.enter.native="updateNoteFile(node, data)"></el-input>
                             </div>
                         </div>
                     </el-tree>
@@ -33,11 +38,11 @@
             <!-- 属性文件结构 -->
             <div v-if="menuVisible" :style="positionStyle" class="context-class">
                 <ul class="menu">
-                    <li v-if="currentNoteFile.type !== '2'" class="menu-item" @click.prevent.stop="createNewFile">
+                    <li v-if="currentNoteFile.type !== '2'" class="menu-item" @click.prevent.stop="createNewFile('2')">
                         <i class="el-icon-document" style="font-size: 15px;margin-right: 5px"></i>
                         <span>新建笔记</span>
                     </li>
-                    <li v-if="currentNoteFile.type !== '2'" class="menu-item" @click.prevent.stop="createNewDir">
+                    <li v-if="currentNoteFile.type !== '2'" class="menu-item" @click.prevent.stop="createNewFile('1')">
                         <i class="el-icon-folder-remove" style="font-size: 15px; margin-right: 5px"></i>
                         <span>新建文件夹</span>
                     </li>
@@ -45,44 +50,25 @@
                         <i class="el-icon-delete" style="font-size: 15px; margin-right: 5px"></i>
                         <span>删除</span>
                     </li>
-                    <li class="menu-item"  v-if="currentNoteFile.code !== '0'" @click.prevent.stop="updateNoteFile">
+                    <li class="menu-item"  v-if="currentNoteFile.code !== '0'" @click.prevent.stop="updateNode">
                         <i class="el-icon-edit" style="font-size: 15px; margin-right: 5px"></i>
-                        <span>修改</span>
+                        <span>重命名</span>
                     </li>
                 </ul>
             </div>
         </div>
-
-        <!-- 添加 -->
-        <mu-dialog width="35%"
-                   transition="fade"
-                   :overlay="false"
-                   :overlay-close="false"
-                   :esc-press-close="false"
-                   :open.sync="showAddFile">
-            <div class="file-add" style="font-size: 12px;">
-                <el-input v-model="createFileName" :placeholder="fileType === '1' ? '文件夹名称' : '文件名称'"></el-input>
-            </div>
-            <div slot="actions" style="padding: 0 16px">
-                <el-button size="mini" type="text" @click="cancelFile">取消</el-button>
-                <el-button size="mini" type="text" @click="confirmAddFile">添加</el-button>
-            </div>
-        </mu-dialog>
 
     </div>
 </template>
 <script lang="ts">
     import {Component, Vue} from 'vue-property-decorator';
     import AddTask from '@/components/taskandtodo/AddTask.vue';
-    import {Task, TaskProperty} from '@/domain/Task';
     import {NeDBExample} from '@/dbutil/nedbutil/NeDBExample';
-    import {taskMapper} from '@/dbutil/TaskMapper';
     import {NoteFile, NoteFileProperty} from "@/domain/NoteFile";
-    import {noteFileMapper, todoItemMapper} from "@/dbutil";
+    import {noteFileMapper} from "@/dbutil";
     import {CommonUtil} from "@/common/CommonUtil";
-    import {TodoItemEdiable, TodoItemProperty} from "@/domain/TodoItem";
-    import {ElTree, TreeData, TreeNode} from "element-ui/types/tree";
-    import {treeNode} from "element-ui/types/table";
+    import {ElTree} from "element-ui/types/tree";
+    import Note from "@/views/note/Note.vue";
 
     @Component({
         components: {
@@ -130,11 +116,18 @@
             this.getAllFile();
         }
 
+        // 计算属性 获取定位信息
+        get positionStyle(): any {
+            return {
+                'left': this.leftp + 'px',
+                'top': this.toptp + 'px'
+            }
+        }
+
         public getAllFile(): void {
             let neDBExample = new NeDBExample();
 
             noteFileMapper.find(neDBExample).then((noteFileList: any) => {
-                console.log(noteFileList)
                 if (CommonUtil.collectionNotEmpty(noteFileList)) {
                     this.setTreeData(noteFileList)
                 }
@@ -154,19 +147,13 @@
         // 递归填充树结构
         public recursion(levelList: any, allNodeList: any) {
             levelList.forEach((item: any) => {
+                item.isEdit = false;
                 let childs = allNodeList.filter((e: any) => e.parentCode == item.code);
                 if (CommonUtil.collectionNotEmpty(childs)) {
                     item.children = childs;
-                    item.isEdit = false;
                     this.recursion(childs, allNodeList)
                 }
             })
-        }
-
-
-        // 取消文件创建
-        public cancelFile(): void {
-            this.showAddFile = false;
         }
 
         // 确认文件创建
@@ -179,8 +166,6 @@
                 if (!CommonUtil.collectionNotEmpty(noteFileList)) {
                     this.addNoteFile();
                 } else {
-                    // todo 如果文件或者文件存在进行判断提示
-                    // this.showAddFile = false;
                     this.$notify({
                         type: 'warning',
                         duration: 1500,
@@ -194,11 +179,11 @@
 
         // 新增文件
         public addNoteFile(): void {
-            let noteFile: NoteFile = {
+            let noteFile: any = {
                 id: 0,
                 code: CommonUtil.getUUID(),
                 parentCode: this.currentNoteFile.code,
-                name: this.createFileName,
+                name: this.fileType === '1' ? '新建文件夹' : '新建文件',
                 type: this.fileType,
                 content: '',
                 createdDate: new Date(),
@@ -206,6 +191,8 @@
             };
 
             noteFileMapper.insert(noteFile).then((result: any) => {
+                // 设置默认添加的为可编辑
+                noteFile.isEdit = true;
 
                 if (this.currentNoteFile.code == '0') {
                     this.treeData.push(noteFile);
@@ -215,15 +202,10 @@
                         this.currentNoteFile.children.push(noteFile);
                         (this.$refs['fileTreeNode'] as ElTree<NoteFile, any>).append(noteFile, this.currentNode);
                     } else {
-                        // this.currentNoteFile.children = [];
-                        // this.currentNoteFile.children.push(noteFile);
                         (this.$refs['fileTreeNode'] as ElTree<NoteFile, any>).append(noteFile, this.currentNode);
                     }
                     // (this.$refs['fileTreeNode'] as any).append(noteFile, this.currentNoteFile);
-                    // this.$refs['fileTreeNode'].append(newNode, this.operTreeNode);
                 }
-
-                this.showAddFile = false;
             });
         }
 
@@ -237,8 +219,6 @@
                 && CommonUtil.collectionNotEmpty(this.currentNoteFile.children)) {
                 this.recursionFindDeleteCode(deleteCode, this.currentNoteFile.children)
             }
-
-            console.log(deleteCode);
 
             let neDBExample = new NeDBExample();
             neDBExample.createCriteria().in(NoteFileProperty.code, deleteCode);
@@ -260,36 +240,62 @@
             })
         }
 
+        // 选择修改文件
+        public updateNode(): void {
+            this.currentNoteFile.isEdit = true;
+            this.$nextTick(() => {
+                (this.$refs['editRef-' + this.currentNoteFile.code] as any).focus();
+                let elementsByClassName = document.getElementsByClassName('el-tree-node__content');
+                elementsByClassName[0].setAttribute('style','background: #D2E2FF');
+            });
+            this.menuVisible = false;
+            document.addEventListener('click', this.cancelEidt);
+        }
+
+        public cancelEidt(): void {
+            // 取消鼠标监听事件 菜单栏
+            this.currentNoteFile.isEdit = false;
+            // 要及时关掉监听，不关掉的是一个坑，不信你试试，虽然前台显示的时候没有啥毛病，加一个alert你就知道了
+            document.removeEventListener('click', this.cancelEidt);
+        }
 
         // 修改文件
-        public updateNoteFile(): void {
+        public updateNoteFile(node: any, noteFile: NoteFile): void {
+            let neDBExample = new NeDBExample();
+            neDBExample.createCriteria().eq(NoteFileProperty.code, noteFile.code);
 
+            let updateRecord: NoteFile = {
+                id: 0,
+                code: noteFile.code,
+                parentCode: noteFile.parentCode,
+                name: noteFile.name,
+                type: noteFile.type,
+                content: noteFile.content,
+                createdDate: noteFile.createdDate,
+                updateDate: noteFile.updateDate,
+            };
+            noteFileMapper.update(neDBExample, updateRecord).then((affectRows: any) => {
+                if (affectRows > 0) {
+                    // 修改成功
+                    node.data.isEdit = false;
+
+                }
+            })
         }
 
         // 创建文件
-        public createNewFile(): void {
-            this.showAddFile = true;
+        public createNewFile(fileType: string): void {
             this.menuVisible = false;
-            this.fileType = "2"; // 创建的是文件
-        }
-
-        // 创建文件
-        public createNewDir(): void {
-            this.showAddFile = true;
-            this.menuVisible = false;
-            this.fileType = "1"; // 创建的是目录
-        }
-
-        // 计算属性 获取定位信息
-        get positionStyle(): any {
-            return {
-                'left': this.leftp + 'px',
-                'top': this.toptp + 'px'
-            }
+            this.fileType = fileType; // 创建的是文件
+            this.confirmAddFile();
         }
 
         // 鼠标右击事件
-        public contextClick(event: MouseEvent, node: any, noteFile: NoteFile): void { // 鼠标右击触发事件
+        public contextClick(event: MouseEvent, node: any, noteFile: any): void { // 鼠标右击触发事件
+            if (this.currentNoteFile.hasOwnProperty('isEdit')) {
+                this.currentNoteFile.isEdit = false;
+            }
+
             // 展示右键菜单
             this.showContext(event);
 
@@ -347,6 +353,15 @@
 
             .custom-tree-node {
                 width: 100%;
+
+                .el-input__inner {
+                    border: none;
+                    border-radius: 0;
+                    padding: 0;
+                    height: 25px;
+                    line-height: 25px;
+                    width: 80%;
+                }
             }
 
             .el-tree-node__content {

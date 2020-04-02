@@ -27,6 +27,8 @@ abstract class DaoMapper<T> {
         const options: any = {
             muti: true,
         };
+        console.log(criteria);
+        console.log(updateQuery);
         return this.dataStore.update(criteria, updateQuery, options);
     }
     // 修改文档
