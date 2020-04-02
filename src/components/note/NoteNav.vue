@@ -8,7 +8,7 @@
         <!-- 任务列表 -->
         <div class="note-home-nav-file">
             <div class="note-file-title" style="cursor: pointer" @click="showTree = !showTree">
-                <span @contextmenu.prevent.stop="contextClick($event, defaultNoteFile)">
+                <span @contextmenu.prevent.stop="contextClick($event, null, defaultNoteFile)">
                     <i :class="showTree ? 'el-icon-folder-opened' : 'el-icon-folder' " style="margin-right: 3px"></i>
                     {{defaultNoteFile.name}}
                 </span>
@@ -21,7 +21,7 @@
 <!--                                <i class="el-icon-folder"></i>-->
                                 {{ node.label }}
                             </div>
-                            <div v-if="data.type === '2'">
+                            <div v-if="data.type === '2'" @contextmenu.prevent.stop="contextClick($event, node, data)">
 <!--                                <i class="el-icon-document"></i>-->
                                 {{ node.label }}
                             </div>
@@ -33,11 +33,11 @@
             <!-- 属性文件结构 -->
             <div v-if="menuVisible" :style="positionStyle" class="context-class">
                 <ul class="menu">
-                    <li class="menu-item" @click.prevent.stop="createNewFile">
+                    <li v-if="currentNoteFile.type !== '2'" class="menu-item" @click.prevent.stop="createNewFile">
                         <i class="el-icon-document" style="font-size: 15px;margin-right: 5px"></i>
                         <span>新建笔记</span>
                     </li>
-                    <li class="menu-item" @click.prevent.stop="createNewDir">
+                    <li v-if="currentNoteFile.type !== '2'" class="menu-item" @click.prevent.stop="createNewDir">
                         <i class="el-icon-folder-remove" style="font-size: 15px; margin-right: 5px"></i>
                         <span>新建文件夹</span>
                     </li>
@@ -180,6 +180,14 @@
                     this.addNoteFile();
                 } else {
                     // todo 如果文件或者文件存在进行判断提示
+                    // this.showAddFile = false;
+                    this.$notify({
+                        type: 'warning',
+                        duration: 1500,
+                        title: this.fileType === '1' ? '新建目录提醒' : '新建文件提醒',
+                        message: this.fileType === '1' ? '该文目录已存在' : '该文件已存在',
+                        customClass: 'edo-notify-class',
+                    });
                 }
             });
         }
@@ -286,7 +294,9 @@
             this.showContext(event);
 
             this.currentNoteFile = noteFile;
-            this.currentNode = node;
+            if (node !== null) {
+                this.currentNode = node;
+            }
         }
 
         // 展示邮件菜单

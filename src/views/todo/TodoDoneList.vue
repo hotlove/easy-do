@@ -10,24 +10,23 @@
                         <div v-for="(date, index) in completedDateList" :key="index">
                             <!-- todoitem未编辑 -->
                             <div class="todo-item-unedit">
-                                <div style="padding-left: 8px; color: #8b8b8b; font-size: 16px;">
+                                <div style="padding-left: 8px; color: #69dcb3; font-size: 16px;">
                                     {{ $moment(date).format('dddd YYYY-MM-DD') }}
                                 </div>
-                                <div v-for="(e, i) in completedTodoList" :key="i" class="todo-list-item" >
-                                    <div v-if="$moment(e.completedDate).format('YYYY-MM-DD') ===
-                                                $moment(date).format('YYYY-MM-DD')">
-                                        <!-- todoitemdot -->
-                                        <span class="todo-list-item-mark">
-                                            <span class="todo-list-item-dot"></span>
-                                        </span>
-                                        <!-- todoitem内容 -->
-                                        <span class="todo-list-item-content" v-html="e.content"></span>
-                                        <!-- todoitem操作 -->
-                                        <span class="todo-item-oper">
-                                            <i class="iconfont icon-reback" @click="rebackTodoItem(e, date, i)"></i>
-                                            <i class="iconfont icon-minimum" @click="deleteCompletedTodoItem(date, i)"></i>
-                                        </span>
-                                    </div>
+                                <div v-if="$moment(e.completedDate).format('YYYY-MM-DD') === $moment(date).format('YYYY-MM-DD')"
+                                     v-for="(e, i) in completedTodoList" :key="i" class="todo-list-item">
+                                    <!-- todoitemdot -->
+                                    <span class="todo-list-item-mark">
+                                        <span class="todo-list-item-dot"></span>
+                                    </span>
+                                    <!-- todoitem内容 -->
+                                    <span class="todo-list-item-content" v-html="e.content"></span>
+                                    <!-- todoitem操作 -->
+                                    <span class="todo-item-oper">
+                                        <i class="iconfont icon-reback" @click="rebackTodoItem(e, date, i)"></i>
+                                        <i class="iconfont icon-minimum" @click="deleteCompletedTodoItem(date, i)"></i>
+                                    </span>
+
                                 </div>
                             </div>
                         </div>
@@ -72,6 +71,7 @@
                 }
             });
         }
+
         // 查询数据
         private findTodoDoneList(): void {
             let neDBExample = new NeDBExample();
@@ -92,7 +92,7 @@
             let neDBExample = new NeDBExample();
             neDBExample.createCriteria().eq(TodoItemProperty.code, todoItem.code);
 
-            todoItemMapper.update(neDBExample, todoItem).then( result => {
+            todoItemMapper.update(neDBExample, todoItem).then(result => {
                 if (result > 0) {
                     // this.completedTodoList[key].splice(index, 1);
                     this.getTodoItemCompltedList();
@@ -120,6 +120,7 @@
         height: 20px;
         border-radius: 2px;
     }
+
     .todo-body-title {
         height: 23px;
 
@@ -127,6 +128,7 @@
             border-radius: 0;
         }
     }
+
     .todo-list {
         .todo-uncompleted-input {
             font-size: 14px;
@@ -158,10 +160,12 @@
                 padding: 5px;
                 margin-bottom: 10px;
                 position: relative;
+
                 .todo-item-unedit {
                     float: left;
                     width: 100%;
                 }
+
                 .todo-item-oper {
                     display: none;
                     position: absolute;
@@ -178,7 +182,7 @@
                         border-radius: 50px;
                         text-align: center;
                         color: #ffffff;
-                        background: rgba(32,160,255, 0.7);
+                        background: rgba(32, 160, 255, 0.7);
                     }
 
                     & i:last-child {
@@ -205,7 +209,7 @@
                 .todo-list-item-content {
                     float: right;
                     width: 95%;
-                    word-break:break-all;
+                    word-break: break-all;
                     text-align: left;
                     font-size: 14px;
                     color: #524c4c;
@@ -217,6 +221,7 @@
                     color: #8c939d;
                 }
             }
+
             .todo-list-item:hover {
                 cursor: pointer;
                 /*background: #fdfdfd;*/

@@ -1,16 +1,16 @@
 <template>
     <div style="float: left">
-        <div class="todo-home">
+        <div class="note-home">
             <!-- todo导航 -->
-            <div class="todo-home-nav">
+            <div class="note-home-nav">
                 <close-navigation :height="25"></close-navigation>
                 <note-nav></note-nav>
             </div>
 
             <!-- todo内容列表 -->
-            <div class="todo-home-body">
+            <div class="note-home-body">
                 <close-navigation :height="25" :show-close="true"></close-navigation>
-                <div class="todo-home-body-content">
+                <div class="note-home-body-content">
                     <!-- to-do未完成列表页 -->
                     <router-view></router-view>
                 </div>
@@ -63,20 +63,20 @@
     }
 </script>
 <style lang="scss">
-    .todo-home {
+    .note-home {
         height: 100vh;
         width: 100%;
 
-        .todo-home-nav {
+        .note-home-nav {
             position: relative;
             width: 210px;
             height: 100%;
             float: left;
-            /*background: #fcfbfb;*/
+            background: #ffffff;
             padding-top: 25px;
         }
 
-        .todo-home-body {
+        .note-home-body {
             position: relative;
             width: calc(100vw - 270px);
             height: 100%;
@@ -84,43 +84,11 @@
             background: #fcfcfc;
             padding: 25px 0 0 0;
 
-            .todo-home-open-spin {
-                background: #fcfcfc;
-                position: absolute;
-                display: inline-block;
-                right: 0;
-                top: 50%; /*偏移*/
-                transform: translateY(-50%);
-
-                width:20px;
-                height:35px;
-                border-radius: 50px 0 0 50px;
-                line-height:35px;
-                text-align: center;
-
-                cursor: pointer;
-                box-shadow:0 3px 10px -2px rgba(0, 0, 0, .8);
-            }
-
-            .todo-home-body-content {
+            .note-home-body-content {
                 height: calc(100vh - 20px);
                 padding: 0px 10px;
                 position: relative;
 
-                .todo-body-title {
-                    height: 23px;
-
-                    .el-radio-button__inner {
-                        border-radius: 0;
-                    }
-                }
-
-                .todo-body-content-list {
-                    margin-top: 15px;
-                    .todo-container {
-                        height: calc(100vh - 65px);
-                    }
-                }
             }
         }
     }
