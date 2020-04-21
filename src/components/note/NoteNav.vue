@@ -35,7 +35,7 @@
                 </div>
             </el-collapse-transition>
 
-            <!-- 属性文件结构 -->
+            <!-- 右击菜单 -->
             <div v-if="menuVisible" :style="positionStyle" class="context-class">
                 <ul class="menu">
                     <li v-if="currentNoteFile.type !== '2'" class="menu-item" @click.prevent.stop="createNewFile('2')">
@@ -113,6 +113,8 @@
         };
 
         public mounted(): void {
+            // let neDBExample = new NeDBExample();
+            // noteFileMapper.delete(neDBExample);
             this.getAllFile();
         }
 
@@ -124,6 +126,7 @@
             }
         }
 
+        // 获取全部数据
         public getAllFile(): void {
             let neDBExample = new NeDBExample();
 
@@ -158,23 +161,10 @@
 
         // 确认文件创建
         public confirmAddFile(): void {
-
-            let neDBExample = new NeDBExample();
-            neDBExample.createCriteria().eq(NoteFileProperty.name, this.createFileName).eq(NoteFileProperty.type, this.fileType);
-
-            noteFileMapper.find(neDBExample).then((noteFileList: any) => {
-                if (!CommonUtil.collectionNotEmpty(noteFileList)) {
-                    this.addNoteFile();
-                } else {
-                    this.$notify({
-                        type: 'warning',
-                        duration: 1500,
-                        title: this.fileType === '1' ? '新建目录提醒' : '新建文件提醒',
-                        message: this.fileType === '1' ? '该文目录已存在' : '该文件已存在',
-                        customClass: 'edo-notify-class',
-                    });
-                }
-            });
+            // 默认展开父节点
+            this.currentNode.expanded = true;
+            // 添加节点
+            this.addNoteFile();
         }
 
         // 新增文件
@@ -261,26 +251,43 @@
 
         // 修改文件
         public updateNoteFile(node: any, noteFile: NoteFile): void {
+
             let neDBExample = new NeDBExample();
-            neDBExample.createCriteria().eq(NoteFileProperty.code, noteFile.code);
+            neDBExample.createCriteria().eq(NoteFileProperty.name, noteFile.name)
+                .eq(NoteFileProperty.type, this.fileType)
+                .eq(NoteFileProperty.parentCode, noteFile.parentCode);
+            // 修改前判断该父目录下是否存在同名超过两个得
+            noteFileMapper.find(neDBExample).then((noteFileList: any) => {
+                if (CommonUtil.collectionNotEmpty(noteFileList) && noteFileList.length > 1) {
+                    this.$notify({
+                        type: 'warning',
+                        duration: 1500,
+                        title: this.fileType === '1' ? '新建目录提醒' : '新建文件提醒',
+                        message: this.fileType === '1' ? '该文目录已存在' : '该文件已存在',
+                        customClass: 'edo-notify-class',
+                    });
+                } else {
+                    let updateNeDBExample = new NeDBExample();
+                    updateNeDBExample.createCriteria().eq(NoteFileProperty.code, noteFile.code);
 
-            let updateRecord: NoteFile = {
-                id: 0,
-                code: noteFile.code,
-                parentCode: noteFile.parentCode,
-                name: noteFile.name,
-                type: noteFile.type,
-                content: noteFile.content,
-                createdDate: noteFile.createdDate,
-                updateDate: noteFile.updateDate,
-            };
-            noteFileMapper.update(neDBExample, updateRecord).then((affectRows: any) => {
-                if (affectRows > 0) {
-                    // 修改成功
-                    node.data.isEdit = false;
-
+                    let updateRecord: NoteFile = {
+                        id: 0,
+                        code: noteFile.code,
+                        parentCode: noteFile.parentCode,
+                        name: noteFile.name,
+                        type: noteFile.type,
+                        content: noteFile.content,
+                        createdDate: noteFile.createdDate,
+                        updateDate: noteFile.updateDate,
+                    };
+                    noteFileMapper.update(updateNeDBExample, updateRecord).then((affectRows: any) => {
+                        if (affectRows > 0) {
+                            // 修改成功
+                            node.data.isEdit = false;
+                        }
+                    })
                 }
-            })
+            });
         }
 
         // 创建文件
@@ -305,7 +312,7 @@
             }
         }
 
-        // 展示邮件菜单
+        // 展示右击菜单
         public showContext(event: MouseEvent): void {
             // 先把模态框关死，目的是 第二次或者第n次右键鼠标的时候 它默认的是true
             this.menuVisible = false;
