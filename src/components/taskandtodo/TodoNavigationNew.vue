@@ -104,9 +104,9 @@
             this.currentNavIndex = index;
             this.taskIndex = -1;
             if (navItem.label === 'Todo') {
-                this.$router.push('todo-list').catch((err: Error) => err);
+                this.$router.push({name: 'todo-list'}).catch((err: Error) => err);
             } else {
-                this.$router.push('todo-done-list').catch((err: Error) => err);
+                this.$router.push({name: 'todo-done-list'}).catch((err: Error) => err);
             }
         }
 

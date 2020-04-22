@@ -19,15 +19,13 @@
                         <div class="custom-tree-node"  slot-scope="{ node, data }">
                             <div v-if="!node.data.isEdit">
                                 <div v-if="data.type === '1'" @contextmenu.prevent.stop="contextClick($event, node, data)">
-                                    <!--                                <i class="el-icon-folder"></i>-->
                                     {{ node.label }}
                                 </div>
                                 <div v-if="data.type === '2'" @contextmenu.prevent.stop="contextClick($event, node, data)">
-                                    <!--                                <i class="el-icon-document"></i>-->
                                     {{ node.label }}
                                 </div>
                             </div>
-                            <div v-if="node.data.isEdit">
+                            <div v-if="node.data.isEdit" class="note-nav-update">
                                 <el-input :ref="'editRef-'+ data.code " v-model="data.name" @keyup.enter.native="updateNoteFile(node, data)"></el-input>
                             </div>
                         </div>
@@ -84,8 +82,6 @@
         private leftp: number = 80;
         private toptp: number = 80;
 
-        private showAddFile: boolean = false;
-
         // 默认值
         private defaultNoteFile: NoteFile = {
             id: 0,
@@ -101,7 +97,6 @@
         // 当前选择的文件对象
         private currentNoteFile: any = {};
         private currentNode: any = {};
-        private createFileName: string = ""; // 创建文件名称
         private fileType: string = '1'; // 文件类型
 
         // 树结构
@@ -195,6 +190,11 @@
                         (this.$refs['fileTreeNode'] as ElTree<NoteFile, any>).append(noteFile, this.currentNode);
                     }
                     // (this.$refs['fileTreeNode'] as any).append(noteFile, this.currentNoteFile);
+                }
+
+                // 如果是新建得是文件
+                if (noteFile.type === '2') {
+                    this.$router.push({name: 'note-create', params: {'code': noteFile.code}}).catch((err: Error) => err);
                 }
             });
         }
@@ -358,6 +358,10 @@
             height: calc(100vh - 60px);
             padding-top: 10px;
 
+            /*div.is-current {*/
+            /*    background: #D2E2FF;*/
+            /*}*/
+
             .custom-tree-node {
                 width: 100%;
 
@@ -376,7 +380,7 @@
                 line-height: 30px;
 
                 &:hover {
-                    background: #D2E2FF;
+                    background: #E8F0FF;
                 }
             }
         }

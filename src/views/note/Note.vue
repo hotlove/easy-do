@@ -11,11 +11,7 @@
             <div class="note-home-body">
                 <close-navigation :height="25" :show-close="true"></close-navigation>
                 <div class="note-home-body-content">
-                    <!-- to-do未完成列表页 -->
-<!--                    <router-view></router-view>-->
-                    <div v-for="(item, index) in treeDatas" :key="index" @click="deleteData(item)">
-                        {{ item.name }}--{{ item.code }} -- {{ item }}
-                    </div>
+                    <router-view></router-view>
                 </div>
             </div>
         </div>
@@ -59,6 +55,7 @@
         private treeDatas: any = [];
 
         public mounted(): void {
+            console.log(this.$route)
             this.getAllFile();
         }
 

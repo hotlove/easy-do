@@ -8,43 +8,49 @@ const routes = [
     {
         path: '/',
         name: 'home',
-        redirect: '/todo-list',
         component: () => import('@/views/Home.vue'),
         children: [
             {
-                path: '/todo',
+                path: 'todo',
                 name: 'todo',
                 component: () => import('@/views/todo/Todo.vue'),
                 children: [
                     {// 未完成todo列表
-                        path: '/todo-list',
                         name: 'todo-list',
+                        path: 'todo-list',
                         component: () => import('@/views/todo/TodoListNew.vue'),
                     },
                     {// 完成todo列表
-                        path: '/todo-done-list',
                         name: 'todo-done-list',
+                        path: 'todo-done-list',
                         component: () => import('@/views/todo/TodoDoneList.vue'),
                     },
                     {// 任务详情
-                        path: '/task-info',
+                        path: 'task-info',
                         name: 'task-info',
                         component: () => import('@/views/todo/TaskInfo.vue'),
                     },
                 ],
             },
             {
-                path: '/note', // markdown笔记本
+                path: 'note', // markdown笔记本
                 name: 'note',
                 component: () => import('@/views/note/Note.vue'),
+                children: [
+                    {
+                        path: 'create/:code',
+                        name: 'note-create',
+                        component: () => import('@/views/note/NewNote.vue'),
+                    }
+                ]
             },
             {
-                path: '/sign',
+                path: 'sign',
                 name: 'sign',
                 component: () => import('@/views/SignHome.vue'),
             },
             {
-                path: '/setting',
+                path: 'setting',
                 name: 'setting',
                 component: () => import('@/views/Setting.vue'),
             },

@@ -4,6 +4,7 @@ import {remote} from 'electron';
 import Datastore from 'nedb-promises';
 import path from 'path';
 import {CommonUtil} from "@/common/CommonUtil";
+import Nedb from "nedb";
 
 abstract class DaoMapper<T> {
 
@@ -45,10 +46,12 @@ abstract class DaoMapper<T> {
     // 删除文档
     public delete(example: NeDBExample): Promise<Number> {
         const criteria = example.getCriteria();
-        const options: any = {
-            muti: true,
+        const options: Nedb.RemoveOptions = {
+            multi: true,
         };
-        console.log(criteria)
+        console.log(options);
+        console.log(criteria);
+        // {code: {$in: []}}
         return this.dataStore.remove(criteria, options);
     }
 

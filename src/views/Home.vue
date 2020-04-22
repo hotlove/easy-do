@@ -95,6 +95,7 @@
         // 声明钩子
         public mounted() {
             this.systemSettingHandler();
+            this.$router.push({name: 'todo-list'}).catch((err: Error) => err);
         }
 
         // 处理系统设置
@@ -126,7 +127,7 @@
             nav.default = true;
             nav.hoverName = '';
 
-            this.$router.push(nav.route).catch((err: Error) => err);
+            this.$router.push({name: nav.route}).catch((err: Error) => err);
         }
     }
 </script>
