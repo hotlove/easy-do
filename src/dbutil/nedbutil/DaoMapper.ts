@@ -26,10 +26,8 @@ abstract class DaoMapper<T> {
     public update(example: NeDBExample, updateQuery: T): Promise<Number> {
         const criteria = example.getCriteria();
         const options: any = {
-            muti: true,
+            multi: true,
         };
-        console.log(criteria);
-        console.log(updateQuery);
         return this.dataStore.update(criteria, updateQuery, options);
     }
     // 修改文档

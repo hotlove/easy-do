@@ -6,6 +6,27 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "8823473",
+      "name": "提交",
+      "font_class": "submit",
+      "unicode": "e61e",
+      "unicode_decimal": 58910
+    },
+    {
+      "icon_id": "6023592",
+      "name": "编辑",
+      "font_class": "editor",
+      "unicode": "e609",
+      "unicode_decimal": 58889
+    },
+    {
+      "icon_id": "12344493",
+      "name": "预览",
+      "font_class": "preview",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
       "icon_id": "2380617",
       "name": "笔记本",
       "font_class": "note",

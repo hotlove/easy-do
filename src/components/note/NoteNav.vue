@@ -21,7 +21,7 @@
                                 <div v-if="data.type === '1'" @contextmenu.prevent.stop="contextClick($event, node, data)">
                                     {{ node.label }}
                                 </div>
-                                <div v-if="data.type === '2'" @contextmenu.prevent.stop="contextClick($event, node, data)">
+                                <div v-if="data.type === '2'" @contextmenu.prevent.stop="contextClick($event, node, data)" @click="goFileInfo(data)">
                                     {{ node.label }}
                                 </div>
                             </div>
@@ -55,7 +55,6 @@
                 </ul>
             </div>
         </div>
-
     </div>
 </template>
 <script lang="ts">
@@ -176,6 +175,7 @@
             };
 
             noteFileMapper.insert(noteFile).then((result: any) => {
+                console.log(result)
                 // 设置默认添加的为可编辑
                 noteFile.isEdit = true;
 
@@ -197,6 +197,11 @@
                     this.$router.push({name: 'note-create', params: {'code': noteFile.code}}).catch((err: Error) => err);
                 }
             });
+        }
+
+        // 查看文件详情
+        public goFileInfo(data: NoteFile): void {
+            this.$router.push({name: 'note-create', params: {'code': data.code}}).catch((err: Error) => err);
         }
 
         // 删除文件

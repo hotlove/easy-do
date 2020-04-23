@@ -94,7 +94,7 @@
                     let code = this.taskList[0].code;
                     this.goFirstTaskInfo(code)
                 } else {
-                    this.$router.push('todo-list').catch((err: Error) => err);
+                    this.$router.push({name: 'todo-list'}).catch((err: Error) => err);
                 }
             })
         }

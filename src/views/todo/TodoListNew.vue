@@ -77,7 +77,6 @@
 
         // 声明钩子函数
         public mounted() {
-            console.log(this.$route)
             this.getTodoItemList();
         }
 

@@ -112,12 +112,12 @@
             float: right;
             background: #fcfcfc;
             padding: 25px 0 0 0;
+            border-left: 1px solid #f2f6fc;
 
             .note-home-body-content {
                 height: calc(100vh - 20px);
-                padding: 0px 10px;
+                /*padding: 0 5px;*/
                 position: relative;
-
             }
         }
     }
