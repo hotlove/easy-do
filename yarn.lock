@@ -3193,6 +3193,11 @@ etag@~1.8.1:
   version "1.8.1"
   resolved "https://registry.npm.taobao.org/etag/download/etag-1.8.1.tgz#41ae2eeb65efa62268aebfea83ac7d79299b0887"
 
+eve-raphael@0.5.0:
+  version "0.5.0"
+  resolved "https://registry.npm.taobao.org/eve-raphael/download/eve-raphael-0.5.0.tgz#17c754b792beef3fa6684d79cf5a47c63c4cda30"
+  integrity sha1-F8dUt5K+7z+maE15z1pHxjxM2jA=
+
 event-pubsub@4.3.0:
   version "4.3.0"
   resolved "https://registry.npm.taobao.org/event-pubsub/download/event-pubsub-4.3.0.tgz#f68d816bc29f1ec02c539dc58c8dd40ce72cb36e"
@@ -3495,6 +3500,13 @@ find-up@^4.0.0, find-up@^4.1.0:
   dependencies:
     locate-path "^5.0.0"
     path-exists "^4.0.0"
+
+flowchart.js@^1.13.0:
+  version "1.13.0"
+  resolved "https://registry.npm.taobao.org/flowchart.js/download/flowchart.js-1.13.0.tgz#fd966270bd310ddefb168d6826c792c5f345372f"
+  integrity sha1-/ZZicL0xDd77Fo1oJseSxfNFNy8=
+  dependencies:
+    raphael "2.3.0"
 
 flush-write-stream@^1.0.0:
   version "1.1.1"
@@ -3933,7 +3945,7 @@ highlight.js-async-webpack@^1.0.4:
   version "1.0.4"
   resolved "https://registry.npm.taobao.org/highlight.js-async-webpack/download/highlight.js-async-webpack-1.0.4.tgz#c06b67bf99f049045d62b756e5855b0912ec616c"
 
-highlight.js@^9.11.0:
+highlight.js@^9.11.0, highlight.js@^9.16.2:
   version "9.18.1"
   resolved "https://registry.npm.taobao.org/highlight.js/download/highlight.js-9.18.1.tgz#ed21aa001fe6252bb10a3d76d47573c6539fe13c"
 
@@ -4764,6 +4776,14 @@ lcid@^2.0.0:
   resolved "https://registry.npm.taobao.org/lcid/download/lcid-2.0.0.tgz#6ef5d2df60e52f82eb228a4c373e8d1f397253cf"
   dependencies:
     invert-kv "^2.0.0"
+
+le-markdown-editor@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.npm.taobao.org/le-markdown-editor/download/le-markdown-editor-1.1.2.tgz#cc318d194ebc21c04dd066851e86d14d356229c3"
+  integrity sha1-zDGNGU68IcBN0GaFHobRTTViKcM=
+  dependencies:
+    flowchart.js "^1.13.0"
+    highlight.js "^9.16.2"
 
 lie@3.1.1:
   version "3.1.1"
@@ -6418,6 +6438,13 @@ randomfill@^1.0.3:
 range-parser@^1.2.1, range-parser@~1.2.1:
   version "1.2.1"
   resolved "https://registry.npm.taobao.org/range-parser/download/range-parser-1.2.1.tgz#3cf37023d199e1c24d1a55b84800c2f3e6468031"
+
+raphael@2.3.0:
+  version "2.3.0"
+  resolved "https://registry.npm.taobao.org/raphael/download/raphael-2.3.0.tgz#eabeb09dba861a1d4cee077eaafb8c53f3131f89"
+  integrity sha1-6r6wnbqGGh1M7gd+qvuMU/MTH4k=
+  dependencies:
+    eve-raphael "0.5.0"
 
 raw-body@2.4.0:
   version "2.4.0"

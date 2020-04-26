@@ -9,13 +9,17 @@
         <div class="note-home-nav-file">
             <div class="note-file-title" style="cursor: pointer" @click="showTree = !showTree">
                 <span class="nav-font" @contextmenu.prevent.stop="contextClick($event, null, defaultNoteFile)">
-                    <i :class="showTree ? 'el-icon-folder-opened' : 'el-icon-folder' " style="margin-right: 3px"></i>
+                    <i :class="showTree ? 'el-icon-folder-opened' : 'el-icon-folder' " style="font-size: 14px; margin-right: 3px"></i>
                     {{defaultNoteFile.name}}
                 </span>
             </div>
             <el-collapse-transition>
                 <div v-if="showTree">
-                    <el-tree ref="fileTreeNode" :data="treeData" :props="treeProps" :expand-on-click-node="false">
+                    <el-tree ref="fileTreeNode"
+                             :filter-node-method="filterNode"
+                             :data="treeData"
+                             :props="treeProps"
+                             :expand-on-click-node="false">
                         <div class="custom-tree-node"  slot-scope="{ node, data }">
                             <div v-if="!node.data.isEdit">
                                 <div v-if="data.type === '1'" class="nav-font" @contextmenu.prevent.stop="contextClick($event, node, data)">
@@ -58,7 +62,7 @@
     </div>
 </template>
 <script lang="ts">
-    import {Component, Vue} from 'vue-property-decorator';
+    import {Component, Vue, Watch} from 'vue-property-decorator';
     import AddTask from '@/components/taskandtodo/AddTask.vue';
     import {NeDBExample} from '@/dbutil/nedbutil/NeDBExample';
     import {NoteFile, NoteFileProperty} from "@/domain/NoteFile";
@@ -101,6 +105,7 @@
         // 树结构
         private treeData: any = [];
 
+        // 树基础配置
         private treeProps: any = {
             children: 'children',
             label: 'name'
@@ -112,12 +117,23 @@
             this.getAllFile();
         }
 
+        @Watch("searchFile")
+        public searchFileMonitor(val: any) {
+            (this.$refs['fileTreeNode'] as ElTree<NoteFile, any>).filter(val);
+        }
+
         // 计算属性 获取定位信息
         get positionStyle(): any {
             return {
                 'left': this.leftp + 'px',
                 'top': this.toptp + 'px'
             }
+        }
+
+        // 过滤节点文件
+        public filterNode(value: any, data: any): boolean {
+            if (!value) return true;
+            return data.name.indexOf(value) !== -1;
         }
 
         // 获取全部数据
@@ -352,6 +368,7 @@
             .el-input__inner {
                 height: 30px;
                 line-height: 30px;
+                border-radius: 0;
             }
 
             .el-input__icon {

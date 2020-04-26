@@ -6,21 +6,22 @@
                           :boxShadow="false"
                           :subfield="!showEdit"
                           :toolbars="toolbars"
+                          previewBackground="#ffffff"
                           @save="saveEdit"
                           defaultOpen="preview"
-                          fontSize="14px"/>
+                          fontSize="15px"/>
         </div>
         <div class="markdown-nav">
             <span class="md-nav-item">
-                <i class="iconfont icon-submit"></i>
-                <span class="item-text nav-hover" @click="saveEdit">保存</span>
-            </span>
-            <span class="md-nav-item">
-                <i v-if="showEdit" class="iconfont icon-editor nav-hover"></i>
+                <i v-if="showEdit" class="el-icon-edit nav-hover"></i>
                 <span v-if="showEdit" class="item-text nav-hover" @click="showEdit = false">编辑</span>
 
-                <i v-if="!showEdit" class="iconfont icon-preview nav-hover"></i>
+                <i v-if="!showEdit" class="el-icon-view nav-hover"></i>
                 <span v-if="!showEdit" class="item-text nav-hover" @click="showEdit = true">预览</span>
+            </span>
+            <span class="md-nav-item">
+                <i class="el-icon-document-checked"></i>
+                <span class="item-text nav-hover" @click="saveEdit">保存</span>
             </span>
         </div>
     </div>
@@ -85,8 +86,14 @@
             this.noteFile.updateDate = new Date();
 
             noteFileMapper.update(example, this.noteFile).then((number) => {
-                console.log(number)
-                // if (number > 1)
+                if (number > 0) {
+                    this.$message({
+                        duration: 700,
+                        type: 'success',
+                        dangerouslyUseHTMLString: true,
+                        message: '保存成功'
+                    });
+                }
             })
         }
     }
@@ -110,10 +117,7 @@
                 border: none;
 
                 .v-note-show {
-                    font-size: 14px;
-                }
-                .v-show-content {
-                    background-color: #ffffff !important;
+                    font-size: 15px;
                 }
             }
         }
@@ -124,7 +128,7 @@
             height: 100%;
             background: #ffffff;
             text-align: center;
-            padding-top: 15px;
+            padding-top: 20px;
 
             .md-nav-item {
                 display: inline-block;
@@ -142,7 +146,7 @@
                     display: none;
                 }
                 > i {
-                    font-size: 26px;
+                    font-size: 20px;
                 }
 
                 &:hover {
