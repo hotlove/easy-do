@@ -13,21 +13,21 @@
         <div class="markdown-nav">
             <span class="md-nav-item">
                 <i class="iconfont icon-submit"></i>
-                <span class="item-text" @click="saveEdit">保存</span>
+                <span class="item-text nav-hover" @click="saveEdit">保存</span>
             </span>
             <span class="md-nav-item">
-                <i v-if="showEdit" class="iconfont icon-editor"></i>
-                <span v-if="showEdit" class="item-text" @click="showEdit = false">编辑</span>
+                <i v-if="showEdit" class="iconfont icon-editor nav-hover"></i>
+                <span v-if="showEdit" class="item-text nav-hover" @click="showEdit = false">编辑</span>
 
-                <i v-if="!showEdit" class="iconfont icon-preview"></i>
-                <span v-if="!showEdit" class="item-text" @click="showEdit = true">预览</span>
+                <i v-if="!showEdit" class="iconfont icon-preview nav-hover"></i>
+                <span v-if="!showEdit" class="item-text nav-hover" @click="showEdit = true">预览</span>
             </span>
         </div>
     </div>
 </template>
 
 <script lang="ts">
-    import {Component, Vue} from 'vue-property-decorator';
+    import {Component, Vue, Watch} from 'vue-property-decorator';
     import {NeDBExample} from "@/dbutil/nedbutil/NeDBExample";
     import {NoteFile, NoteFileProperty} from "@/domain/NoteFile";
     import {noteFileMapper} from "@/dbutil";
@@ -53,6 +53,14 @@
 
         public mounted(): void {
             this.fileCode = this.$route.params.code;
+            this.getFileContent();
+        }
+
+        // 监听路由变化
+        @Watch("$route")
+        public routeMonitor(route: any) {
+            this.showMd = false;
+            this.fileCode = route.params.code;
             this.getFileContent();
         }
 
@@ -125,6 +133,10 @@
                 /*background: #E8F0FF;*/
                 line-height: 40px;
                 text-align: center;
+
+                .nav-hover {
+                    cursor: pointer;
+                }
 
                 .item-text {
                     display: none;

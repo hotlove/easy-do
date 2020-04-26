@@ -21,12 +21,8 @@
 
 <script lang="ts">
     import {Component, Vue} from 'vue-property-decorator';
-    import {Getter, Action} from 'vuex-class';
     import CloseNavigation from '@/components/CloseNavigation.vue';
-    // import TodoList from '@/components/taskandtodo/TodoList.vue';
-    // import TodoListNew from '@/components/taskandtodo/TodoListNew.vue';
     import TaskInfo from '@/views/todo/TaskInfo.vue';
-    // import TodoNavigation from '@/components/taskandtodo/TodoNavigation.vue';
     import TodoNavigationNew from '@/components/taskandtodo/TodoNavigationNew.vue';
 
 
@@ -40,31 +36,11 @@
     export default class Home extends Vue {
         // @Getter @Action 在vuex-class 包内
         // 这里使用 ！ 是说明 属性不会为undefined 否则需要进行初始化操作
-        @Getter
-        public getToken !: string;
-
-        @Action('setToken')
-        public setToken !: Function;
-
-        private date: any = new Date(); // 导航日期变量
-
-        private openDrawer: boolean = false; // 控制展示任务详情
-
-        private taskCode: string = '0'; // 任务code
-
-        private todoNav: string = '0';
-
-        public choseNav(label: string): void {
-            this.todoNav = label;
-        }
-
-        public choseTask(taskCode: string): void {
-            this.taskCode = taskCode;
-        }
-
-        public taskDelete(): void {
-            this.taskCode = '0';
-        }
+        // @Getter
+        // public getToken !: string;
+        //
+        // @Action('setToken')
+        // public setToken !: Function;
     }
 </script>
 <style lang="scss">

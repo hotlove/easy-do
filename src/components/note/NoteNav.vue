@@ -8,7 +8,7 @@
         <!-- 任务列表 -->
         <div class="note-home-nav-file">
             <div class="note-file-title" style="cursor: pointer" @click="showTree = !showTree">
-                <span @contextmenu.prevent.stop="contextClick($event, null, defaultNoteFile)">
+                <span class="nav-font" @contextmenu.prevent.stop="contextClick($event, null, defaultNoteFile)">
                     <i :class="showTree ? 'el-icon-folder-opened' : 'el-icon-folder' " style="margin-right: 3px"></i>
                     {{defaultNoteFile.name}}
                 </span>
@@ -18,10 +18,10 @@
                     <el-tree ref="fileTreeNode" :data="treeData" :props="treeProps" :expand-on-click-node="false">
                         <div class="custom-tree-node"  slot-scope="{ node, data }">
                             <div v-if="!node.data.isEdit">
-                                <div v-if="data.type === '1'" @contextmenu.prevent.stop="contextClick($event, node, data)">
+                                <div v-if="data.type === '1'" class="nav-font" @contextmenu.prevent.stop="contextClick($event, node, data)">
                                     {{ node.label }}
                                 </div>
-                                <div v-if="data.type === '2'" @contextmenu.prevent.stop="contextClick($event, node, data)" @click="goFileInfo(data)">
+                                <div v-if="data.type === '2'" class="nav-font" @contextmenu.prevent.stop="contextClick($event, node, data)" @click="goFileInfo(data)">
                                     {{ node.label }}
                                 </div>
                             </div>
@@ -126,7 +126,8 @@
 
             noteFileMapper.find(neDBExample).then((noteFileList: any) => {
                 if (CommonUtil.collectionNotEmpty(noteFileList)) {
-                    this.setTreeData(noteFileList)
+                    this.setTreeData(noteFileList);
+                    this.showTree = true;
                 }
             });
         }
@@ -366,6 +367,11 @@
             /*div.is-current {*/
             /*    background: #D2E2FF;*/
             /*}*/
+
+            .nav-font {
+                font-size: 12px;
+                color: #000000;
+            }
 
             .custom-tree-node {
                 width: 100%;

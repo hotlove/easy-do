@@ -20,14 +20,8 @@
 
 <script lang="ts">
     import {Component, Vue} from 'vue-property-decorator';
-    import {Getter, Action} from 'vuex-class';
     import CloseNavigation from '@/components/CloseNavigation.vue';
     import NoteNav from '@/components/note/NoteNav.vue';
-    import {NeDBExample} from "@/dbutil/nedbutil/NeDBExample";
-    import {noteFileMapper} from "@/dbutil";
-    import {CommonUtil} from "@/common/CommonUtil";
-    import {NoteFileProperty} from "@/domain/NoteFile";
-
 
     @Component({
         components: {
@@ -38,57 +32,12 @@
     export default class Home extends Vue {
         // @Getter @Action 在vuex-class 包内
         // 这里使用 ！ 是说明 属性不会为undefined 否则需要进行初始化操作
-        @Getter
-        public getToken !: string;
+        // @Getter
+        // public getToken !: string;
+        //
+        // @Action('setToken')
+        // public setToken !: Function;
 
-        @Action('setToken')
-        public setToken !: Function;
-
-        private date: any = new Date(); // 导航日期变量
-
-        private openDrawer: boolean = false; // 控制展示任务详情
-
-        private taskCode: string = '0'; // 任务code
-
-        private todoNav: string = '0';
-
-        private treeDatas: any = [];
-
-        public mounted(): void {
-            console.log(this.$route)
-            this.getAllFile();
-        }
-
-        public deleteData(noteFile: any) {
-            let neDBExample = new NeDBExample();
-            neDBExample.createCriteria().eq(NoteFileProperty.code, noteFile.code);
-
-            noteFileMapper.delete(neDBExample).then((noteFileList: any) => {
-                this.getAllFile()
-            });
-        }
-
-        public getAllFile(): void {
-            let neDBExample = new NeDBExample();
-
-            noteFileMapper.find(neDBExample).then((noteFileList: any) => {
-                if (CommonUtil.collectionNotEmpty(noteFileList)) {
-                   this.treeDatas = noteFileList;
-                }
-            });
-        }
-
-        public choseNav(label: string): void {
-            this.todoNav = label;
-        }
-
-        public choseTask(taskCode: string): void {
-            this.taskCode = taskCode;
-        }
-
-        public taskDelete(): void {
-            this.taskCode = '0';
-        }
     }
 </script>
 <style lang="scss">
