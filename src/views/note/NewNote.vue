@@ -85,6 +85,10 @@
 </script>
 <style lang="scss">
     .note-create {
+        -webkit-user-select: text;
+        -moz-user-select: text;
+        -ms-user-select: text;
+        user-select: text;
         height: calc(100vh - 35px);
 
         .markdown-container {
