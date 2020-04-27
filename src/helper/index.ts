@@ -8,7 +8,7 @@ import MuseUI from 'muse-ui';
 import 'muse-ui/dist/muse-ui.css';
 import Vue, {VueConstructor} from 'vue';
 import mavonEditor from 'mavon-editor';
-import leMarkdownEditor from 'le-markdown-editor';
+// import leMarkdownEditor from 'le-markdown-editor';
 import 'mavon-editor/dist/css/index.css'
 
 // 设置为中文
@@ -16,7 +16,7 @@ moment.locale('zh-ch');
 
 Vue.use(mavonEditor);
 
-Vue.use(leMarkdownEditor);
+// Vue.use(leMarkdownEditor);
 
 // muse-ui
 Vue.use(MuseUI);
