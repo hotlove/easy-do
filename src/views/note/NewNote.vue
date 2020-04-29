@@ -6,6 +6,7 @@
                           :boxShadow="false"
                           :subfield="!showEdit"
                           :toolbars="toolbars"
+                          :toolbarsFlag="showToolBar"
                           previewBackground="#ffffff"
                           @save="saveEdit"
                           defaultOpen="preview"
@@ -14,14 +15,14 @@
         <div class="markdown-nav">
             <span class="md-nav-item">
                 <i v-if="showEdit" class="el-icon-edit nav-hover"></i>
-                <span v-if="showEdit" class="item-text nav-hover" @click="showEdit = false">编辑</span>
+                <span v-if="showEdit" class="item-text nav-hover" @click="editMdMethod">编辑</span>
 
                 <i v-if="!showEdit" class="el-icon-view nav-hover"></i>
-                <span v-if="!showEdit" class="item-text nav-hover" @click="showEdit = true">预览</span>
+                <span v-if="!showEdit" class="item-text nav-hover" @click="previewMd">预览</span>
             </span>
-            <span class="md-nav-item">
+            <span class="md-nav-item" v-if="!showEdit">
                 <i class="el-icon-document-checked"></i>
-                <span class="item-text nav-hover" @click="saveEdit">保存</span>
+                <span  class="item-text nav-hover" @click="saveEdit">保存</span>
             </span>
         </div>
     </div>
@@ -52,6 +53,8 @@
 
         private toolbars: any = mdtools;
 
+        private showToolBar: boolean = false;
+
         public mounted(): void {
             this.fileCode = this.$route.params.code;
             this.getFileContent();
@@ -65,13 +68,23 @@
             this.getFileContent();
         }
 
+        public editMdMethod(): void {
+            this.showEdit = false;
+            this.showToolBar = true;
+        }
+
+        public previewMd(): void {
+            this.showEdit = true;
+            this.showToolBar = false;
+        }
+
         // 获取文本内容
         public getFileContent(): void {
             let neDBExample = new NeDBExample();
             neDBExample.createCriteria().eq(NoteFileProperty.code, this.fileCode);
 
             noteFileMapper.find(neDBExample).then((noteFile: any) => {
-                if (CommonUtil.collectionNotEmpty(noteFile)){
+                if (CommonUtil.collectionNotEmpty(noteFile)) {
                     this.noteFile = noteFile[0];
                     this.showMd = true;
                 }
@@ -145,14 +158,17 @@
                 .item-text {
                     display: none;
                 }
+
                 > i {
                     font-size: 20px;
                 }
 
                 &:hover {
                     background: #E8F0FF;
+
                     i {
                         display: none;
+
                         + span.item-text {
                             display: inline-block;
                         }
