@@ -50,7 +50,7 @@
             width: 210px;
             height: 100%;
             float: left;
-            background: #ffffff;
+            /*background: #ffffff;*/
             padding-top: 25px;
         }
 
@@ -59,9 +59,9 @@
             width: calc(100vw - 270px);
             height: 100%;
             float: right;
-            background: #fcfcfc;
+            background: #ffffff;
             padding: 25px 0 0 0;
-            border-left: 1px solid #f2f6fc;
+            /*border-left: 1px solid #f2f6fc;*/
 
             .note-home-body-content {
                 height: calc(100vh - 20px);

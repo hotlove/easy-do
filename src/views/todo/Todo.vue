@@ -78,7 +78,7 @@
             width: calc(100vw - 270px);
             height: 100%;
             float: right;
-            background: #fcfcfc;
+            background: #ffffff;
             padding: 25px 0 0 0;
 
             .todo-home-open-spin {

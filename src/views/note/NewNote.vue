@@ -139,7 +139,7 @@
             width: 60px;
             float: right;
             height: 100%;
-            background: #ffffff;
+            background: #fdfdfd;
             text-align: center;
             padding-top: 20px;
 

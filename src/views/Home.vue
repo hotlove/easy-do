@@ -1,6 +1,5 @@
 <template>
     <div class="home">
-        <!-- <Music></Music> -->
         <div class="home-nav">
             <div style="position: relative; width: 100%;">
                 <close-navigation></close-navigation>
@@ -10,12 +9,11 @@
                            shape="square"></el-avatar>
             </span>
             <!-- 17h 20w -->
-            <span class="home-nav-item home-nav-item-hover" :class="item.default ? 'item-icon-focus' : ''" @click.prevent.stop="clickItem(item.route, index)"
+            <span class="home-nav-item home-nav-item-hover"
+                  :class="{'item-icon-focus': item.default, 'home-nav-setting': item.className === 'icon-setting'}"
+                  @click.prevent.stop="clickItem(item.route, index)"
                   v-for="(item, index) in navigations" :key="index">
-<!--                <el-tooltip :content="item.tipText" placement="right" effect="light" :open-delay="800" popper-class="item-poptip">-->
-                    <span class="iconfont item-icon"
-                          :class="item.hoverName + ' ' +item.className"></span>
-<!--                    </el-tooltip>-->
+                    <span class="iconfont item-icon" :class="item.hoverName + ' ' +item.className"></span>
             </span>
         </div>
         <div class="home-body">
@@ -69,13 +67,13 @@
                 className: 'icon-note',
                 tipText: '我的笔记',
             },
-            {
-                route: 'sign',
-                default: false,
-                hoverName: 'item-icon-hover',
-                className: 'icon-sigin',
-                tipText: '我的打卡',
-            },
+            // {
+            //     route: 'sign',
+            //     default: false,
+            //     hoverName: 'item-icon-hover',
+            //     className: 'icon-sigin',
+            //     tipText: '我的打卡',
+            // },
             {
                 route: '',
                 default: false,
@@ -89,6 +87,13 @@
                 hoverName: 'item-icon-hover',
                 className: 'icon-user',
                 tipText: '好友列表',
+            },
+            {
+                route: 'setting',
+                default: false,
+                hoverName: 'item-icon-hover',
+                className: 'icon-setting',
+                tipText: '设置',
             },
         ];
 
@@ -139,6 +144,7 @@
         /*主页面导航栏修饰*/
         .home-nav {
             float: left;
+            position: relative;
             display: inline-block;
             width: 60px;
             height: 100vh;
@@ -175,6 +181,12 @@
 
             .home-nav-item-hover:hover .item-icon-hover {
                 color: #e4e3e4;
+            }
+
+            .home-nav-setting {
+                position: absolute;
+                bottom: 10px;
+                left: 0;
             }
         }
 

@@ -384,6 +384,9 @@
             /*div.is-current {*/
             /*    background: #D2E2FF;*/
             /*}*/
+            .el-tree {
+                background: #fafafa;
+            }
 
             .nav-font {
                 font-size: 12px;
