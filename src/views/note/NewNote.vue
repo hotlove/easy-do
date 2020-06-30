@@ -1,16 +1,17 @@
 <template>
     <div class="note-create">
         <div class="markdown-container">
-            <mavon-editor v-if="showMd"
-                          v-model="noteFile.content"
-                          :boxShadow="false"
-                          :subfield="!showEdit"
-                          :toolbars="toolbars"
-                          :toolbarsFlag="showToolBar"
-                          previewBackground="#ffffff"
-                          @save="saveEdit"
-                          defaultOpen="preview"
-                          fontSize="15px"/>
+<!--            <mavon-editor v-if="showMd"-->
+<!--                          v-model="noteFile.content"-->
+<!--                          :boxShadow="false"-->
+<!--                          :subfield="!showEdit"-->
+<!--                          :toolbars="toolbars"-->
+<!--                          :toolbarsFlag="showToolBar"-->
+<!--                          previewBackground="#ffffff"-->
+<!--                          @save="saveEdit"-->
+<!--                          defaultOpen="preview"-->
+<!--                          fontSize="15px"/>-->
+            <Editormd></Editormd>
         </div>
         <div class="markdown-nav">
             <span class="md-nav-item">
@@ -35,9 +36,16 @@
     import {noteFileMapper} from "@/dbutil";
     import {CommonUtil} from "@/common/CommonUtil";
     import mdtools from "@/common/md-editor-config";
+    import Editormd from "@/components/note/EditorMd.vue";
 
-    @Component
+    @Component({
+        components: {
+            Editormd
+        }
+    })
     export default class NewNote extends Vue {
+
+        private editorMdId: string = "myeditor";
 
         // 编辑文件内容
         private noteFile !: NoteFile;
