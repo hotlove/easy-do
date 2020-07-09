@@ -1,7 +1,7 @@
 <template>
     <div class="layout">
         <!-- 引入editor.md的样式，因为不是标准的vue组件，无法通过import引入样式 -->
-        <link rel="stylesheet" href="/src/assets/editor-md/css/editormd.css" />
+        <link rel="stylesheet" href="/editor-md/css/editormd.css" />
         <div :id="id"></div>
     </div>
 </template>
@@ -13,7 +13,7 @@
     @Component
     export default class Editormd extends Vue {
         // @Prop({ default: "editor-md" })
-        public id: string = "editor-md";
+        public id: string = "123";
 
         // @Prop({ default: {} })
         // public config: any = {};
@@ -21,50 +21,82 @@
         public instance: any = null;
         public editorPath: any = "/editor-md";//editor.md的路径
         public defaultConfig: any =  {
-            width: "100%",
-            height: '450px',
-            path: "/editor-md/lib/",//lib的路径
-            codeFold: true,
-            saveHTMLToTextarea: true, // 保存 HTML 到 Textarea
-            emoji: true,
-            imageUpload: true,
-            imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
-            imageUploadURL: "./php/upload.php"
-        };
+            // width: "100%",
+            // height: '450px',
+            // path: "/editor-md/lib/",//lib的路径
+            // codeFold: true,
+            // saveHTMLToTextarea: true, // 保存 HTML 到 Textarea
+            // emoji: true,
+            // imageUpload: true,
+            // imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+            // imageUploadURL: "./php/upload.php"
 
-        mounted() {
+            //width: "90%",
+            //height: 740,
+            path : "/static/editor-md/lib/",
+            theme : "dark",
+            previewTheme : "dark",
+            editorTheme : "pastel-on-dark",
+            // markdown : "fasfas",   //动态设置的markdown文本
+            codeFold : true,
+            //syncScrolling : false,
+            saveHTMLToTextarea : true,    // 保存 HTML 到 Textarea
+            searchReplace : true,
+            //watch : false,                // 关闭实时预览
+            htmlDecode : "style,script,iframe|on*",            // 开启 HTML 标签解析，为了安全性，默认不开启
+            //toolbar  : false,             //关闭工具栏
+            //previewCodeHighlight : false, // 关闭预览 HTML 的代码块高亮，默认开启
+            emoji : true,
+            taskList : true,
+            tocm            : true,         // Using [TOCM]
+            tex : true,                   // 开启科学公式TeX语言支持，默认关闭
+            flowChart : true,             // 开启流程图支持，默认关闭
+            sequenceDiagram : true,       // 开启时序/序列图支持，默认关闭,
+            //dialogLockScreen : false,   // 设置弹出层对话框不锁屏，全局通用，默认为true
+            //dialogShowMask : false,     // 设置弹出层对话框显示透明遮罩层，全局通用，默认为true
+            //dialogDraggable : false,    // 设置弹出层对话框不可拖动，全局通用，默认为true
+            //dialogMaskOpacity : 0.4,    // 设置透明遮罩层的透明度，全局通用，默认值为0.1
+            //dialogMaskBgColor : "#000", // 设置透明遮罩层的背景颜色，全局通用，默认为#fff
+            imageUpload : true,
+            imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+            imageUploadURL : "./php/upload.php",
+        };
+        created() {
             let that = this;
             console.log(scriptjs)
-            // Promise.all([
-            //     scriptjs('jquery.min.js'),
-            //     scriptjs('editormd.min.js')
-            // ]).then(() => {
-            //         // do your logic.
-            //         // 实例化，绑定事件等操作
-            //     })
             scriptjs(
                 [
                     that.editorPath + '/lib/jquery.min.js',//加载完jquery后再加载editormd
+                    that.editorPath + '/lib/zepto.min.js',//加载完jquery后再加载editormd
+                    // that.editorPath + '/lib/require.js',//加载完jquery后再加载editormd
+                    // that.editorPath + '/lib/jquery.flowchart.min.js',//加载完jquery后再加载editormd
+                    // that.editorPath + '/lib/raphael.min.js',//加载完jquery后再加载editormd
                 ],
                 () => {
-                    scriptjs(that.editorPath + '/editormd.min.js', () => {
+                    scriptjs(that.editorPath + '/editormd.js', () => {
                         this.initEditor();
                     });
                 }
             );
         }
+        mounted() {
+
+        }
 
         initEditor() {
-            // let editorConfig = Object.assign({}, this.defaultConfig, this.config);
-            this.$nextTick((editorMD = (<any>window).editormd) => {
-                console.log(editorMD)
-                if (editorMD) {
-                    // Vue 异步执行 DOM 更新，template 里面的 script 标签异步创建
-                    // 所以，只能在 nextTick 里面初始化 editor.md
-                    // 将editor.md的实例通过data的instance暴露给父组件
-                    this.instance = editorMD(this.id, this.defaultConfig);
-                }
+            // todo 暂未解决codemirror引入失败问题
+            this.$nextTick(() => {
+                let editorMD = (<any>window).editormd;
+                console.log(editorMD);
+                this.instance = editorMD(this.id, this.defaultConfig);
+
+                // this.$nextTick(() => {
+                //     this.instance = editorMD(this.id, this.defaultConfig);
+                // })
+
             });
+            // let editorConfig = Object.assign({}, this.defaultConfig, this.config);
+
         }
     }
 </script>
