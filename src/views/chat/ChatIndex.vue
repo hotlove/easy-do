@@ -73,10 +73,14 @@
         public websocketonmessage(messageEvent: MessageEvent){
             console.log(messageEvent)
             let data = messageEvent.data;
+            console.log(data)
 
             if (data === this.HEART_BEAT) {
                 let nowDate = new Date().valueOf();
-                if ((nowDate - this.lastTime) > 8) {
+                console.log(this.lastTime)
+                console.log(nowDate)
+                console.log(nowDate - this.lastTime)
+                if ((nowDate - this.lastTime) > 8000) {
                     // 说明服务器在大于8s时间内没心跳过来，服务器可能gg了 关闭连接
                     this.websock.close();
                }
