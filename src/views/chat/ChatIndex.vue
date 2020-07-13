@@ -61,7 +61,7 @@
         // 发送数据
         public websocketsend(msg: string){//数据发送
             if (this.websock.readyState === 1) {
-                this.websock.send(msg);
+                this.websock.send(JSON.stringify(msg));
             }else{
                 //do something
                 console.log(this.websock.readyState)
