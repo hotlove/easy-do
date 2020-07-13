@@ -45,6 +45,11 @@ const routes = [
                 ]
             },
             {
+                path: 'chat', // markdown笔记本
+                name: 'chat',
+                component: () => import('@/views/chat/ChatIndex.vue'),
+            },
+            {
                 path: 'sign',
                 name: 'sign',
                 component: () => import('@/views/SignHome.vue'),

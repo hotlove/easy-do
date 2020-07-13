@@ -75,7 +75,7 @@
             //     tipText: '我的打卡',
             // },
             {
-                route: '',
+                route: 'chat',
                 default: false,
                 hoverName: 'item-icon-hover',
                 className: 'icon-message',
