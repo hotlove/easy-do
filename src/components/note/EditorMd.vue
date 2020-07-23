@@ -1,7 +1,7 @@
 <template>
     <div class="layout">
         <!-- 引入editor.md的样式，因为不是标准的vue组件，无法通过import引入样式 -->
-        <link rel="stylesheet" href="/editor-md/css/editormd.css" />
+        <link rel="stylesheet" href="/static/editor-md/css/editormd.css" />
         <div :id="id"></div>
     </div>
 </template>
@@ -62,32 +62,38 @@
             imageUploadURL : "./php/upload.php",
         };
         created() {
+
+        }
+        mounted() {
             let that = this;
             console.log(scriptjs)
             scriptjs(
                 [
-                    that.editorPath + '/lib/jquery.min.js',//加载完jquery后再加载editormd
-                    that.editorPath + '/lib/zepto.min.js',//加载完jquery后再加载editormd
+                    that.editorPath + '/jquery.min.js',//加载完jquery后再加载editormd
+                    that.editorPath + '/zepto.min.js',//加载完jquery后再加载editormd
+                    that.editorPath + '/marked.min.js',//加载完jquery后再加载editormd
+                    that.editorPath + '/lib/codemirror/codemirror.min.js',//加载完jquery后再加载editormd
                     // that.editorPath + '/lib/require.js',//加载完jquery后再加载editormd
                     // that.editorPath + '/lib/jquery.flowchart.min.js',//加载完jquery后再加载editormd
                     // that.editorPath + '/lib/raphael.min.js',//加载完jquery后再加载editormd
                 ],
                 () => {
-                    scriptjs(that.editorPath + '/editormd.js', () => {
-                        this.initEditor();
+                    scriptjs(that.editorPath + '/lib/codemirror/modes.min.js', () => {
+                        scriptjs(that.editorPath + '/lib/codemirror/addons.min.js', () => {
+                            scriptjs(that.editorPath + '/editormd.js', () => {
+                                this.initEditor();
+                            });
+                        });
                     });
+
                 }
             );
-        }
-        mounted() {
-
         }
 
         initEditor() {
             // todo 暂未解决codemirror引入失败问题
             this.$nextTick(() => {
                 let editorMD = (<any>window).editormd;
-                console.log(editorMD);
                 this.instance = editorMD(this.id, this.defaultConfig);
 
                 // this.$nextTick(() => {
