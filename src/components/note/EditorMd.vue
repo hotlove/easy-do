@@ -71,19 +71,22 @@
                 [
                     that.editorPath + '/jquery.min.js',//加载完jquery后再加载editormd
                     that.editorPath + '/zepto.min.js',//加载完jquery后再加载editormd
-                    that.editorPath + '/marked.min.js',//加载完jquery后再加载editormd
-                    that.editorPath + '/lib/codemirror/codemirror.min.js',//加载完jquery后再加载editormd
+                    // that.editorPath + '/marked.min.js',//加载完jquery后再加载editormd
+                    // that.editorPath + '/lib/codemirror/codemirror.min.js',//加载完jquery后再加载editormd
                     // that.editorPath + '/lib/require.js',//加载完jquery后再加载editormd
                     // that.editorPath + '/lib/jquery.flowchart.min.js',//加载完jquery后再加载editormd
                     // that.editorPath + '/lib/raphael.min.js',//加载完jquery后再加载editormd
                 ],
                 () => {
-                    scriptjs(that.editorPath + '/lib/codemirror/modes.min.js', () => {
-                        scriptjs(that.editorPath + '/lib/codemirror/addons.min.js', () => {
-                            scriptjs(that.editorPath + '/editormd.js', () => {
-                                this.initEditor();
-                            });
-                        });
+                    // scriptjs(that.editorPath + '/lib/codemirror/modes.min.js', () => {
+                    //     scriptjs(that.editorPath + '/lib/codemirror/addons.min.js', () => {
+                    //         scriptjs(that.editorPath + '/editormd.js', () => {
+                    //             this.initEditor();
+                    //         });
+                    //     });
+                    // });
+                    scriptjs(that.editorPath + '/editormd.js', () => {
+                        this.initEditor();
                     });
 
                 }
