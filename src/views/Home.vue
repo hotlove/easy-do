@@ -1,3 +1,4 @@
+import {ipcRenderer} from "electron";
 <template>
     <div class="home">
         <div class="home-nav">
@@ -33,6 +34,8 @@
     import {systemSettingMapper} from '@/dbutil';
     import {GET_SYSTEM_SETTING, SET_SYSTEM_SETTING} from '@/store/mutation-types';
     import {CommonUtil} from '@/common/CommonUtil';
+    import {APP_SET_OPACITY, LOAD_SYSTEM_SETTING} from "@/common/EventType";
+    import { ipcRenderer } from 'electron';
 
     @Component({
         components: {
@@ -109,15 +112,23 @@
                 // 如果有则取出来并 存入vuex
                 if (systemSettingList.length > 0) {
                     this.systemSetting = systemSettingList[0];
+                    console.log(this.systemSetting);
                     this.setSystemSetting(this.systemSetting);
+
+                    // 加载系统配置
+                    this.loadSystemSetting();
                 } else {
                     // 如果没有则新建一个并存入vuex 也就是第一次会用到后面基本上用不到
-                    let systemSettingTemp: SystemSetting = this.getSystemSetting;
+                    let systemSettingTemp: SystemSetting = this.$_.cloneDeep(this.getSystemSetting);
                     systemSettingTemp.code = CommonUtil.getUUID();
                     systemSettingMapper.insert(systemSettingTemp);
                     this.setSystemSetting(systemSettingTemp);
                 }
             });
+        }
+        // 加载系统设置
+        public loadSystemSetting() {
+            ipcRenderer.send(LOAD_SYSTEM_SETTING, this.systemSetting);
         }
         // 点击导航事件
         public clickItem(route: string, index: number): void {

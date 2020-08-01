@@ -10,9 +10,11 @@ let defaultProfile: Profile = {
 let defaultSystemSetting: SystemSetting = {
     id: 0,
     code: '',
-    opcity: 1,
+    opcity: 100,
     quitType: 1,
     remeberQuit: false,
+    width: 1200,
+    height: 800,
 };
 
 let state: State = {

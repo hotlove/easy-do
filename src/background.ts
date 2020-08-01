@@ -7,12 +7,17 @@ import {
 } from 'vue-cli-plugin-electron-builder/lib';
 
 import path from 'path';
+import {
+    APP_CLOSE_EVENT, APP_MAX_EVENT,
+    APP_MIN_EVENT, APP_SET_OPACITY,
+    APP_SET_WINDOW_SIZE,
+    LOAD_SYSTEM_SETTING
+} from "@/common/EventType";
+import systemListener from "@/app/eventlistener"
 
 // 用一个 Tray 来表示一个图标,这个图标处于正在运行的系统的通知区 ，通常被添加到一个 context menu 上.
 // 托盘对象
 let appTray = null;
-
-
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -98,6 +103,17 @@ function createWindow() {
     win.on('closed', () => {
         win = null;
     });
+
+    // win.on('resize', () => {
+    //     if (win != null) {
+    //         let size = win.getSize();
+    //         console.log(size);
+    //         ipcMain.
+    //     }
+    // });
+
+    // 启动监听
+    systemListener.listen(win);
 }
 
 // Quit when all windows are closed.
@@ -165,48 +181,4 @@ if (isDevelopment) {
         });
     }
 }
-
-// 进程通信
-import {APP_CLOSE_EVENT, APP_MAX_EVENT, APP_MIN_EVENT, APP_SET_OPACITY} from '@/common/EventType';
-
-// app 关闭时间
-ipcMain.on(APP_CLOSE_EVENT, (event, args) => {
-    console.log(args);
-    if (win != null) {
-        if (args === 1) {
-            // 最小化到系统托盘
-            win.hide();
-            // hideToTray(win);
-        } else {
-            // 直接退出
-            app.quit();
-        }
-    }
-});
-
-// 最小化
-ipcMain.on(APP_MIN_EVENT, (event) => {
-    if (win != null) {
-        win.minimize();
-    }
-});
-
-// 最大化
-ipcMain.on(APP_MAX_EVENT, (event) => {
-    if (win != null) {
-        if (win.isMaximized()) {
-            win.restore();
-        } else {
-            win.maximize();
-        }
-    }
-});
-
-ipcMain.on(APP_SET_OPACITY, (event, opacity) => {
-    if (win != null) {
-        win.setOpacity(opacity);
-    }
-});
-
-// 45 * 45   15 * 15
 
