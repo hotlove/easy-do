@@ -1,6 +1,6 @@
 <template>
     <div style="float: left">
-        <el-button @click="initWebSocket(8088)">建立连接</el-button>
+        <el-button @click="initWebSocket(9900)">建立连接</el-button>
         <el-button @click="websocketsend('测试得')">发送消息</el-button>
         <el-button @click="closeWs">关闭连接</el-button>
     </div>
@@ -20,7 +20,7 @@
         // public setToken !: Function;
         private websock !: WebSocket;
         private wsHost: string = "127.0.0.1";
-        private wsPath: string = "/websocket";
+        private wsPath: string = "/bdsaas/websocket/call";
 
         private times: number = 0; // 报错重试次数
         private connectState: number = 0; // 连接状态 0 未连接 1已连接
@@ -65,7 +65,7 @@
         public websocketonerror() {
             // 连接报错尝试连接5次
             if (this.times <= 5) {
-                this.initWebSocket(8088);
+                this.initWebSocket(9900);
             }
         }
 
