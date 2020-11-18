@@ -8,6 +8,8 @@
 
 <script lang="ts">
     import {Component, Vue} from 'vue-property-decorator';
+    import {request} from "@/http";
+    import {RequestParams} from "@/types";
 
     @Component
     export default class Home extends Vue {
@@ -22,6 +24,8 @@
         private wsHost: string = "127.0.0.1";
         private wsPath: string = "/bdsaas/websocket/call";
 
+        private token: string = "";
+
         private times: number = 0; // 报错重试次数
         private connectState: number = 0; // 连接状态 0 未连接 1已连接
 
@@ -34,11 +38,33 @@
         public mounted() {
             // 初始化websocket
             // this.initWebSocket(8088);
+            this.login();
         }
 
-        public initWebSocket(port: number): void {
+        public login(): void {
+            let url = "http://127.0.0.1:9900/bdsaas/ajax/main/login.do";
+            let param: RequestParams = {
+                userName: "13905607377",
+                passWord: "111111",
+                auto: "2",
+                terminaltype: "WEB"
+            };
+
+            request.post(url, param).then((response: any) => {
+                let data = response.data;
+                let info = data.data;
+                console.log(info);
+                let {credential} = data;
+                this.token = credential.token;
+                console.log("token=" + this.token);
+
+                this.initWebSocket(9900, this.token);
+            })
+        }
+
+        public initWebSocket(port: number, token: string): void {
             this.times++;
-            let webUri: string = "ws://" + this.wsHost + ":" + port + this.wsPath;
+            let webUri: string = "ws://" + this.wsHost + ":" + port + this.wsPath+"?token="+token;
             this.websock = new WebSocket(webUri);
 
             this.websock.onmessage = this.websocketonmessage;
@@ -65,7 +91,7 @@
         public websocketonerror() {
             // 连接报错尝试连接5次
             if (this.times <= 5) {
-                this.initWebSocket(9900);
+                this.initWebSocket(9900, this.token);
             }
         }
 
