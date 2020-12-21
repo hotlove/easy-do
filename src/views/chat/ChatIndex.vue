@@ -1,6 +1,6 @@
 <template>
     <div style="float: left">
-        <el-button @click="initWebSocket(9900)">建立连接</el-button>
+        <el-button @click="initWebSocket(80, 'DFC28AA7221D47C8B64CE7DA9BE2B41E')">建立连接</el-button>
         <el-button @click="websocketsend('测试得')">发送消息</el-button>
         <el-button @click="closeWs">关闭连接</el-button>
     </div>
@@ -24,7 +24,7 @@
         private wsHost: string = "127.0.0.1";
         private wsPath: string = "/bdsaas/websocket/call";
 
-        private token: string = "";
+        private token: string = "DFC28AA7221D47C8B64CE7DA9BE2B41E";
 
         private times: number = 0; // 报错重试次数
         private connectState: number = 0; // 连接状态 0 未连接 1已连接
@@ -37,8 +37,8 @@
 
         public mounted() {
             // 初始化websocket
-            // this.initWebSocket(8088);
-            this.login();
+            this.initWebSocket(80, 'DFC28AA7221D47C8B64CE7DA9BE2B41E');
+            // this.login();
         }
 
         public login(): void {
@@ -58,13 +58,13 @@
                 this.token = credential.token;
                 console.log("token=" + this.token);
 
-                this.initWebSocket(9900, this.token);
+                this.initWebSocket(80, this.token);
             })
         }
 
         public initWebSocket(port: number, token: string): void {
             this.times++;
-            let webUri: string = "ws://" + this.wsHost + ":" + port + this.wsPath+"?token="+token;
+            let webUri: string = "ws://" + this.wsHost + ":" + port + this.wsPath+"?token="+token+"&profileId=2";
             this.websock = new WebSocket(webUri);
 
             this.websock.onmessage = this.websocketonmessage;
@@ -83,7 +83,7 @@
                     this.websock.send("HeartBeat");
                     this.lastTime = new Date().valueOf(); // 记录这次发送时间
                 }
-            }, 4000); // 每隔4s发送一个心跳包
+            }, 1000); // 每隔4s发送一个心跳包
             console.log(e);
         }
 
@@ -91,7 +91,7 @@
         public websocketonerror() {
             // 连接报错尝试连接5次
             if (this.times <= 5) {
-                this.initWebSocket(9900, this.token);
+                this.initWebSocket(80, this.token);
             }
         }
 
