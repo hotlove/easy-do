@@ -16,7 +16,7 @@
     "element-ui": "^2.13.0",
     "lodash": "^4.17.15",
     "mavon-editor": "^2.7.7",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "muse-ui": "^3.0.2",
     "nedb": "^1.8.0",
     "nedb-promises": "^4.0.1",
